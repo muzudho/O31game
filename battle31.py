@@ -19,9 +19,9 @@ s=""").split(",")
     numbers_to_choose = [int(numeric) for numeric in numerics]
     # 昇順ソート
     numbers_to_choose.sort()
+    print(create_position_text(total, 0))
 
     while True:
-        print(create_position_text(total))
 
         # 残りの石の数以上の選択肢は削除します
         while total < numbers_to_choose[len(numbers_to_choose)-1]:
@@ -47,10 +47,10 @@ Please choose: {choose}
                     print("Bye.")
                     exit(0)
 
-                n = int(enter)
+                number_taken = int(enter)
 
                 # 選択肢の中からちゃんと選んだら
-                if n in numbers_to_choose:
+                if number_taken in numbers_to_choose:
                     # ループから抜ける
                     break
 
@@ -60,9 +60,8 @@ Please choose: {choose}
                 print("Please try again!")
                 # print(e)
 
-        total -= n
-
-        print(create_position_text(total))
+        total -= number_taken
+        print(create_position_text(total, number_taken))
 
         if total < 1:
             # 最後の石を取らされた
@@ -74,15 +73,16 @@ Please choose: {choose}
             numbers_to_choose.pop(-1)
 
         # Opponent turn.
-        n = get_bestmove()
+        number_taken = get_bestmove()
         print(f"""
   ┌─────┐
   │ ^ ^ │
   │  q  │
   └─┐ ┌─┘
 ┌───┘ └───┐
-│         │ The computer took {n} stone(s).""")
-        total -= n
+│         │ The computer took {number_taken} stone(s).""")
+        total -= number_taken
+        print(create_position_text(total, number_taken))
 
         if total < 1:
             # 最後の石を取らせてやった
@@ -92,14 +92,22 @@ Please choose: {choose}
     # finished.
 
 
-def create_position_text(total):
+def create_position_text(rest, number_taken):
     s = """
 
 
 """
 
-    for _ in range(0, total):
-        s += "o"
+    for _ in range(0, rest):
+        s += " "
+
+    for _ in range(0, number_taken):
+        s += "o"  # 取った石
+
+    s += "\n"
+
+    for _ in range(0, rest):
+        s += "o"  # 残ってる石
 
     s += """
 -------------------------------
