@@ -117,15 +117,31 @@ def get_bestmove():
     total_copy = total
     numbers_to_choose_copy = numbers_to_choose[:]
 
-    for choose in numbers_to_choose:
-        isWin = playout(choose, total_copy, numbers_to_choose_copy)
-        # TODO もっといろいろしたい
-        if isWin:
-            return choose
+    win_count = [0] * len(numbers_to_choose)
+    lose_count = [0] * len(numbers_to_choose)
 
-    # 適当に選ぶ
-    num = random.choice(numbers_to_choose)
-    return num
+    # TODO もっといろいろ思考したい
+    for _ in range(0, 2000):
+        # 適当に選ぶ
+        index = random.randint(0, len(numbers_to_choose)-1)
+        choose = numbers_to_choose[index]
+        isWin = playout(choose, total_copy, numbers_to_choose_copy)
+        if isWin:
+            win_count[index] += 1
+        else:
+            lose_count[index] += 1
+
+    # 勝率が一番高かった手を選ぶ
+    high_rate = 0
+    high_index = -1
+    for index in range(0, len(numbers_to_choose)):
+        total_num = win_count[index] + lose_count[index]
+        if 0 < total_num:
+            rate = win_count[index]/total_num
+            if high_rate < rate:
+                high_index = index
+
+    return numbers_to_choose[high_index]
 
 
 def playout(choose, total_copy, numbers_to_choose_copy):
