@@ -1,10 +1,11 @@
 import random
 
+total = 31
 numbers_to_choose = []
 
 
 def main():
-    global numbers_to_choose
+    global total, numbers_to_choose
 
     print("")
     # 取っていい石の数（複数）
@@ -18,8 +19,6 @@ s=""").split(",")
     numbers_to_choose = [int(numeric) for numeric in numerics]
     # 昇順ソート
     numbers_to_choose.sort()
-
-    total = 31
 
     while True:
         print(create_position_text(total))
@@ -109,9 +108,41 @@ def create_position_text(total):
 
 def get_bestmove():
     """コンピューターの選んだ数"""
-    global numbers_to_choose
+    global total, numbers_to_choose
+
+    total_copy = total
+    numbers_to_choose_copy = numbers_to_choose[:]
+
+    for choose in numbers_to_choose:
+        isWin = playout(choose, total_copy, numbers_to_choose_copy)
+        # TODO もっといろいろしたい
+        if isWin:
+            return choose
+
+    # 適当に選ぶ
     num = random.choice(numbers_to_choose)
     return num
+
+
+def playout(choose, total_copy, numbers_to_choose_copy):
+    # 再帰しなくてもいいや
+    while True:
+        # Computer turn
+        total_copy -= choose
+        if total_copy < 1:
+            return False
+
+        # 残りの石の数以上の選択肢は削除します
+        while total_copy < numbers_to_choose_copy[len(numbers_to_choose_copy)-1]:
+            numbers_to_choose_copy.pop(-1)
+
+        # Human turn
+        # 適当に選ぶ
+        num = random.choice(numbers_to_choose_copy)
+        total_copy -= num
+
+        if total_copy < 1:
+            return True
 
 
 if __name__ == "__main__":
