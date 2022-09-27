@@ -71,7 +71,7 @@ Please choose: {choose}
             break
 
         # 残りの石の数以上の選択肢は削除します
-        while total < numbers_to_choose[len(numbers_to_choose)-1]:
+        while 0 < len(numbers_to_choose) and total < numbers_to_choose[len(numbers_to_choose)-1]:
             numbers_to_choose.pop(-1)
 
         # Opponent turn.
@@ -170,6 +170,10 @@ def playout(choose, total_copy, numbers_to_choose_copy):
         # 残りの石の数以上の選択肢は削除します
         while total_copy < numbers_to_choose_copy[len(numbers_to_choose_copy)-1]:
             numbers_to_choose_copy.pop(-1)
+
+            if len(numbers_to_choose_copy) < 1:
+                # FIXME 選べる選択肢が無くなったら、どういうルールか分からないが、とりあえず負けと判定しておく。 1 は要るのでは？
+                return False
 
         # Human turn
         # 適当に選ぶ
