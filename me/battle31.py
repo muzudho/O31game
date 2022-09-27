@@ -1,3 +1,5 @@
+# Author: Muzudho
+
 import random
 
 total = 31
