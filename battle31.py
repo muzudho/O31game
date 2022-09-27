@@ -51,7 +51,13 @@ Please choose: {choose}
 
         # Opponent turn.
         n = get_bestmove()
-        print(f"The computer took {n} stone(s).")
+        print(f"""
+  ┌─────┐
+  │ ^ ^ │
+  │  q  │
+  └─┐ ┌─┘
+┌───┘ └───┐
+│         │ The computer took {n} stone(s).""")
         total -= n
 
         if total < 1:
