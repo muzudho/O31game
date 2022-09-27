@@ -8,15 +8,18 @@ def main():
 
     print("")
     # 取っていい石の数（複数）
-    numerics = input("""Rule how many can be taken?
-Example: 1,2,3
-> """).split(",")
+    numerics = input("""
+     ┌─┐
+┌─┐┌─┼┬┴┐　？
+└─┘└─┘└─┘
+How many do you want to take at one time?
+Example: s=1,2,3
+s=""").split(",")
     numbers_to_choose = [int(numeric) for numeric in numerics]
     # 昇順ソート
     numbers_to_choose.sort()
     # 入力を並び替える
     numerics = [str(number) for number in numbers_to_choose]
-    print(f"{numbers_to_choose}")
 
     total = 31
 
@@ -27,11 +30,19 @@ Example: 1,2,3
         while True:
             try:
                 choose = " ".join(numerics)
-                n = input(f"""How many do you take?
+                enter = input(f"""
+ ┌──┐
+   ┌┘
+   ・
+How many do you take?
 Please choose: {choose}
 > """)
 
-                n = int(n)
+                if enter == "quit":
+                    print("Bye.")
+                    exit(0)
+
+                n = int(enter)
                 if n in numbers_to_choose:
                     # ループから抜ける
                     break
@@ -69,7 +80,10 @@ Please choose: {choose}
 
 
 def create_position_text(total):
-    s = ""
+    s = """
+
+
+"""
 
     for _ in range(0, total):
         s += "o"
