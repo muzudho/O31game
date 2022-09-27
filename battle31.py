@@ -12,6 +12,10 @@ def main():
 Example: 1,2,3
 > """).split(",")
     numbers_to_choose = [int(numeric) for numeric in numerics]
+    # 昇順ソート
+    numbers_to_choose.sort()
+    # 入力を並び替える
+    numerics = [str(number) for number in numbers_to_choose]
     print(f"{numbers_to_choose}")
 
     total = 31
