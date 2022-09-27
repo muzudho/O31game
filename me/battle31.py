@@ -9,7 +9,16 @@ numbers_to_choose = []
 def main():
     global total, numbers_to_choose
 
-    print("")
+    # Title
+    print("""
+＼ ──┐　┐　    ─┐   ┌─┐ ／
+／ ──┤　│　┌─┐┌─┤├┬┐├─┘ ＼
+＼ ──┘　┴　└─┤└─┴│││└─┘ ／
+／          ─┘       .. ＼
+＼ ..................   ／
+／      ...........     ＼
+""")
+
     # 取っていい石の数（複数）
     numerics = input("""
      ┌─┐
