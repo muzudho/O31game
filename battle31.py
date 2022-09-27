@@ -48,9 +48,13 @@ Please choose: {choose}
                     exit(0)
 
                 n = int(enter)
+
+                # 選択肢の中からちゃんと選んだら
                 if n in numbers_to_choose:
                     # ループから抜ける
                     break
+
+                print("Please try again!")
 
             except Exception as e:
                 print("Please try again!")
