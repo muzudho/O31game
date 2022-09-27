@@ -96,8 +96,6 @@ Please choose: {choose}
 
 def create_position_text(rest, number_taken):
     s = """
-
-
 """
 
     for _ in range(0, rest):
@@ -115,6 +113,7 @@ def create_position_text(rest, number_taken):
 -------------------------------
          1111111111222222222233
 1234567890123456789012345678901
+
 """
 
     return s
@@ -128,7 +127,8 @@ def get_bestmove():
     lose_count = [0] * len(numbers_to_choose)
 
     # TODO もっといろいろ思考したい
-    for _ in range(0, 2000):
+    playout_try_count = 50000  # プレイアウト回数。数字は適当
+    for _ in range(0, playout_try_count):
         # 適当に選ぶ
         index = random.randint(0, len(numbers_to_choose)-1)
         choose = numbers_to_choose[index]
@@ -147,7 +147,11 @@ def get_bestmove():
         total_num = win_count[index] + lose_count[index]
         if 0 < total_num:
             rate = win_count[index]/total_num
-            print(f"[{index:2}] {rate} = {win_count[index]}/{total_num}")
+
+            # info
+            print(
+                f"[{numbers_to_choose[index]:2}] {rate:1.2f} = {win_count[index]}/{total_num}")
+
             if high_rate < rate:
                 high_rate = rate
                 high_index = index
