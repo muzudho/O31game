@@ -18,17 +18,23 @@ s=""").split(",")
     numbers_to_choose = [int(numeric) for numeric in numerics]
     # 昇順ソート
     numbers_to_choose.sort()
-    # 入力を並び替える
-    numerics = [str(number) for number in numbers_to_choose]
 
     total = 31
 
     while True:
         print(create_position_text(total))
 
+        # 残りの石の数以上の選択肢は削除します
+        while total < numbers_to_choose[len(numbers_to_choose)-1]:
+            numbers_to_choose.pop(-1)
+
         # Your turn.
+
         while True:
             try:
+                # 入力を並び替える
+                numerics = [str(number) for number in numbers_to_choose]
+
                 choose = " ".join(numerics)
                 enter = input(f"""
  ┌──┐
@@ -59,6 +65,10 @@ Please choose: {choose}
             # 最後の石を取らされた
             print("You lose!")
             break
+
+        # 残りの石の数以上の選択肢は削除します
+        while total < numbers_to_choose[len(numbers_to_choose)-1]:
+            numbers_to_choose.pop(-1)
 
         # Opponent turn.
         n = get_bestmove()
