@@ -1,17 +1,31 @@
 def main():
+    print("")
+    # 取っていい石の数（複数）
+    numerics = input("""Rule how many can be taken?
+Example: 1,2,3
+> """).split(",")
+    numbers = [int(numeric) for numeric in numerics]
+    print(f"{numbers}")
+
     total = 31
 
-    pos_txt = create_position_text(total)
-    print(pos_txt)
+    print(create_position_text(total))
 
     # Your turn.
     while True:
         try:
-            n = int(input("how many do you take? "))
-        except:
-            continue
+            choose = " ".join(numerics)
+            n = input(f"""How many do you take?
+Please choose: {choose}
+> """)
 
-        break
+            n = int(n)
+            if n in numbers:
+                # ループから抜ける
+                break
+
+        except Exception as e:
+            print(e)
 
     total -= n
 
