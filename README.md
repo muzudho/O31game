@@ -7,7 +7,7 @@
 ## Run
 
 ```shell
-cd muzudho
+cd me
 
 python.exe battle31.py
 ```

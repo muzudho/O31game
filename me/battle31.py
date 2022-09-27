@@ -124,9 +124,6 @@ def get_bestmove():
     """コンピューターの選んだ数"""
     global total, numbers_to_choose
 
-    total_copy = total
-    numbers_to_choose_copy = numbers_to_choose[:]
-
     win_count = [0] * len(numbers_to_choose)
     lose_count = [0] * len(numbers_to_choose)
 
@@ -135,7 +132,9 @@ def get_bestmove():
         # 適当に選ぶ
         index = random.randint(0, len(numbers_to_choose)-1)
         choose = numbers_to_choose[index]
-        isWin = playout(choose, total_copy, numbers_to_choose_copy)
+
+        numbers_to_choose_copy = numbers_to_choose[:]  # 配列はスライスを渡す
+        isWin = playout(choose, total, numbers_to_choose_copy)
         if isWin:
             win_count[index] += 1
         else:
@@ -148,7 +147,9 @@ def get_bestmove():
         total_num = win_count[index] + lose_count[index]
         if 0 < total_num:
             rate = win_count[index]/total_num
+            print(f"[{index:2}] {rate} = {win_count[index]}/{total_num}")
             if high_rate < rate:
+                high_rate = rate
                 high_index = index
 
     return numbers_to_choose[high_index]
