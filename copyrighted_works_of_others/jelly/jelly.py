@@ -1,4 +1,5 @@
 # Author: jelly
+# Arrangement: Muzudho
 
 def mex(S: set) -> int:
     SS = {k for k in range(len(S)+1)}
