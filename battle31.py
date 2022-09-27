@@ -25,7 +25,8 @@ Please choose: {choose}
                 break
 
         except Exception as e:
-            print(e)
+            print("Please try again!")
+            # print(e)
 
     total -= n
 
@@ -42,6 +43,12 @@ def create_position_text(total):
 
     for _ in range(0, total):
         s += "o"
+
+    s += """
+-------------------------------
+         1111111111222222222233
+1234567890123456789012345678901
+"""
 
     return s
 
