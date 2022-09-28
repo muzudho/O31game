@@ -4,17 +4,10 @@ from kernel import Kernel
 from kernel.scenes import Scenes
 from kernel.think import Think
 
-# このゲームの基本部品
-kernel = Kernel()
-
-# 残りの石の個数
-rest = 0
-
-numbers_to_choose = []
-
 
 def main():
-    global kernel, rest, numbers_to_choose
+    # このゲームの基本部品
+    kernel = Kernel()
 
     # Title
     print(Scenes.stringify_title())
@@ -30,7 +23,7 @@ def main():
                 print("Bye.")
                 exit(0)
 
-            rest = int(enter)
+            kernel.rest = int(enter)
             break
 
         except:
@@ -48,10 +41,10 @@ def main():
                 exit(0)
 
             numerics = enter.split(",")
-            numbers_to_choose = [int(numeric) for numeric in numerics]
+            kernel.numbers_to_choose = [int(numeric) for numeric in numerics]
             # 昇順ソート
-            numbers_to_choose.sort()
-            print(Scenes.stringify_position_text(rest, 0))
+            kernel.numbers_to_choose.sort()
+            print(Scenes.stringify_position_text(kernel.rest, 0))
             break
 
         except:
@@ -60,18 +53,19 @@ def main():
     while True:
 
         # 残りの石の数以上の選択肢は削除します
-        Kernel.remove_out_of_range_choices(rest, numbers_to_choose)
+        Kernel.remove_out_of_range_choices(
+            kernel.rest, kernel.numbers_to_choose)
 
         # Your turn.
 
-        if len(numbers_to_choose) < 1:
+        if len(kernel.numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がない
             print(Scenes.stringify_you_lose_stone_remaining())
             break
 
         while True:
             # 入力を並び替える
-            numerics = [str(number) for number in numbers_to_choose]
+            numerics = [str(number) for number in kernel.numbers_to_choose]
             choose = " ".join(numerics)
 
             # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
@@ -85,7 +79,7 @@ def main():
                 number_taken = int(enter)
 
                 # 選択肢の中からちゃんと選んだら
-                if number_taken in numbers_to_choose:
+                if number_taken in kernel.numbers_to_choose:
                     # ループから抜ける
                     break
 
@@ -94,31 +88,33 @@ def main():
             except:
                 print("Please try again!")
 
-        rest -= number_taken
-        print(Scenes.stringify_position_text(rest, number_taken))
+        kernel.rest -= number_taken
+        print(Scenes.stringify_position_text(kernel.rest, number_taken))
 
-        if rest < 1:
+        if kernel.rest < 1:
             # 最後の石を取った
             print(Scenes.stringify_you_win_stone_none())
             break
 
         # 残りの石の数以上の選択肢は削除します
-        Kernel.remove_out_of_range_choices(rest, numbers_to_choose)
+        Kernel.remove_out_of_range_choices(
+            kernel.rest, kernel.numbers_to_choose)
 
         # Opponent turn.
 
-        if len(numbers_to_choose) < 1:
+        if len(kernel.numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がないなら、コンピューターの負け
             print(Scenes.stringify_you_win_stone_remaining())
             break
 
-        number_taken = Think.get_bestmove(rest, numbers_to_choose)
+        number_taken = Think.get_bestmove(
+            kernel.rest, kernel.numbers_to_choose)
 
         print(Scenes.stringify_computer_took_some_stones(number_taken))
-        rest -= number_taken
-        print(Scenes.stringify_position_text(rest, number_taken))
+        kernel.rest -= number_taken
+        print(Scenes.stringify_position_text(kernel.rest, number_taken))
 
-        if rest < 1:
+        if kernel.rest < 1:
             # 最後の石を取られた
             print(Scenes.stringify_you_lose_stone_none())
             break
