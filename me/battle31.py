@@ -24,15 +24,21 @@ def main():
     while True:
         try:
             # 山にいくつ石がありますか？
-            rest_str = input("""
+            enter = input("""
      ┌─┐
 ┌─┐┌─┼┬┴┐　？
 └─┘└─┘└─┘
 How many stones are there in the heap? (0 - 99)
 Example: n=31
 n=""")
-            rest = int(rest_str)
+
+            if enter == "exit" or enter == "quit":
+                print("Bye.")
+                exit(0)
+
+            rest = int(enter)
             break
+
         except:
             print("Please try again!")
 
@@ -75,7 +81,7 @@ How many do you take?
 Please choose: {choose}
 > """)
 
-                if enter == "quit" or enter == "exit":
+                if enter == "exit" or enter == "quit":
                     print("Bye.")
                     exit(0)
 
@@ -211,17 +217,17 @@ def create_position_text(rest, number_taken):
     s += "\n"
 
     # 数の十の位を描画（上限を９９とします）
-    for g in range(0, rest):
-        if g < 10:
+    for nth in range(1, rest+1):  # 序数に変換
+        if nth < 10:
             s += " "
         else:
-            s += f"{g//10}"
+            s += f"{nth//10}"
 
     s += "\n"
 
     # 数の一の位を描画
-    for g in range(0, rest):
-        s += f"{g%10}"
+    for nth in range(1, rest+1):  # 序数に変換
+        s += f"{nth%10}"
 
     s += "\n"
 
