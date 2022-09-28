@@ -82,19 +82,19 @@ Please choose: {choose}
 
         if rest < 1:
             # 最後の石を取った
-            print("""
- ^v^v^v^v^v^v^v^
-<               >
- >  You win !  <
-<               >
- v^v^v^v^v^v^v^v
-""")
+            print_you_win_stone_none()
             break
 
         # 残りの石の数以上の選択肢は削除します
         remove_out_of_range_choices(rest, numbers_to_choose)
 
         # Opponent turn.
+
+        if len(numbers_to_choose) < 1:
+            # まだ石が残っているのに、選択肢がないなら、コンピューターの負け
+            print_you_win_stone_remaining()
+            break
+
         number_taken = get_bestmove()
         print(f"""
   ┌─────┐
@@ -114,6 +114,30 @@ Please choose: {choose}
     # finished.
 
 
+def print_you_win_stone_none():
+    """あなたの勝ち。石が残ってないとき"""
+    print("""
+ ^v^v^v^v^v^v^v^
+<               >
+ >  PERFECT !  <
+<               >
+ >  You win !  <
+<               >
+ v^v^v^v^v^v^v^v
+""")
+
+
+def print_you_win_stone_remaining():
+    """あなたの勝ち。相手が残っている石を取れないとき"""
+    print("""
+ ^v^v^v^v^v^v^v^
+<               >
+ >  You win !  <
+<               >
+ v^v^v^v^v^v^v^v
+""")
+
+
 def print_you_lose_stone_none():
     """あなたの負け。石が残ってないとき"""
     print("""
@@ -130,7 +154,7 @@ There are no stones left!
 
 
 def print_you_lose_stone_remaining():
-    """あなたの負け。残っている石を取れないとき"""
+    """あなたの負け。あなたが残っている石を取れないとき"""
     print("""
   │
   └┐
@@ -145,9 +169,11 @@ You can't take the remaining stones!
 
 
 def create_position_text(rest, number_taken):
+    """局面の文字列"""
     s = """
 """
 
+    # 持ち上げた石の描画
     for _ in range(0, rest):
         s += " "
 
@@ -156,15 +182,38 @@ def create_position_text(rest, number_taken):
 
     s += "\n"
 
+    # 残っている石を描画
     for _ in range(0, rest):
         s += "o"  # 残ってる石
 
-    s += """
--------------------------------
-         1111111111222222222233
-1234567890123456789012345678901
+    s += "\n"
 
-"""
+    # 机の広さを描画
+    desk_len = rest + number_taken
+
+    for _ in range(0, desk_len):
+        s += "-"  # 机
+
+    s += "\n"
+
+    # 数の十の位を描画
+    for g in range(0, rest):
+        if 30 <= g:
+            s += "3"
+        elif 20 <= g:
+            s += "2"
+        elif 10 <= g:
+            s += "1"
+        else:
+            s += " "
+
+    s += "\n"
+
+    # 数の一の位を描画
+    for g in range(0, rest):
+        s += f"{g%10}"
+
+    s += "\n"
 
     return s
 
