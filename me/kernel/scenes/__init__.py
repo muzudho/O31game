@@ -21,8 +21,8 @@ class Scenes:
 ┌─┐┌─┼┬┴┐　？
 └─┘└─┘└─┘
 How many stones are there in the heap? (0 - 99)
-Example: n=31
-n="""
+Example: N=31
+N="""
 
     @staticmethod
     def stringify_you_win_stone_none():

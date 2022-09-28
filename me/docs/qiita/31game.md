@@ -92,5 +92,6 @@ Nim で、勝者が１人決まったところで終わるもの
 # 関連する記事
 
 📖 [o31game](https://github.com/muzudho/o31game/tree/main/me) - 遊んで覚えるPythonプログラム  
+📖 [グランディ数列の探索プログラム](https://ack61.github.io/mathpower2022-31game/) - Ackvy さんの電卓
 
 EOF
