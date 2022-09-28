@@ -1,6 +1,11 @@
 # Author: Muzudho
 
 import random
+from kernel import Kernel
+from kernel.scenes import Scenes
+
+# このゲームの基本部品
+kernel = Kernel()
 
 # 残りの石の個数
 rest = 0
@@ -9,28 +14,17 @@ numbers_to_choose = []
 
 
 def main():
-    global rest, numbers_to_choose
+    global kernel, rest, numbers_to_choose
 
     # Title
-    print("""
-＼ ──┐　┐　    ─┐   ┌─┐ ／
-／ ──┤　│　┌─┐┌─┤├┬┐├─┘ ＼
-＼ ──┘　┴　└─┤└─┴│││└─┘ ／
-／          ─┘       .. ＼
-＼ ..................   ／
-／      ...........     ＼
-""")
+    Scenes.print_title()
 
+    # 山にいくつ石がありますか？
     while True:
+        # [Ctrl]+[C]キーで抜けたいので、try句の外に出します
+        enter = input(
+            Scenes.stringify_how_many_stones_there_in_there_heap())
         try:
-            # 山にいくつ石がありますか？
-            enter = input("""
-     ┌─┐
-┌─┐┌─┼┬┴┐　？
-└─┘└─┘└─┘
-How many stones are there in the heap? (0 - 99)
-Example: n=31
-n=""")
 
             if enter == "exit" or enter == "quit":
                 print("Bye.")
@@ -76,7 +70,7 @@ S=""")
 
         if len(numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がない
-            print_you_lose_stone_remaining()
+            Scenes.print_you_lose_stone_remaining()
             break
 
         while True:
@@ -114,7 +108,7 @@ Please choose: {choose}
 
         if rest < 1:
             # 最後の石を取った
-            print_you_win_stone_none()
+            Scenes.print_you_win_stone_none()
             break
 
         # 残りの石の数以上の選択肢は削除します
@@ -124,7 +118,7 @@ Please choose: {choose}
 
         if len(numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がないなら、コンピューターの負け
-            print_you_win_stone_remaining()
+            Scenes.print_you_win_stone_remaining()
             break
 
         number_taken = get_bestmove()
@@ -140,64 +134,10 @@ Please choose: {choose}
 
         if rest < 1:
             # 最後の石を取られた
-            print_you_lose_stone_none()
+            Scenes.print_you_lose_stone_none()
             break
 
     # finished.
-
-
-def print_you_win_stone_none():
-    """あなたの勝ち。石が残ってないとき"""
-    print("""
- ^v^v^v^v^v^v^v^
-<               >
- >  PERFECT !  <
-<               >
- >  You win !  <
-<               >
- v^v^v^v^v^v^v^v
-""")
-
-
-def print_you_win_stone_remaining():
-    """あなたの勝ち。相手が残っている石を取れないとき"""
-    print("""
- ^v^v^v^v^v^v^v^
-<               >
- >  You win !  <
-<               >
- v^v^v^v^v^v^v^v
-""")
-
-
-def print_you_lose_stone_none():
-    """あなたの負け。石が残ってないとき"""
-    print("""
-  │
-  └┐
-   ・
-Please choose: None!
-There are no stones left!
-
- ~~~~~~~~~~
-| You lose |
- ~~~~~~~~~~
-""")
-
-
-def print_you_lose_stone_remaining():
-    """あなたの負け。あなたが残っている石を取れないとき"""
-    print("""
-  │
-  └┐
-   ・
-Please choose: None!
-You can't take the remaining stones!
-
- ~~~~~~~~~~
-| You lose |
- ~~~~~~~~~~
-""")
 
 
 def create_position_text(rest, number_taken):
