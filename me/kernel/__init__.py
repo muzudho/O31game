@@ -1,11 +1,20 @@
+from os import remove
+
+
 class Kernel:
     """31game の基本部品"""
 
     @staticmethod
     def remove_out_of_range_choices(rest, numbers_to_choose):
         """残りの石の数を超える数の選択肢は削除"""
+
+        removed_items = []
+
         while 0 < len(numbers_to_choose) and rest < numbers_to_choose[len(numbers_to_choose)-1]:
-            numbers_to_choose.pop(-1)
+            removed_item = numbers_to_choose.pop(-1)
+            removed_items.append(removed_item)
+
+        return removed_items
 
     def __init__(self):
         """初期化"""
@@ -48,3 +57,9 @@ class Kernel:
     def record(self, value):
         """棋譜"""
         self.__record = value
+
+    def append_record_item(self, item):
+        self.__record.append(item)
+
+    def pop_record_item(self):
+        return self.__record.pop(-1)

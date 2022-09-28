@@ -54,7 +54,8 @@ class Think:
                 return True
 
             # 残りの石の数以上の選択肢は削除します
-            Kernel.remove_out_of_range_choices(rest, numbers_to_choose)
+            removed_items = Kernel.remove_out_of_range_choices(
+                rest, numbers_to_choose)
 
             if len(numbers_to_choose) < 1:
                 # FIXME 相手に、選べる選択肢を残さなかったら、こっちの勝ち
@@ -70,7 +71,8 @@ class Think:
                 return False
 
             # 残りの石の数以上の選択肢は削除します
-            Kernel.remove_out_of_range_choices(rest, numbers_to_choose)
+            removed_items = Kernel.remove_out_of_range_choices(
+                rest, numbers_to_choose)
 
             if len(numbers_to_choose) < 1:
                 # FIXME コンピューターに、選べる選択肢を残さなかったら、コンピューターの負け

@@ -3,6 +3,7 @@
 from kernel import Kernel
 from kernel.scenes import Scenes
 from kernel.think import Think
+from kernel.record_item import RecordItem
 
 
 def main():
@@ -56,7 +57,7 @@ def main():
     while True:
 
         # 残りの石の数以上の選択肢は削除します
-        Kernel.remove_out_of_range_choices(
+        removed_chooses = Kernel.remove_out_of_range_choices(
             kernel.rest, kernel.numbers_to_choose)
 
         # Your turn.
@@ -84,12 +85,18 @@ def main():
                 if enter == "undo":
                     if 2 <= len(kernel.record):
                         # TODO １つ前のコンピューターが取った石と、２つ前の自分が取った石を戻せばアンドゥと同じ
-                        number_taken = kernel.record.pop(-1)
-                        kernel.rest += number_taken
-                        number_taken = kernel.record.pop(-1)
-                        kernel.rest += number_taken
+                        record_item = kernel.pop_record_item()
+                        kernel.rest += record_item.number_taken
+                        kernel.numbers_to_choose.extend(
+                            record_item.removed_chooses)
+
+                        record_item = kernel.pop_record_item()
+                        kernel.rest += record_item.number_taken
+                        kernel.numbers_to_choose.extend(
+                            record_item.removed_chooses)
+
                         print(Scenes.stringify_position_text(
-                            kernel.rest, number_taken))
+                            kernel.rest, 0))
                     else:
                         print("No more undo!")
 
@@ -108,7 +115,8 @@ def main():
             except:
                 print("Please try again!")
 
-        kernel.record.append(number_taken)
+        kernel.append_record_item(RecordItem(
+            number_taken=number_taken, removed_chooses=removed_chooses))
         kernel.rest -= number_taken
         print(Scenes.stringify_position_text(kernel.rest, number_taken))
 
@@ -118,13 +126,16 @@ def main():
             break
 
         # 残りの石の数以上の選択肢は削除します
-        Kernel.remove_out_of_range_choices(
+        removed_chooses = Kernel.remove_out_of_range_choices(
             kernel.rest, kernel.numbers_to_choose)
 
         # Opponent turn.
 
         if len(kernel.numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がないなら、コンピューターの負け
+            kernel.append_record_item(RecordItem(
+                number_taken=0, removed_chooses=removed_chooses))
+
             print(Scenes.stringify_you_win_stone_remaining())
             break
 
@@ -133,7 +144,8 @@ def main():
 
         print(Scenes.stringify_computer_took_some_stones(number_taken))
 
-        kernel.record.append(number_taken)
+        kernel.append_record_item(RecordItem(
+            number_taken=number_taken, removed_chooses=removed_chooses))
         kernel.rest -= number_taken
         print(Scenes.stringify_position_text(kernel.rest, number_taken))
 
