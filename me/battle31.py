@@ -17,7 +17,7 @@ def main():
     global kernel, rest, numbers_to_choose
 
     # Title
-    Scenes.print_title()
+    print(Scenes.stringify_title())
 
     # 山にいくつ石がありますか？
     while True:
@@ -51,7 +51,7 @@ def main():
             numbers_to_choose = [int(numeric) for numeric in numerics]
             # 昇順ソート
             numbers_to_choose.sort()
-            print(create_position_text(rest, 0))
+            print(Scenes.stringify_position_text(rest, 0))
             break
 
         except:
@@ -66,7 +66,7 @@ def main():
 
         if len(numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がない
-            Scenes.print_you_lose_stone_remaining()
+            print(Scenes.stringify_you_lose_stone_remaining())
             break
 
         while True:
@@ -95,11 +95,11 @@ def main():
                 print("Please try again!")
 
         rest -= number_taken
-        print(create_position_text(rest, number_taken))
+        print(Scenes.stringify_position_text(rest, number_taken))
 
         if rest < 1:
             # 最後の石を取った
-            Scenes.print_you_win_stone_none()
+            print(Scenes.stringify_you_win_stone_none())
             break
 
         # 残りの石の数以上の選択肢は削除します
@@ -109,67 +109,21 @@ def main():
 
         if len(numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がないなら、コンピューターの負け
-            Scenes.print_you_win_stone_remaining()
+            print(Scenes.stringify_you_win_stone_remaining())
             break
 
         number_taken = get_bestmove()
 
-        Scenes.print_computer_took_some_stones(number_taken)
+        print(Scenes.stringify_computer_took_some_stones(number_taken))
         rest -= number_taken
-        print(create_position_text(rest, number_taken))
+        print(Scenes.stringify_position_text(rest, number_taken))
 
         if rest < 1:
             # 最後の石を取られた
-            Scenes.print_you_lose_stone_none()
+            print(Scenes.stringify_you_lose_stone_none())
             break
 
     # finished.
-
-
-def create_position_text(rest, number_taken):
-    """局面の文字列"""
-    s = """
-"""
-
-    # 持ち上げた石の描画
-    for _ in range(0, rest):
-        s += " "
-
-    for _ in range(0, number_taken):
-        s += "o"  # 取った石
-
-    s += "\n"
-
-    # 残っている石を描画
-    for _ in range(0, rest):
-        s += "o"  # 残ってる石
-
-    s += "\n"
-
-    # 机の広さを描画
-    desk_len = rest + number_taken
-
-    for _ in range(0, desk_len):
-        s += "-"  # 机
-
-    s += "\n"
-
-    # 数の十の位を描画（上限を９９とします）
-    for nth in range(1, rest+1):  # 序数に変換
-        if nth < 10:
-            s += " "
-        else:
-            s += f"{nth//10}"
-
-    s += "\n"
-
-    # 数の一の位を描画
-    for nth in range(1, rest+1):  # 序数に変換
-        s += f"{nth%10}"
-
-    s += "\n"
-
-    return s
 
 
 def get_bestmove():

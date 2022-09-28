@@ -2,16 +2,16 @@ class Scenes:
     """31game の画面まとめ"""
 
     @staticmethod
-    def print_title():
+    def stringify_title():
         """タイトル画面"""
-        print("""
+        return """
 ＼ ──┐　┐　    ─┐   ┌─┐ ／
 ／ ──┤　│　┌─┐┌─┤├┬┐├─┘ ＼
 ＼ ──┘　┴　└─┤└─┴│││└─┘ ／
 ／          ─┘       .. ＼
 ＼ ..................   ／
 ／      ...........     ＼
-""")
+"""
 
     @staticmethod
     def stringify_how_many_stones_there_in_there_heap():
@@ -25,9 +25,9 @@ Example: n=31
 n="""
 
     @staticmethod
-    def print_you_win_stone_none():
+    def stringify_you_win_stone_none():
         """あなたの勝ち。石が残ってないとき"""
-        print("""
+        return """
  ^v^v^v^v^v^v^v^
 <               >
  >  PERFECT !  <
@@ -35,7 +35,7 @@ n="""
  >  You win !  <
 <               >
  v^v^v^v^v^v^v^v
-""")
+"""
 
     @staticmethod
     def stringify_how_many_do_you_want_to_take_at_one_time():
@@ -60,30 +60,30 @@ Please choose: {choose}
 > """
 
     @staticmethod
-    def print_computer_took_some_stones(number_taken):
-        print(f"""
+    def stringify_computer_took_some_stones(number_taken):
+        return f"""
   ┌─────┐
   │ ^ ^ │
   │  q  │
   └─┐ ┌─┘
 ┌───┘ └───┐
-│         │ The computer took {number_taken} stone(s).""")
+│         │ The computer took {number_taken} stone(s)."""
 
     @staticmethod
-    def print_you_win_stone_remaining():
+    def stringify_you_win_stone_remaining():
         """あなたの勝ち。相手が残っている石を取れないとき"""
-        print("""
+        return """
  ^v^v^v^v^v^v^v^
 <               >
  >  You win !  <
 <               >
  v^v^v^v^v^v^v^v
-""")
+"""
 
     @staticmethod
-    def print_you_lose_stone_none():
+    def stringify_you_lose_stone_none():
         """あなたの負け。石が残ってないとき"""
-        print("""
+        return """
   │
   └┐
    ・
@@ -93,12 +93,12 @@ There are no stones left!
  ~~~~~~~~~~
 | You lose |
  ~~~~~~~~~~
-""")
+"""
 
     @staticmethod
-    def print_you_lose_stone_remaining():
+    def stringify_you_lose_stone_remaining():
         """あなたの負け。あなたが残っている石を取れないとき"""
-        print("""
+        return """
   │
   └┐
    ・
@@ -108,4 +108,51 @@ You can't take the remaining stones!
  ~~~~~~~~~~
 | You lose |
  ~~~~~~~~~~
-""")
+"""
+
+    @staticmethod
+    def stringify_position_text(rest, number_taken):
+        """局面の文字列"""
+
+        s = """
+"""
+
+        # 持ち上げた石の描画
+        for _ in range(0, rest):
+            s += " "
+
+        for _ in range(0, number_taken):
+            s += "o"  # 取った石
+
+        s += "\n"
+
+        # 残っている石を描画
+        for _ in range(0, rest):
+            s += "o"  # 残ってる石
+
+        s += "\n"
+
+        # 机の広さを描画
+        desk_len = rest + number_taken
+
+        for _ in range(0, desk_len):
+            s += "-"  # 机
+
+        s += "\n"
+
+        # 数の十の位を描画（上限を９９とします）
+        for nth in range(1, rest+1):  # 序数に変換
+            if nth < 10:
+                s += " "
+            else:
+                s += f"{nth//10}"
+
+        s += "\n"
+
+        # 数の一の位を描画
+        for nth in range(1, rest+1):  # 序数に変換
+            s += f"{nth%10}"
+
+        s += "\n"
+
+        return s
