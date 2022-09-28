@@ -3,7 +3,7 @@
 import random
 
 # 残りの石の個数
-rest = 31
+rest = 0
 
 numbers_to_choose = []
 
@@ -21,11 +21,26 @@ def main():
 ／      ...........     ＼
 """)
 
-    # 取っていい石の数（複数）
-    numerics = input("""
+    while True:
+        try:
+            # 山にいくつ石がありますか？
+            rest_str = input("""
      ┌─┐
 ┌─┐┌─┼┬┴┐　？
 └─┘└─┘└─┘
+How many stones are there in the heap? (0 - 99)
+Example: n=31
+n=""")
+            rest = int(rest_str)
+            break
+        except:
+            print("Please try again!")
+
+    # 取っていい石の数（複数）
+    numerics = input("""
+ ┌─┐    ┌─┐┌─┐    ┌─┬─┐┌─┐
+ └─┘    └─┘└─┘    └─┴─┘└─┘   ？
+└───┘  └──────┘  └────────┘
 How many do you want to take at one time?
 Example: S=1,2,3
 S=""").split(",")
@@ -73,9 +88,8 @@ Please choose: {choose}
 
                 print("Please try again!")
 
-            except Exception as e:
+            except:
                 print("Please try again!")
-                # print(e)
 
         rest -= number_taken
         print(create_position_text(rest, number_taken))
@@ -196,16 +210,12 @@ def create_position_text(rest, number_taken):
 
     s += "\n"
 
-    # 数の十の位を描画
+    # 数の十の位を描画（上限を９９とします）
     for g in range(0, rest):
-        if 30 <= g:
-            s += "3"
-        elif 20 <= g:
-            s += "2"
-        elif 10 <= g:
-            s += "1"
-        else:
+        if g < 10:
             s += " "
+        else:
+            s += f"{g//10}"
 
     s += "\n"
 
