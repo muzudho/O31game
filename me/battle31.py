@@ -18,11 +18,12 @@ def main():
         enter = input(
             Scenes.stringify_how_many_stones_there_in_there_heap())
 
-        try:
-            if enter == "exit" or enter == "quit":
-                print("Bye.")
-                exit(0)
+        # exit(...) の例外処理で抜けたいので、exit(...) を try 句の外に出します
+        if enter == "exit" or enter == "quit":
+            print("Bye.")
+            exit(0)
 
+        try:
             kernel.rest = int(enter)
             break
 
@@ -35,11 +36,12 @@ def main():
         enter = input(
             Scenes.stringify_how_many_do_you_want_to_take_at_one_time())
 
-        try:
-            if enter == "exit" or enter == "quit":
-                print("Bye.")
-                exit(0)
+        # exit(...) の例外処理で抜けたいので、exit(...) を try 句の外に出します
+        if enter == "exit" or enter == "quit":
+            print("Bye.")
+            exit(0)
 
+        try:
             numerics = enter.split(",")
             kernel.numbers_to_choose = [int(numeric) for numeric in numerics]
             # 昇順ソート
@@ -73,11 +75,12 @@ def main():
             # Play: 幾つ石を取りますか？
             enter = input(Scenes.stringify_how_many_do_you_take(choose))
 
-            try:
-                if enter == "exit" or enter == "quit":
-                    print("Bye.")
-                    exit(0)
+            # exit(...) の例外処理で抜けたいので、exit(...) を try 句の外に出します
+            if enter == "exit" or enter == "quit":
+                print("Bye.")
+                exit(0)
 
+            try:
                 if enter == "undo":
                     if 2 <= len(kernel.record):
                         # TODO １つ前のコンピューターが取った石と、２つ前の自分が取った石を戻せばアンドゥと同じ
