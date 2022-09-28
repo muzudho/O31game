@@ -42,18 +42,30 @@ n=""")
         except:
             print("Please try again!")
 
-    # 取っていい石の数（複数）
-    numerics = input("""
+    while True:
+        try:
+            # 取っていい石の数（複数）
+            enter = input("""
  ┌─┐    ┌─┐┌─┐    ┌─┬─┐┌─┐
  └─┘    └─┘└─┘    └─┴─┘└─┘   ？
 └───┘  └──────┘  └────────┘
 How many do you want to take at one time?
 Example: S=1,2,3
-S=""").split(",")
-    numbers_to_choose = [int(numeric) for numeric in numerics]
-    # 昇順ソート
-    numbers_to_choose.sort()
-    print(create_position_text(rest, 0))
+S=""")
+
+            if enter == "exit" or enter == "quit":
+                print("Bye.")
+                exit(0)
+
+            numerics = enter.split(",")
+            numbers_to_choose = [int(numeric) for numeric in numerics]
+            # 昇順ソート
+            numbers_to_choose.sort()
+            print(create_position_text(rest, 0))
+            break
+
+        except:
+            print("Please try again!")
 
     while True:
 
