@@ -54,7 +54,7 @@ How many do you take?
 Please choose: {choose}
 > """)
 
-                if enter == "quit":
+                if enter == "quit" or enter == "exit":
                     print("Bye.")
                     exit(0)
 
@@ -75,8 +75,8 @@ Please choose: {choose}
         print(create_position_text(total, number_taken))
 
         if total < 1:
-            # 最後の石を取らされた
-            print("You lose!")
+            # 最後の石を取った
+            print("You win!")
             break
 
         # 残りの石の数以上の選択肢は削除します
@@ -96,8 +96,8 @@ Please choose: {choose}
         print(create_position_text(total, number_taken))
 
         if total < 1:
-            # 最後の石を取らせてやった
-            print("You win!")
+            # 最後の石を取られた
+            print("You lose!")
             break
 
     # finished.
@@ -174,15 +174,16 @@ def playout(choose, total_copy, numbers_to_choose_copy):
         # Computer turn
         total_copy -= choose
         if total_copy < 1:
-            return False
+            # コンピューターが全部の石を取ったら、コンピューターの勝ち
+            return True
 
         # 残りの石の数以上の選択肢は削除します
         while total_copy < numbers_to_choose_copy[len(numbers_to_choose_copy)-1]:
             numbers_to_choose_copy.pop(-1)
 
             if len(numbers_to_choose_copy) < 1:
-                # FIXME 選べる選択肢が無くなったら、どういうルールか分からないが、とりあえず負けと判定しておく。 1 は要るのでは？
-                return False
+                # FIXME 相手に、選べる選択肢を残さなかったら、こっちの勝ち
+                return True
 
         # Human turn
         # 適当に選ぶ
@@ -190,7 +191,21 @@ def playout(choose, total_copy, numbers_to_choose_copy):
         total_copy -= num
 
         if total_copy < 1:
-            return True
+            # 人間が全部の石を取ったら、コンピューターの負け
+            return False
+
+        # 残りの石の数以上の選択肢は削除します
+        while total_copy < numbers_to_choose_copy[len(numbers_to_choose_copy)-1]:
+            numbers_to_choose_copy.pop(-1)
+
+            if len(numbers_to_choose_copy) < 1:
+                # FIXME コンピューターに、選べる選択肢を残さなかったら、コンピューターの負け
+                return False
+
+
+def fewer_choices():
+    """選択肢の減少"""
+    pass
 
 
 if __name__ == "__main__":
