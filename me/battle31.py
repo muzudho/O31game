@@ -43,18 +43,8 @@ S=""").split(",")
 
         if len(numbers_to_choose) < 1:
             # まだ石が残っているのに、選択肢がない
-            print("""
-  │
-  └┐
-   ・
-Please choose: None!
-You can't take the remaining stones!
-
- ~~~~~~~~~~
-| You lose |
- ~~~~~~~~~~
-""")
-            return
+            print_you_lose_stone_remaining()
+            break
 
         while True:
             try:
@@ -118,14 +108,40 @@ Please choose: {choose}
 
         if rest < 1:
             # 最後の石を取られた
-            print("""
+            print_you_lose_stone_none()
+            break
+
+    # finished.
+
+
+def print_you_lose_stone_none():
+    """あなたの負け。石が残ってないとき"""
+    print("""
+  │
+  └┐
+   ・
+Please choose: None!
+There are no stones left!
+
  ~~~~~~~~~~
 | You lose |
  ~~~~~~~~~~
 """)
-            break
 
-    # finished.
+
+def print_you_lose_stone_remaining():
+    """あなたの負け。残っている石を取れないとき"""
+    print("""
+  │
+  └┐
+   ・
+Please choose: None!
+You can't take the remaining stones!
+
+ ~~~~~~~~~~
+| You lose |
+ ~~~~~~~~~~
+""")
 
 
 def create_position_text(rest, number_taken):
