@@ -27,8 +27,8 @@ def main():
 ┌─┐┌─┼┬┴┐　？
 └─┘└─┘└─┘
 How many do you want to take at one time?
-Example: s=1,2,3
-s=""").split(",")
+Example: S=1,2,3
+S=""").split(",")
     numbers_to_choose = [int(numeric) for numeric in numerics]
     # 昇順ソート
     numbers_to_choose.sort()
@@ -40,6 +40,21 @@ s=""").split(",")
         remove_out_of_range_choices(rest, numbers_to_choose)
 
         # Your turn.
+
+        if len(numbers_to_choose) < 1:
+            # まだ石が残っているのに、選択肢がない
+            print("""
+  │
+  └┐
+   ・
+Please choose: None!
+You can't take the remaining stones!
+
+ ~~~~~~~~~~
+| You lose |
+ ~~~~~~~~~~
+""")
+            return
 
         while True:
             try:
