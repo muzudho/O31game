@@ -38,6 +38,38 @@ n="""
 """)
 
     @staticmethod
+    def stringify_how_many_do_you_want_to_take_at_one_time():
+        """一度にいくつ取りたいですか？"""
+        return """
+ ┌─┐    ┌─┐┌─┐    ┌─┬─┐┌─┐
+ └─┘    └─┘└─┘    └─┴─┘└─┘   ？
+└───┘  └──────┘  └────────┘
+How many do you want to take at one time?
+Example: S=1,2,3
+S="""
+
+    @staticmethod
+    def stringify_how_many_do_you_take(choose):
+        """いくつ取りますか？"""
+        return f"""
+ ┌──┐
+   ┌┘
+   ・
+How many do you take?
+Please choose: {choose}
+> """
+
+    @staticmethod
+    def print_computer_took_some_stones(number_taken):
+        print(f"""
+  ┌─────┐
+  │ ^ ^ │
+  │  q  │
+  └─┐ ┌─┘
+┌───┘ └───┐
+│         │ The computer took {number_taken} stone(s).""")
+
+    @staticmethod
     def print_you_win_stone_remaining():
         """あなたの勝ち。相手が残っている石を取れないとき"""
         print("""

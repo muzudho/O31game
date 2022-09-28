@@ -21,11 +21,11 @@ def main():
 
     # 山にいくつ石がありますか？
     while True:
-        # [Ctrl]+[C]キーで抜けたいので、try句の外に出します
+        # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
         enter = input(
             Scenes.stringify_how_many_stones_there_in_there_heap())
-        try:
 
+        try:
             if enter == "exit" or enter == "quit":
                 print("Bye.")
                 exit(0)
@@ -36,17 +36,13 @@ def main():
         except:
             print("Please try again!")
 
+    # 取っていい石の数（複数）
     while True:
-        try:
-            # 取っていい石の数（複数）
-            enter = input("""
- ┌─┐    ┌─┐┌─┐    ┌─┬─┐┌─┐
- └─┘    └─┘└─┘    └─┴─┘└─┘   ？
-└───┘  └──────┘  └────────┘
-How many do you want to take at one time?
-Example: S=1,2,3
-S=""")
+        # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
+        enter = input(
+            Scenes.stringify_how_many_do_you_want_to_take_at_one_time())
 
+        try:
             if enter == "exit" or enter == "quit":
                 print("Bye.")
                 exit(0)
@@ -74,19 +70,14 @@ S=""")
             break
 
         while True:
+            # 入力を並び替える
+            numerics = [str(number) for number in numbers_to_choose]
+            choose = " ".join(numerics)
+
+            # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
+            enter = input(Scenes.stringify_how_many_do_you_take(choose))
+
             try:
-                # 入力を並び替える
-                numerics = [str(number) for number in numbers_to_choose]
-
-                choose = " ".join(numerics)
-                enter = input(f"""
- ┌──┐
-   ┌┘
-   ・
-How many do you take?
-Please choose: {choose}
-> """)
-
                 if enter == "exit" or enter == "quit":
                     print("Bye.")
                     exit(0)
@@ -122,13 +113,8 @@ Please choose: {choose}
             break
 
         number_taken = get_bestmove()
-        print(f"""
-  ┌─────┐
-  │ ^ ^ │
-  │  q  │
-  └─┐ ┌─┘
-┌───┘ └───┐
-│         │ The computer took {number_taken} stone(s).""")
+
+        Scenes.print_computer_took_some_stones(number_taken)
         rest -= number_taken
         print(create_position_text(rest, number_taken))
 
