@@ -53,12 +53,12 @@ def main():
         except:
             print("Please try again!")
 
+    # 残りの石の数以上の選択肢は削除します
+    removed_chooses = Kernel.remove_out_of_range_choices(
+        kernel.rest, kernel.numbers_to_choose)
+
     # Play
     while True:
-
-        # 残りの石の数以上の選択肢は削除します
-        removed_chooses = Kernel.remove_out_of_range_choices(
-            kernel.rest, kernel.numbers_to_choose)
 
         # Your turn.
 
@@ -153,6 +153,10 @@ def main():
             # 最後の石を取られた
             print(Scenes.stringify_you_lose_stone_none())
             break
+
+        # 残りの石の数以上の選択肢は削除します
+        removed_chooses = Kernel.remove_out_of_range_choices(
+            kernel.rest, kernel.numbers_to_choose)
 
     # finished.
 

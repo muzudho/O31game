@@ -45,26 +45,29 @@ class Think:
 
     @staticmethod
     def playout(number_taken, rest, numbers_to_choose):
+
+        # Computer turn
+        rest -= number_taken
+        if rest < 1:
+            # コンピューターが全部の石を取ったら、コンピューターの勝ち
+            return True
+
+        # 残りの石の数以上の選択肢は削除します
+        removed_items = Kernel.remove_out_of_range_choices(
+            rest, numbers_to_choose)
+
+        if len(numbers_to_choose) < 1:
+            # FIXME 相手に、選べる選択肢を残さなかったら、こっちの勝ち
+            return True
+
         # 再帰しなくてもいいや
         while True:
-            # Computer turn
-            rest -= number_taken
-            if rest < 1:
-                # コンピューターが全部の石を取ったら、コンピューターの勝ち
-                return True
-
-            # 残りの石の数以上の選択肢は削除します
-            removed_items = Kernel.remove_out_of_range_choices(
-                rest, numbers_to_choose)
-
-            if len(numbers_to_choose) < 1:
-                # FIXME 相手に、選べる選択肢を残さなかったら、こっちの勝ち
-                return True
 
             # Human turn
+
             # 適当に選ぶ
-            num = random.choice(numbers_to_choose)
-            rest -= num
+            number_taken = random.choice(numbers_to_choose)
+            rest -= number_taken
 
             if rest < 1:
                 # 人間が全部の石を取ったら、コンピューターの負け
@@ -77,3 +80,20 @@ class Think:
             if len(numbers_to_choose) < 1:
                 # FIXME コンピューターに、選べる選択肢を残さなかったら、コンピューターの負け
                 return False
+
+            # Computer turn
+
+            # 適当に選ぶ
+            number_taken = random.choice(numbers_to_choose)
+            rest -= number_taken
+            if rest < 1:
+                # コンピューターが全部の石を取ったら、コンピューターの勝ち
+                return True
+
+            # 残りの石の数以上の選択肢は削除します
+            removed_items = Kernel.remove_out_of_range_choices(
+                rest, numbers_to_choose)
+
+            if len(numbers_to_choose) < 1:
+                # FIXME 相手に、選べる選択肢を残さなかったら、こっちの勝ち
+                return True
