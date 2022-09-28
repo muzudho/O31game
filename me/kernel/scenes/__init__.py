@@ -51,12 +51,14 @@ S="""
     @staticmethod
     def stringify_how_many_do_you_take(choose):
         """いくつ取りますか？"""
+
+        # "exit" もあるけど説明が長くなるので省略
         return f"""
  ┌──┐
    ┌┘
    ・
 How many do you take?
-Please choose: {choose}
+Please choose: {choose} or "undo", "quit"
 > """
 
     @staticmethod

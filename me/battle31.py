@@ -12,7 +12,7 @@ def main():
     # Title
     print(Scenes.stringify_title())
 
-    # 山にいくつ石がありますか？
+    # Stage edit: 山にいくつ石がありますか？
     while True:
         # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
         enter = input(
@@ -29,7 +29,7 @@ def main():
         except:
             print("Please try again!")
 
-    # 取っていい石の数（複数）
+    # Stage edit: 取っていい石の数（複数）
     while True:
         # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
         enter = input(
@@ -50,6 +50,7 @@ def main():
         except:
             print("Please try again!")
 
+    # Play
     while True:
 
         # 残りの石の数以上の選択肢は削除します
@@ -69,12 +70,28 @@ def main():
             choose = " ".join(numerics)
 
             # [Ctrl]+[C]キーで抜けたいので、input を try 句の外に出します
+            # Play: 幾つ石を取りますか？
             enter = input(Scenes.stringify_how_many_do_you_take(choose))
 
             try:
                 if enter == "exit" or enter == "quit":
                     print("Bye.")
                     exit(0)
+
+                if enter == "undo":
+                    if 2 <= len(kernel.record):
+                        # TODO １つ前のコンピューターが取った石と、２つ前の自分が取った石を戻せばアンドゥと同じ
+                        number_taken = kernel.record.pop(-1)
+                        kernel.rest += number_taken
+                        number_taken = kernel.record.pop(-1)
+                        kernel.rest += number_taken
+                        print(Scenes.stringify_position_text(
+                            kernel.rest, number_taken))
+                    else:
+                        print("No more undo!")
+
+                    # なんにせよループ戻る
+                    continue
 
                 number_taken = int(enter)
 
@@ -88,6 +105,7 @@ def main():
             except:
                 print("Please try again!")
 
+        kernel.record.append(number_taken)
         kernel.rest -= number_taken
         print(Scenes.stringify_position_text(kernel.rest, number_taken))
 
@@ -111,6 +129,8 @@ def main():
             kernel.rest, kernel.numbers_to_choose)
 
         print(Scenes.stringify_computer_took_some_stones(number_taken))
+
+        kernel.record.append(number_taken)
         kernel.rest -= number_taken
         print(Scenes.stringify_position_text(kernel.rest, number_taken))
 

@@ -16,6 +16,9 @@ class Kernel:
         self.__numbers_to_choose = []
         """石をいくつ取るかの一覧"""
 
+        self.__record = []
+        """棋譜"""
+
     @property
     def rest(self):
         """残りの石の個数"""
@@ -35,3 +38,13 @@ class Kernel:
     def numbers_to_choose(self, value):
         """石をいくつ取るかの一覧"""
         self.__numbers_to_choose = value
+
+    @property
+    def record(self):
+        """棋譜"""
+        return self.__record
+
+    @record.setter
+    def record(self, value):
+        """棋譜"""
+        self.__record = value
