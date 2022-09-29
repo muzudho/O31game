@@ -1,3 +1,6 @@
+from kernel.math.grundy import GrundyListObj
+
+
 class Kernel:
     """31game の基本部品"""
 
@@ -24,6 +27,9 @@ class Kernel:
 
         self.__record = []
         """棋譜"""
+
+        self.__grundy_list_obj = None
+        """局面の石の数に対応付くグランディ数の一覧"""
 
     @property
     def rest(self):
@@ -55,8 +61,18 @@ class Kernel:
         """棋譜"""
         self.__record = value
 
+    @property
+    def grundy_list_obj(self):
+        """グランディ数の一覧オブジェクト"""
+        return self.__grundy_list_obj
+
     def append_record_item(self, item):
         self.__record.append(item)
 
     def pop_record_item(self):
         return self.__record.pop(-1)
+
+    def new_game(self):
+        """新規対局作成"""
+        self.__grundy_list_obj = GrundyListObj.make(
+            self.__rest, set(self.__numbers_to_choose))

@@ -57,6 +57,13 @@ def main():
     removed_chooses = Kernel.remove_out_of_range_choices(
         kernel.rest, kernel.numbers_to_choose)
 
+    # New game
+    kernel.new_game()
+
+    # for i in range(0, kernel.rest+1):
+    #    grundy = kernel.grundy_list_obj.get_grundy_at(i)
+    #    print(f"i:{i} grundy:{grundy}")
+
     # Play
     while True:
 
