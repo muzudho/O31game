@@ -2,7 +2,11 @@
 # Arrangement: Muzudho (julia分からん)
 
 # mexする。
+#
 # num_list は局面の集合か
+#
+# Author: hissatupassenger
+# Arrangement: Muzudho (julia分からん)
 function mex(num_list)
     # 空っぽ
     if num_list ==[]
@@ -29,7 +33,9 @@ function mex(num_list)
    return N
 end
 
-# グランディ数を求めるのだろう
+# グランディ数を求める
+#
+# - mex を使う
 function grundy(grun_seq,subt)
 	N = length(grun_seq)
 	return mex([grun_seq[N+1-i] for i in subt if i<N+1])
