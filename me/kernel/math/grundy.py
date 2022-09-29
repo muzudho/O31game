@@ -21,7 +21,7 @@ class GrundyListObj:
         """
 
         # グランディ数の配列のサイズ確定
-        grundy_list = [0] * len_N
+        grundy_list = [0] * (len_N+1)
 
         # 昇順ソート
         S_list = list(S)
@@ -60,8 +60,12 @@ class GrundyListObj:
         self.__grundy_list = grundy_list
         """添え字は、盤上の石の数 n （ 0 ～ len(N) ）"""
 
-    @property
-    def grundy_list(self):
-        """グランディ数のリスト。
-        添え字は、盤上の石の数 n （ 0 ～ len(N) ）"""
-        return self.__grundy_list
+    def get_grundy_at(self, i: int):
+        """グランディ数
+
+        Parameters
+        ----------
+        i : int
+            局面の石の数
+        """
+        return self.__grundy_list[i]
