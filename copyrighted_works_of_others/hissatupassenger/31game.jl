@@ -1,5 +1,5 @@
 # Author: hissatupassenger
-# Arrangement: Muzudho (julia分からん)
+# Commentary and Arrangement: Muzudho (julia分からん)
 
 # mexする。
 #

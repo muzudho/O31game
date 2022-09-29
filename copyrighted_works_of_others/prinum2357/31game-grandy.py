@@ -1,5 +1,5 @@
 # Author: prinum2357
-# Arrangement: Muzudho
+# Commentary and Arrangement: Muzudho
 
 def main():
     """グランディ数を返す"""

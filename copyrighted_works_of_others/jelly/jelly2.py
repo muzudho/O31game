@@ -1,5 +1,5 @@
 # Author: jelly
-# Arrangement: Muzudho
+# Commentary and Arrangement: Muzudho
 
 def mex(S: set) -> int:
     """mexする"""
