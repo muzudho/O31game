@@ -1,4 +1,4 @@
-# Author: jelly
+# Original author: jelly
 # Commentary and Arrangement: Muzudho
 
 def mex(S: set) -> int:

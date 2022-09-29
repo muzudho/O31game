@@ -1,4 +1,4 @@
-# Author: prinum2357
+# Original author: prinum2357
 # Commentary and Arrangement: Muzudho
 
 def main():

@@ -1,6 +1,6 @@
 def make_fib(end_num=100, set_new_item=lambda x: 0):
     """フィボナッチ数列を作る
-    Original: jelly
+    Original author: jelly
     Arrangement: Muzudho
     """
 

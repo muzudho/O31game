@@ -1,8 +1,8 @@
 def mex(S: set) -> int:
     """mexする
 
-    Original: jelly
-    Commentary or Arrangement: Muzudho
+    Original author: jelly
+    Commentary and Arrangement: Muzudho
 
     Parameters
     ----------
