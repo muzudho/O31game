@@ -8,14 +8,42 @@ def mex(S: set) -> int:
     return m
 
 
-# あらかじめ計算されているGにさらにk項付け加える
-def AddGrundy(S, previousG, k):
+def AddGrundy(S: set, previousG, k):
+    """グランディ数の集合 G に要素を１つ加える
+
+    - あらかじめ計算されているGにさらにk項付け加える
+
+    Parameters
+    ----------
+    S : set
+        サブトラクションセット
+    previousG : _type_
+        _description_
+    k : _type_
+        _description_
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+
     G = previousG
     kk = k - len(previousG)
     for n in range(kk):
         L = len(G)
+        """グランディ数の集合の要素数"""
+
         R = {G[L - s] for s in S if L - s >= 0}
+        """遷移先の グランディ数の集合
+
+        s - int
+            サブトラクションセットの要素
+        """
+
         G.append(mex(R))
+        """非負整数から R を除外した残りのうち最小の数"""
+
     return G
 
 
@@ -47,8 +75,15 @@ def find_period(S, G, k):
     return False
 
 
-# 周期が見つかるまで計算範囲を2倍して何度も繰り返し、[period, tail length, cycle, tail]をアウトプット
 def Period_Tail2(S: set) -> list:
+    """周期が見つかるまで計算範囲を2倍して何度も繰り返し、[period, tail length, cycle, tail]をアウトプット
+
+    Parameters
+    ----------
+    S : set
+        サブトラクションセット
+    """
+    # グランディ数の集合 G
     G = [0]
     k = 2**8
     F = False
