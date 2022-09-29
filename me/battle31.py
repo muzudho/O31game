@@ -47,18 +47,20 @@ def main():
             kernel.numbers_to_choose = [int(numeric) for numeric in numerics]
             # 昇順ソート
             kernel.numbers_to_choose.sort()
-            print(Scenes.stringify_position_text(kernel.rest, 0))
             break
 
         except:
             print("Please try again!")
 
+    # New game
     # 残りの石の数以上の選択肢は削除します
     removed_chooses = Kernel.remove_out_of_range_choices(
         kernel.rest, kernel.numbers_to_choose)
 
-    # New game
     kernel.new_game()
+
+    print(Scenes.stringify_position_text(
+        kernel.rest, 0, kernel.grundy_list_obj))
 
     # for i in range(0, kernel.rest+1):
     #    grundy = kernel.grundy_list_obj.get_grundy_at(i)
@@ -103,7 +105,7 @@ def main():
                             record_item.removed_chooses)
 
                         print(Scenes.stringify_position_text(
-                            kernel.rest, 0))
+                            kernel.rest, 0, kernel.grundy_list_obj))
                     else:
                         print("No more undo!")
 
@@ -125,7 +127,8 @@ def main():
         kernel.append_record_item(RecordItem(
             number_taken=number_taken, removed_chooses=removed_chooses))
         kernel.rest -= number_taken
-        print(Scenes.stringify_position_text(kernel.rest, number_taken))
+        print(Scenes.stringify_position_text(
+            kernel.rest, number_taken, kernel.grundy_list_obj))
 
         if kernel.rest < 1:
             # 最後の石を取った
@@ -154,7 +157,8 @@ def main():
         kernel.append_record_item(RecordItem(
             number_taken=number_taken, removed_chooses=removed_chooses))
         kernel.rest -= number_taken
-        print(Scenes.stringify_position_text(kernel.rest, number_taken))
+        print(Scenes.stringify_position_text(
+            kernel.rest, number_taken, kernel.grundy_list_obj))
 
         if kernel.rest < 1:
             # 最後の石を取られた
