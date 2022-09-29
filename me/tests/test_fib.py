@@ -6,7 +6,7 @@ python.exe -m tests.test_fib
 
 from kernel.math.fib import make_fib
 
-print("hello!")
+print("Test fib!")
 
 
 def set_new_item(new_item):
