@@ -21,8 +21,8 @@ class Scenes:
 ┌─┐┌─┼┬┴┐　？
 └─┘└─┘└─┘
 How many stones are there in the heap? (0 - 99)
-Example: N=31
-N="""
+Example: len(N)=31
+len(N)="""
 
     @staticmethod
     def stringify_you_win_stone_none():
@@ -114,10 +114,17 @@ You can't take the remaining stones!
 
     @staticmethod
     def stringify_position_text(rest, number_taken):
-        """局面の文字列"""
+        """局面の文字列
 
-        s = """
-"""
+        Example
+        -------
+        ooooooooooooooooooooooooooooooo
+        -------------------------------
+                 1111111111222222222233 len(N)=31
+        1234567890123456789012345678901
+        """
+
+        s = "\n"
 
         # 持ち上げた石の描画
         for _ in range(0, rest):
@@ -149,7 +156,7 @@ You can't take the remaining stones!
             else:
                 s += f"{nth//10}"
 
-        s += "\n"
+        s += f" len(N)={rest}\n"
 
         # 数の一の位を描画
         for nth in range(1, rest+1):  # 序数に変換
