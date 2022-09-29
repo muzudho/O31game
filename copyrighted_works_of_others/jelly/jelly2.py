@@ -32,10 +32,10 @@ def AddGrundy(S: set, previousG, k):
     kk = k - len(previousG)
     for n in range(kk):
         L = len(G)
-        """グランディ数の集合の要素数"""
+        """グランディ数の集合 G の要素数 L"""
 
         R = {G[L - s] for s in S if L - s >= 0}
-        """遷移先の グランディ数の集合
+        """遷移先の グランディ数の集合 R
 
         s - int
             サブトラクションセットの要素
