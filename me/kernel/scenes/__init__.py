@@ -118,22 +118,32 @@ You can't take the remaining stones!
 
         Example
         -------
-        ooooooooooooooooooooooooooooooo
+                                      v 31
+                                    ooo
+        oooooooooooooooooooooooooooo
         -------------------------------
-                 1111111111222222222233 len(N)=31
-        1234567890123456789012345678901
+                 1111111111222222222 len(N)=28
+        1234567890123456789012345678
         """
 
         s = "\n"
 
         # 持ち上げた石の描画
-        for _ in range(0, rest):
-            s += " "
+        if 0 < number_taken:
+            # 持ち上げた石の右端が何番目だったのか知りたい
+            for _ in range(0, rest + number_taken - 1):
+                s += " "
 
-        for _ in range(0, number_taken):
-            s += "o"  # 取った石
+            s += f"v {rest + number_taken}\n"
 
-        s += "\n"
+            # 取った石
+            for _ in range(0, rest):
+                s += " "
+
+            for _ in range(0, number_taken):
+                s += "o"  # 取った石
+
+            s += "\n"
 
         # 残っている石を描画
         for _ in range(0, rest):
