@@ -1,4 +1,4 @@
-def make_fib(end_num=100, setFib=lambda x: 0):
+def make_fib(end_num=100, set_new_item=lambda x: 0):
     """フィボナッチ数列を作る
     Original: jelly
     Arrangement: Muzudho
@@ -11,6 +11,8 @@ def make_fib(end_num=100, setFib=lambda x: 0):
         succ = fib[-1]+fib[-2]
 
         # 新しい項を作ったとき
-        setFib(succ)
+        set_new_item(succ)
 
         fib.append(succ)
+
+    return fib

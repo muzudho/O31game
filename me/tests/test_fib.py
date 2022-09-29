@@ -1,7 +1,16 @@
 """
-cd me/tests
+cd me
 
-python.exe test_fib.py
+python.exe -m tests.test_fib
 """
 
+from kernel.math.fib import make_fib
+
 print("hello!")
+
+
+def set_new_item(new_item):
+    print(f"new: {new_item}")
+
+
+fib = make_fib(end_num=128, set_new_item=set_new_item)
