@@ -14,6 +14,7 @@ a と b を選べば、 いい感じの c を勝手に選んでくれる
 enter = input("""S = { a, b, c }
 Please enter a and b. This program chooses a nice looking c.
 Example: S=4 5
+Example: S=3 8
 S=""")
 tokens = enter.split(" ")
 a = int(tokens[0])
@@ -32,10 +33,34 @@ b = int(tokens[1])
 z は分かってないんで、いくつでも候補を挙げればいいだろう
 """
 
+ab = a * b
+
 for z in range(1, 10):
     c = a * b * z
     a_p_b = a + b
     b_p_c = b + c
     a_p_c = a + c
+
+    loop_length = 3 * a * b
+    c_mod_loop_length = c % loop_length
+    feeling = c_mod_loop_length // ab
+    # print(
+    #    f"loop_length:{loop_length} c:{c} c_mod_loop_length:{c_mod_loop_length} feeling:{feeling}")
+
+    # TODO 外れるときは外れるし、当たるときは当たる。そこをどうにかしなきゃ（＾～＾）
+    if z == 1:
+        # よく分かってない。まだ適当な if文
+        maybe_numbers = [a_p_c, a_p_b, b_p_c]
+    else:
+        # よく分かってない。まだ適当な 場合分け
+        if feeling == 1:
+            maybe_numbers = [a_p_b, b_p_c, a_p_c]
+        elif feeling == 2:
+            maybe_numbers = [b_p_c, a_p_c, a_p_b]
+        elif feeling == 0:
+            maybe_numbers = [a_p_c, a_p_b, b_p_c]
+        else:
+            raise ValueError(f"unexpected feeling:{feeling}")
+
     print(
-        f"Example: S={{{a}, {b}, {c}}} The period the program predicts: {a_p_b} or {b_p_c} or {a_p_c}")
+        f"Example: S={{{a}, {b}, {c}}} The period the program predicts:  {a_p_b}  or  {b_p_c}  or  {a_p_c}.    May come off but maybe: (A) {maybe_numbers[0]}   (B) {maybe_numbers[1]}   (C) {maybe_numbers[2]}.")
