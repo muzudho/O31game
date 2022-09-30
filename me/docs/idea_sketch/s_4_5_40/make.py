@@ -17,11 +17,12 @@ print(f"\nlen_N:{len_N} overview_height:{overview_height} overview_width:{overvi
 print(f"S={{ {height_scale:2.1f}, {width_scale:2.1f}, {len_N} }}")
 
 print(f"""
-            {width_scale:2.1f}
+       0    {width_scale:2.1f}
         ──────────> × {overview_width}
-       /\\
-   -1 /  \ {height_scale:2.1f}
-     /    \\
+       /\\          \\
+   -1 /  \ {height_scale:2.1f}      \\
+     /    \\          \\
+            ─────────>★ <---- I guess this is the period.
     × {overview_height}
 """)
 
