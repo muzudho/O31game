@@ -91,9 +91,10 @@ def print_idea_sketch(a, b, c):
 
     for y in range(0, overview_height+1):
 
+        # インデント間違えると全部ずれる（＾～＾） 気を付けて正確にやれ（＾～＾）
         indent = ""
-        for i in range(0, overview_height-y):
-            indent += "  "
+        for _ in range(0, overview_height-(y*(b-a))):
+            indent += " ."
 
         print(indent, end="")
 
@@ -150,8 +151,8 @@ Please input "a b c". However,
     y = az
     z = your favorite integer greater than 1
 Example:
-    S=4 5 40
-    S=5 6 60
+    S=4 5 40    S=2 3 12
+    S=5 6 60    S=2 4 16
     S=5 7 105
     S=4 6 72
     S=4 6 48
