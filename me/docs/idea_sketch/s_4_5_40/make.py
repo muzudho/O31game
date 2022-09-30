@@ -14,16 +14,22 @@ height_scale = len_N / overview_height
 print(f"\nlen_N:{len_N} overview_height:{overview_height} overview_width:{overview_width} width_scale:{width_scale:2.1f} height_scale:{height_scale:2.1f}\n")
 
 # サブトラクションセット
-print(f"S={{ {height_scale:2.1f}, {width_scale:2.1f}, {len_N} }}")
+print(f"    S = {{ {height_scale:2.1f}, {width_scale:2.1f}, {len_N} }}")
 
 print(f"""
-            {width_scale:2.1f}
-       0──────────> × {overview_width}
-       /\\          \\
-   -1 /  \ {height_scale:2.1f}      \\
-     /    \\          \\
-            ─────────>★ <---- I guess this is the period.
-    × {overview_height}
+    This is a wish. I wish it was like this.
+    ========================================
+
+    S = {{ a, b, 2ab }}
+
+                      {width_scale:2.1f}
+    0 ─────────> b ─────────> 2b         × {overview_width}
+                 /           /
+                / {height_scale:2.1f}       /
+               /           /
+              a ────────> ★ a+b <---- I guess this is the period.
+
+            × {overview_height}
 """)
 
 
