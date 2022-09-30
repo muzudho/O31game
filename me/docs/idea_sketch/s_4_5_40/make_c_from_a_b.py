@@ -11,32 +11,24 @@ S = { a, b, c }
 a と b を選べば、 いい感じの c を勝手に選んでくれる
 """
 
-enter = input("""S = { a, b, c }
-Please enter a and b. This program chooses a nice looking c.
-Example: S=4 5
-Example: S=3 8
-S=""")
-tokens = enter.split(" ")
-a = int(tokens[0])
-b = int(tokens[1])
 
-"""
-やりたいことは次の通り
+def make_c_from_a_b(a, b, c):
+    """
+    やりたいことは次の通り
 
-    c = ax
-    c = by
-    x = bz
-    y = az
-    z = まだ分かっていないが、1 以上の整数にしたらいいんじゃないか
+        c = ax
+        c = by
+        x = bz
+        y = az
+        z = まだ分かっていないが、 1 は例外な動きをするので、 2 以上の整数にしたらいいんじゃないかな
 
-上式を満たす c を返せばよい。
-z は分かってないんで、いくつでも候補を挙げればいいだろう
-"""
+    上式を満たす c を返せばよい。
+    z は分かってないんで、いくつでも候補を挙げればいいだろう
 
-ab = a * b
+    よくみたら　この式、 c = abz なんじゃないのか。 x も y も要らないや
+    """
 
-for z in range(1, 10):
-    c = a * b * z
+    ab = a * b
     a_p_b = a + b
     b_p_c = b + c
     a_p_c = a + c
@@ -48,8 +40,8 @@ for z in range(1, 10):
     #    f"loop_length:{loop_length} c:{c} c_mod_loop_length:{c_mod_loop_length} feeling:{feeling}")
 
     # TODO 外れるときは外れるし、当たるときは当たる。そこをどうにかしなきゃ（＾～＾）
-    if z == 1:
-        # よく分かってない。まだ適当な if文
+    if a * b == c:
+        # z が 1 のとき。よく分かってない。例外的な動きをする。まだ適当な if文
         maybe_numbers = [a_p_c, a_p_b, b_p_c]
     else:
         # よく分かってない。まだ適当な 場合分け
@@ -64,3 +56,20 @@ for z in range(1, 10):
 
     print(
         f"Example: S={{{a}, {b}, {c}}} The period the program predicts:  {a_p_b}  or  {b_p_c}  or  {a_p_c}.    May come off but maybe: (A) {maybe_numbers[0]}   (B) {maybe_numbers[1]}   (C) {maybe_numbers[2]}.")
+
+
+if __name__ == "__main__":
+    enter = input("""S = { a, b, c }
+Please enter a and b. This program chooses a nice looking c.
+Example: S=4 5
+Example: S=3 8
+S=""")
+    tokens = enter.split(" ")
+    a = int(tokens[0])
+    b = int(tokens[1])
+
+    for z in range(1, 10):
+        """z は、 ab の定数倍を意味している。いくつも候補を出す"""
+        c = a * b * z
+
+        make_c_from_a_b(a, b, c)
