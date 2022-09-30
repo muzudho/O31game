@@ -40,7 +40,7 @@ def print_idea_sketch(a, b, c):
               a or a+c         ===
                    ===
 
-                × (b * scale)
+              × (b * scale)
     """)
 
     # 当てはめてみる
@@ -62,7 +62,7 @@ def print_idea_sketch(a, b, c):
               {a:2} or {a_p_c:2}         ==
                     ==
 
-                × {overview_height}
+              × {overview_height}
     """)
 
     # S は サブトラクションセット
@@ -75,7 +75,13 @@ def print_idea_sketch(a, b, c):
             n = i % len_N
             print(f"{n:2}", end="")
 
-        print("\n")
+        print("")  # 改行
+
+        # 下線も引いたろ
+        for i in range(-overview_height, len_N+1):
+            print(f"──", end="")
+
+        print("")  # 改行
 
     print_x_axis()
 
@@ -87,7 +93,7 @@ def print_idea_sketch(a, b, c):
 
         print(indent, end="")
 
-        for x in range(0, overview_width+1):
+        for x in range(0, overview_width+1):  # 横がループしてることを表したいので 1 多めに
             # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
             n = (y * a) + ((x-y) * b)
             n %= len_N
