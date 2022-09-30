@@ -27,10 +27,10 @@ def get_3_periods_given_a_b_c(a, b, c):
     """
 
     # 全ての組み合わせについて、足すだけじゃないか（＾～＾）
-    return a + b, b + c, a + c
+    return a + b, b + c, c + a
 
 
-def choose_period_with_guess(a_p_b, b_p_c, a_p_c):
+def choose_period_with_guess(a_p_b, b_p_c, c_p_a):
     """推測で周期を選ぶ。
     周期の候補を３つ受け取るが、どれが本物なのか、分かんないんで、とりあえず　当てずっぽうで決めてみる。
     しかし、取り方が３種類あるので、結局３つ返す"""
@@ -44,15 +44,15 @@ def choose_period_with_guess(a_p_b, b_p_c, a_p_c):
     # TODO 外れるときは外れるし、当たるときは当たる。そこをどうにかしなきゃ（＾～＾）
     if a * b == c:
         # z が 1 のとき。よく分かってない。例外的な動きをする。まだ適当な if文
-        maybe_numbers = [a_p_c, a_p_b, b_p_c]
+        maybe_numbers = [c_p_a, a_p_b, b_p_c]
     else:
         # よく分かってない。まだ適当な 場合分け
         if feeling == 1:
-            maybe_numbers = [a_p_b, b_p_c, a_p_c]
+            maybe_numbers = [a_p_b, b_p_c, c_p_a]
         elif feeling == 2:
-            maybe_numbers = [b_p_c, a_p_c, a_p_b]
+            maybe_numbers = [b_p_c, c_p_a, a_p_b]
         elif feeling == 0:
-            maybe_numbers = [a_p_c, a_p_b, b_p_c]
+            maybe_numbers = [c_p_a, a_p_b, b_p_c]
         else:
             raise ValueError(f"unexpected feeling:{feeling}")
 
@@ -75,13 +75,13 @@ S=""")
         """z は、 ab の定数倍を意味している。いくつも候補を出す"""
         c = a * b * z
 
-        a_p_b, b_p_c, a_p_c = get_3_periods_given_a_b_c(a, b, c)
+        a_p_b, b_p_c, c_p_a = get_3_periods_given_a_b_c(a, b, c)
         """S = { a, b, c } を渡すと、周期の候補を３つ返す"""
 
         period1, period2, period3 = choose_period_with_guess(
-            a_p_b, b_p_c, a_p_c)
+            a_p_b, b_p_c, c_p_a)
         """周期の候補が３つ返ってくるが、どれが本物なのか、分かんないんで、とりあえず　当てずっぽうで決めてみる。
         しかし、取り方が３種類あるので、結局３つ返す"""
 
         print(
-            f"Example: S={{{a}, {b}, {c}}} The period the program predicts:  {a_p_b}  or  {b_p_c}  or  {a_p_c}.    May come off but maybe: (A) {period1}   (B) {period2}   (C) {period3}.")
+            f"Example: S={{{a}, {b}, {c}}} The period the program predicts:  {a_p_b}  or  {b_p_c}  or  {c_p_a}.    May come off but maybe: (A) {period1}   (B) {period2}   (C) {period3}.")

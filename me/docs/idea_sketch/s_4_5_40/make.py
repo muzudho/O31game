@@ -17,7 +17,7 @@ def print_idea_sketch(a, b, c):
     delta_a_b = a - b  # 負数になる
 
     # 周期を当てるのに使う
-    a_p_c = a + c   # ▲a+c
+    c_p_a = c + a   # ▲c+a
     a_p_b = a + b   # ■a+b
     b_p_c = b + c   # ●b+c
 
@@ -28,7 +28,7 @@ def print_idea_sketch(a, b, c):
 
         S = {{ a, b, c }}
         len(N) = c        scale = c / ab
-        I guess one of ■a+b, ●b+c, ▲a+c is the period.
+        I guess one of ■a+b, ●b+c, ▲c+a is the period.
 
                   b or b+c
                        ===
@@ -37,7 +37,7 @@ def print_idea_sketch(a, b, c):
                    / a-b       /
                   /           /
                  ▲ ────────> ■ a+b
-              a or a+c         ===
+              a or c+a         ===
                    ===
 
               × (b * scale)
@@ -50,7 +50,7 @@ def print_idea_sketch(a, b, c):
 
         S = {{ {a}, {b}, {c} }}
         len(N) = {c}        scale = {scale}
-        I guess one of ■{a_p_b}, ●{b_p_c}, ▲{a_p_c} is the period.
+        I guess one of ■{a_p_b}, ●{b_p_c}, ▲{c_p_a} is the period.
 
                   {b:2} or {b_p_c:2}
                         ==
@@ -59,7 +59,7 @@ def print_idea_sketch(a, b, c):
                    / {delta_a_b}        /
                   /           /
                  ▲ ────────> ■ {a_p_b:2}
-              {a:2} or {a_p_c:2}         ==
+              {a:2} or {c_p_a:2}         ==
                     ==
 
               × {overview_height}
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     これは特殊な例で、少し数を変えてみると合わなかった。よくある　**ぬか喜び**　だ。
     口惜しいので (mod c) まで OK と考えてみた。そう遠くもない気がした。
     そこで
-    ずるをして (a+b) or (b+c) or (a+c) もありにした。
+    ずるをして (a+b) or (b+c) or (c+a) もありにした。
 
     すると、当てはまるケースが増えた。
     こりゃいいや、と思ったところで、ひとまず、ここまでとする。
