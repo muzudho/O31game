@@ -30,7 +30,7 @@ def print_idea_sketch(a, b, c):
         len(N) = c        scale = c / ab
         I guess one of ■a+b, ●b+c, ▲c+a is the period.
             - ■a+b is just like a constant.
-            - ●b+c is mysterious.
+            - ●b+c is mysterious. I have seen it when a<=n<=b, abn=c.
             - ▲c+a when c is a multiple of 3 is often periodic.
 
 
