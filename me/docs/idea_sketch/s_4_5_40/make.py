@@ -14,6 +14,7 @@ def print_idea_sketch(a, b, c):
     scale = len_N / (a * b)  # 定数倍を想定しているが……実数のままにしたろ
     overview_width = int(scale * a)
     overview_height = int(scale * b)
+    delta_a_b = a - b  # 負数になる
 
     # 願望を表示
     print(f"""
@@ -26,9 +27,9 @@ def print_idea_sketch(a, b, c):
                         +b
         0 ─────────> b ─────────> 2b         × (a * scale)
                     /           /
-                   / -1        /
+                   / a-b       /
                   /           /
-                a ────────> ★ a+b <---- I guess this is the period.
+                a ────────> ★ a+b or b+c or a+c <---- I guess this is the period.
 
                 × (b * scale)
     """)
@@ -44,9 +45,9 @@ def print_idea_sketch(a, b, c):
                         +{b:2}
         0 ─────────>{b:2} ─────────>{2*b:2}         × {overview_width}
                     /           /
-                   / -1        /
+                   / {delta_a_b}        /
                   /           /
-               {a:2} ────────> ★ {a+b} <---- I guess this is the period.
+               {a:2} ────────> ★ {a+b} or {b+c} or {a+c} <---- I guess this is the period.
 
                 × {overview_height}
     """)
