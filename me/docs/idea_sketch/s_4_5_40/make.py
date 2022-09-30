@@ -7,32 +7,30 @@ python.exe make.py
 print("Idea sketch")
 
 
-def print_idea_sketch(a, b):
+def print_idea_sketch(a, b, c):
     """アイデアスケッチを表示"""
 
-    magic_number = 2
-    overview_width = magic_number * a
-    overview_height = magic_number * b
-    len_N = 2 * a * b
-    width_scale = len_N / overview_width  # 縦幅で割ると横幅が出てくる（ひねくれていることに注意）
-    height_scale = len_N / overview_height
-    print(f"\nlen_N:{len_N} overview_height:{overview_height} overview_width:{overview_width} width_scale:{width_scale:2.1f} height_scale:{height_scale:2.1f}\n")
+    len_N = c
+    scale = len_N / (a * b)  # 定数倍を想定しているが……実数のままにしたろ
+    overview_width = int(scale * a)
+    overview_height = int(scale * b)
 
     # 願望を表示
     print(f"""
-        This is a wish. I wish it was like this.
-        ========================================
+        This is a wish. I wish it was like this
+        =======================================
 
-        S = {{ a, b, 2ab }}
+        S = {{ a, b, c }}
+        len(N) = c        scale = c / ab
 
-                        b
-        0 ─────────> b ─────────> 2b         × {overview_width}
+                        +b
+        0 ─────────> b ─────────> 2b         × (a * scale)
                     /           /
-                   / a         /
+                   / -1        /
                   /           /
                 a ────────> ★ a+b <---- I guess this is the period.
 
-                × {overview_height}
+                × (b * scale)
     """)
 
     # 当てはめてみる
@@ -40,12 +38,13 @@ def print_idea_sketch(a, b):
         In this case
         ============
 
-        S = {{ {height_scale:2.1f}, {width_scale:2.1f}, {len_N} }}
+        S = {{ {a}, {b}, {c} }}
+        len(N) = {c}        scale = {scale}
 
-                        {width_scale:2.1f}
+                        +{b:2}
         0 ─────────>{b:2} ─────────>{2*b:2}         × {overview_width}
                     /           /
-                   / {height_scale:2.1f}       /
+                   / -1        /
                   /           /
                {a:2} ────────> ★ {a+b} <---- I guess this is the period.
 
@@ -75,8 +74,8 @@ def print_idea_sketch(a, b):
         print(indent, end="")
 
         for x in range(0, overview_width+1):
-            # なんかひねくれた式だが、プリントアウトして納得してほしい
-            n = (y * height_scale) + ((x-y) * width_scale)
+            # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
+            n = (y * a) + ((x-y) * b)
             n %= len_N
             # TODO ここのスペース要修正
             print(f"{n:2.0f}        ", end="")
@@ -88,9 +87,26 @@ def print_idea_sketch(a, b):
 
 if __name__ == "__main__":
 
-    print_idea_sketch(a=4, b=5)
-    """S = { a, b, c } ただし、 c は自動的に決まるので a, b だけを入れてください。
-    レイアウトが崩れないように、 a, b は 50 未満ぐらいの数を選んでください
+    #a = 4
+    #b = 5
+    #c = 2 * a * b
+    #print_idea_sketch(a=a, b=b, c=c)
+    """S = { a, b, c } を入れてください。
+    ただし、 c は ab の定数倍を入れてください。
+    レイアウトが崩れないように、 a, b は 50 未満ぐらいの非負整数を選んでください
 
     とりあえず S = { 4, 5, 40 } を叩き台に選んで、式を作成した。
     """
+
+    enter = input("""S={a,b,c}.
+Please input "a b c". However,
+    c = ax
+    c = by
+    x = bz
+    y = az
+    z = your favorite integer greater than 1
+Example:
+S=4 5 40
+> S=""")
+    tokens = enter.split()
+    print_idea_sketch(a=int(tokens[0]), b=int(tokens[1]), c=int(tokens[2]))
