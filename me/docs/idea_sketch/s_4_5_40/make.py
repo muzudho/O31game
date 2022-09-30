@@ -31,12 +31,14 @@ def print_idea_sketch(a, b, c):
         I guess one of ■a+b, ●b+c, ▲a+c is the period.
 
                   b or b+c
+                       ===
         0 ─────────> ● ─────────> 2b         × (a * scale)
                     /    +b     /
                    / a-b       /
                   /           /
                  ▲ ────────> ■ a+b
-              a or a+c
+              a or a+c         ===
+                   ===
 
                 × (b * scale)
     """)
@@ -51,12 +53,14 @@ def print_idea_sketch(a, b, c):
         I guess one of ■{a_p_b}, ●{b_p_c}, ▲{a_p_c} is the period.
 
                   {b:2} or {b_p_c:2}
+                        ==
         0 ─────────> ● ─────────>{2*b:2}         × {overview_width}
                     /   +{b:2}    /
                    / {delta_a_b}        /
                   /           /
                  ▲ ────────> ■ {a_p_b:2}
-              {a:2} or {a_p_c:2}
+              {a:2} or {a_p_c:2}         ==
+                    ==
 
                 × {overview_height}
     """)
@@ -90,7 +94,7 @@ def print_idea_sketch(a, b, c):
 
             # 間隔
             interval_space = ""
-            for i in range(0, a+1):
+            for i in range(0, b-1):
                 # ２桁だと想定しておく
                 interval_space += "  "
 
