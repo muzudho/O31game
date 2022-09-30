@@ -27,7 +27,7 @@ def print_idea_sketch(a, b, c):
         =======================================
 
         S = {{ a, b, c }}
-        len(N) = c        scale = c / ab
+        len(N) = c        c = abn        n = c / ab        Is this a <= n <= b ?
         I guess one of ■a+b, ●b+c, ▲c+a is the period.
             - ■a+b is just like a constant.
             - ●b+c is mysterious. I have seen it when a<=n<=b, abn=c.
@@ -47,13 +47,18 @@ def print_idea_sketch(a, b, c):
               × (b * scale)
     """)
 
+    if a <= scale and scale <= b:
+        is_this_a_n_b = " "
+    else:
+        is_this_a_n_b = "not "
+
     # 当てはめてみる
     print(f"""
         In this case
         ============
 
         S = {{ {a}, {b}, {c} }}
-        len(N) = {c}        scale = {scale}
+        len(N) = c        c = {a}・{b}n        n = {scale}        This is {is_this_a_n_b}a <= n <= b.
         I guess one of ■{a_p_b}, ●{b_p_c}, ▲{c_p_a} is the period.
 
                   {b:2} or {b_p_c:2}
