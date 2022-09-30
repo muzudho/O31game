@@ -17,8 +17,8 @@ print(f"\nlen_N:{len_N} overview_height:{overview_height} overview_width:{overvi
 print(f"S={{ {height_scale:2.1f}, {width_scale:2.1f}, {len_N} }}")
 
 print(f"""
-       0    {width_scale:2.1f}
-        ──────────> × {overview_width}
+            {width_scale:2.1f}
+       0──────────> × {overview_width}
        /\\          \\
    -1 /  \ {height_scale:2.1f}      \\
      /    \\          \\
