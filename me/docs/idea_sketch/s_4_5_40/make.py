@@ -74,7 +74,7 @@ def print_idea_sketch(a, b, c):
     def print_x_axis():
         """x軸描画"""
 
-        for i in range(-overview_height, len_N+1):
+        for i in range(0, 4*overview_height+1):  # 眠いが無理やり書いた（＾～＾）
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
             n = i % len_N
             print(f"{n:2}", end="")
@@ -82,7 +82,7 @@ def print_idea_sketch(a, b, c):
         print("")  # 改行
 
         # 下線も引いたろ
-        for i in range(-overview_height, len_N+1):
+        for i in range(0, 4*overview_height+1):
             print(f"──", end="")
 
         print("")  # 改行
@@ -93,7 +93,7 @@ def print_idea_sketch(a, b, c):
 
         # インデント間違えると全部ずれる（＾～＾） 気を付けて正確にやれ（＾～＾）
         indent = ""
-        for _ in range(0, overview_height-(y*(b-a))):
+        for _ in range(0, overview_height*(b-a)-(y*(b-a))):  # 眠くて難しい式を書いてしまった（＾～＾）！
             indent += " ."
 
         print(indent, end="")
