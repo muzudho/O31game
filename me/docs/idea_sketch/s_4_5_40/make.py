@@ -29,7 +29,7 @@ print(f"""
 def print_x_axis():
     """x軸描画"""
 
-    for i in range(-overview_height, len_N-int(width_scale)+1):
+    for i in range(-overview_height, len_N+1):
         # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
         n = i % len_N
         print(f"{n:2}", end="")
@@ -47,7 +47,7 @@ for y in range(0, overview_height+1):
 
     print(indent, end="")
 
-    for x in range(0, overview_width):
+    for x in range(0, overview_width+1):
         # なんかひねくれた式だが、プリントアウトして納得してほしい
         n = (y * height_scale) + ((x-y) * width_scale)
         n %= len_N
