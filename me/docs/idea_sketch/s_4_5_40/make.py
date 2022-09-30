@@ -16,6 +16,11 @@ def print_idea_sketch(a, b, c):
     overview_height = int(scale * b)
     delta_a_b = a - b  # 負数になる
 
+    # 周期を当てるのに使う
+    a_p_c = a + c   # ▲a+c
+    a_p_b = a + b   # ■a+b
+    b_p_c = b + c   # ●b+c
+
     # 願望を表示
     print(f"""
         This is a wish. I wish it was like this
@@ -23,13 +28,15 @@ def print_idea_sketch(a, b, c):
 
         S = {{ a, b, c }}
         len(N) = c        scale = c / ab
+        I guess one of ■a+b, ●b+c, ▲a+c is the period.
 
-                        +b
-        0 ─────────> b ─────────> 2b         × (a * scale)
-                    /           /
+                  b or b+c
+        0 ─────────> ● ─────────> 2b         × (a * scale)
+                    /    +b     /
                    / a-b       /
                   /           /
-                a ────────> ★ a+b or b+c or a+c <---- I guess this is the period.
+                 ▲ ────────> ■ a+b
+              a or a+c
 
                 × (b * scale)
     """)
@@ -41,13 +48,15 @@ def print_idea_sketch(a, b, c):
 
         S = {{ {a}, {b}, {c} }}
         len(N) = {c}        scale = {scale}
+        I guess one of ■{a_p_b}, ●{b_p_c}, ▲{a_p_c} is the period.
 
-                        +{b:2}
-        0 ─────────>{b:2} ─────────>{2*b:2}         × {overview_width}
-                    /           /
+                  {b:2} or {b_p_c:2}
+        0 ─────────> ● ─────────>{2*b:2}         × {overview_width}
+                    /   +{b:2}    /
                    / {delta_a_b}        /
                   /           /
-               {a:2} ────────> ★ {a+b} or {b+c} or {a+c} <---- I guess this is the period.
+                 ▲ ────────> ■ {a_p_b:2}
+              {a:2} or {a_p_c:2}
 
                 × {overview_height}
     """)
