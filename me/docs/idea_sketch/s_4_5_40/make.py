@@ -77,8 +77,14 @@ def print_idea_sketch(a, b, c):
             # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
             n = (y * a) + ((x-y) * b)
             n %= len_N
-            # TODO ここのスペース要修正
-            print(f"{n:2.0f}        ", end="")
+
+            # 間隔
+            interval_space = ""
+            for i in range(0, a+1):
+                # ２桁だと想定しておく
+                interval_space += "  "
+
+            print(f"{n:2.0f}{interval_space}", end="")
 
         print("\n")
 
