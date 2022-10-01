@@ -174,7 +174,9 @@ def print_idea_sketch(a, b, c):
     def print_table():
         """表の描画"""
 
-        for y in range(0, y_axis_height // 2 + 1):  # 末尾と先頭がループしていることを見せたいので、 +1 広め
+        y_end = y_axis_height // 2 + 1
+
+        for y in range(0, y_end):  # 末尾と先頭がループしていることを見せたいので、 +1 広め
             """上半分の台形（X軸の負数部を描かないのであれば平行四辺形）の部分"""
 
             padding_width = x_axis_negative_len - y * delta_y
@@ -214,7 +216,7 @@ def print_idea_sketch(a, b, c):
         if is_display_negative_parallelogram:
             """X軸の負数部を描いた場合、平行四辺形を伸ばさないと形が悪くなるので伸ばす"""
 
-            for y in range(y_axis_height // 2 + 1, y_axis_height):
+            for y in range(y_end, y_axis_height):
                 """下半分の平行四辺形の部分"""
                 padding_width = x_axis_negative_len + y * a
 
