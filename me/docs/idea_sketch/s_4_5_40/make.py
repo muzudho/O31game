@@ -79,14 +79,29 @@ def print_idea_sketch(a, b, c):
     x_axis_negative_len = len_N // a + 1
     """x軸の負数をどこまで描画すればいいかというと、 a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
 
+    y_axis_height = x_axis_negative_len
+    """y軸をどこまで描画すればいいかというと、a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
+
+    delta_y = b - a
+    """ナナメに y軸 の並びを見たときの間隔"""
+
+    zero_and_pozitive_len = 2*len_N + 1
+    """描画するx軸の０を含む整数部の長さ。平行四辺形を描きたいので、２週している"""
+
+    x_axis_width = x_axis_negative_len + zero_and_pozitive_len
+    """描画するx軸全体の長さ"""
+
+    minimum_x = len_N - x_axis_negative_len
+    """描画する最小のx"""
+
+    # x軸の間隔
+    x_axis_interval_space = ""
+    for _ in range(0, b-1):
+        # ２桁だと想定しておく
+        x_axis_interval_space += "  "
+
     def print_x_axis():
         """x軸描画"""
-
-        zero_and_pozitive_len = len_N + 1
-        x_axis_width = x_axis_negative_len + zero_and_pozitive_len
-
-        minimum_x = len_N - x_axis_negative_len
-
         for x in range(minimum_x, minimum_x+x_axis_width):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
             n = x % len_N
@@ -96,12 +111,6 @@ def print_idea_sketch(a, b, c):
 
     def print_x_axis_rev():
         """x軸描画"""
-
-        zero_and_pozitive_len = len_N + 1
-        x_axis_width = x_axis_negative_len + zero_and_pozitive_len
-
-        minimum_x = len_N - x_axis_negative_len
-
         for x in range(minimum_x, minimum_x+x_axis_width):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
             n = x % len_N
@@ -111,8 +120,8 @@ def print_idea_sketch(a, b, c):
         print(" reverse")  # 改行
 
     def print_underline_x_axis():
-        # 下線も引いたろ
-        for _ in range(0, 2*len_N+1):
+        """下線も引いたろ"""
+        for _ in range(minimum_x, minimum_x+x_axis_width):
             print(f"──", end="")
 
         print("")  # 改行
@@ -120,17 +129,10 @@ def print_idea_sketch(a, b, c):
     def print_table():
         """表の描画"""
 
-        negative_len = overview_width
-        center_x_0 = negative_len
-        # print(f"center_x_0:{center_x_0}")
+        for y in range(0, y_axis_height // 2):
+            """上半分の台形の部分"""
 
-        delta_y = b - a
-        # print(f"delta_y:{delta_y}")
-
-        # 縦幅は、 overview_width+1 あれば十分
-        for y in range(0, overview_width+1):
-
-            padding_width = x_axis_negative_len - y * (b-a)
+            padding_width = x_axis_negative_len - y * delta_y
 
             # ドット パディング
             indent = ""
@@ -139,23 +141,33 @@ def print_idea_sketch(a, b, c):
 
             print(indent, end="")
 
-            for x in range(0, overview_width+1):
+            for x in range(0, overview_width+1+y):  # yが１段下がるほど、xは右に1伸びる。台形になる
                 # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
                 n = (y * a) + ((x-y) * b)
                 n %= len_N
 
-                # 間隔
-                interval_space = ""
-                for i in range(0, b-1):
-                    # ２桁だと想定しておく
-                    interval_space += "  "
-
-                print(f"{n:2.0f}{interval_space}", end="")
+                print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
             # print(f"padding_x:{padding_x}")
-            print("\n")
+            print("")
 
-        print("")
+        for y in range(y_axis_height // 2, y_axis_height):
+            """下半分の平行四辺形の部分"""
+            padding_width = x_axis_negative_len + y * a
+
+            # ドット パディング
+            indent = ""
+            for x in range(0, padding_width):
+                indent += " ."
+
+            print(indent, end="")
+            # ここに描画
+            for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
+                n = (a*y + b*x) % len_N
+                print(f"{n:2.0f}{x_axis_interval_space}", end="")
+            print("")
+
+        print("\n")
 
     print_x_axis_rev()
     print_underline_x_axis()
