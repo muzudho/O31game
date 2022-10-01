@@ -14,7 +14,7 @@ len_N = 31
 S = {1, 2, 3}
 """S は サブトラクションセット"""
 
-grundy_list_obj = GrundyListObj.make(len_N, S)
+grundy_list_obj = GrundyListObj.make(S=S, len_N=len_N)
 
 for i in range(0, len_N+1):
     grundy = grundy_list_obj.get_grundy_at(i)

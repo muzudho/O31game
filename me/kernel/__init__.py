@@ -75,4 +75,5 @@ class Kernel:
     def new_game(self):
         """新規対局作成"""
         self.__grundy_list_obj = GrundyListObj.make(
-            self.__rest, set(self.__numbers_to_choose))
+            S=set(self.__numbers_to_choose),
+            len_N=self.__rest)

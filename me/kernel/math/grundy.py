@@ -2,10 +2,13 @@ from kernel.math.mex import mex
 
 
 class GrundyListObj:
-    """グランディ数のリストを持つオブジェクト"""
+    """グランディ数のリストを持つオブジェクト。
+
+    X軸上の任意の１点だけのグランディ数が欲しい、ということはできず、
+    グランディ数は、原点から X軸上の任意の点までのグランディ数の配列として用意される"""
 
     @staticmethod
-    def make(len_N: int, S: set):
+    def make(S: set, len_N: int):
         """グランディ数生成アルゴリズム
 
         Parameters
