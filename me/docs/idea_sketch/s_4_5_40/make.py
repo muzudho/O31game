@@ -79,46 +79,50 @@ def print_idea_sketch(a, b, c):
     def print_x_axis():
         """x軸描画"""
 
-        for i in range(0, 4*overview_height+1):  # 眠いが無理やり書いた（＾～＾）
+        for x in range(0, 2*len_N+1):  # 眠いが無理やり書いた（＾～＾）
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
-            n = i % len_N
+            n = x % len_N
             print(f"{n:2}", end="")
 
         print("")  # 改行
 
         # 下線も引いたろ
-        for i in range(0, 4*overview_height+1):
+        for _ in range(0, 2*len_N+1):
             print(f"──", end="")
 
         print("")  # 改行
 
+    def print_table():
+        """表の描画"""
+
+        for y in range(0, overview_height+1):
+
+            # インデント間違えると全部ずれる（＾～＾） 気を付けて正確にやれ（＾～＾）
+            indent = ""
+            for _ in range(0, overview_height*(b-a)-(y*(b-a))):  # 眠くて難しい式を書いてしまった（＾～＾）！
+                indent += " ."
+
+            print(indent, end="")
+
+            for x in range(0, overview_width+1):  # 横がループしてることを表したいので 1 多めに
+                # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
+                n = (y * a) + ((x-y) * b)
+                n %= len_N
+
+                # 間隔
+                interval_space = ""
+                for i in range(0, b-1):
+                    # ２桁だと想定しておく
+                    interval_space += "  "
+
+                print(f"{n:2.0f}{interval_space}", end="")
+
+            print("\n")
+
+        print("")
+
     print_x_axis()
-
-    for y in range(0, overview_height+1):
-
-        # インデント間違えると全部ずれる（＾～＾） 気を付けて正確にやれ（＾～＾）
-        indent = ""
-        for _ in range(0, overview_height*(b-a)-(y*(b-a))):  # 眠くて難しい式を書いてしまった（＾～＾）！
-            indent += " ."
-
-        print(indent, end="")
-
-        for x in range(0, overview_width+1):  # 横がループしてることを表したいので 1 多めに
-            # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
-            n = (y * a) + ((x-y) * b)
-            n %= len_N
-
-            # 間隔
-            interval_space = ""
-            for i in range(0, b-1):
-                # ２桁だと想定しておく
-                interval_space += "  "
-
-            print(f"{n:2.0f}{interval_space}", end="")
-
-        print("\n")
-
-    print("")
+    print_table()
 
 
 if __name__ == "__main__":
