@@ -1,7 +1,7 @@
 """
-cd me/docs/idea_sketch/s_4_5_40
+cd me
 
-python.exe make_c_from_a_b.py
+python.exe -m docs.idea_sketch.s_4_5_40.make_c_from_a_b
 
 Explanation
 ===========
