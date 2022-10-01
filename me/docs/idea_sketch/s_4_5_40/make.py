@@ -11,8 +11,7 @@ print("This is an idea sketch.")
 def print_idea_sketch(a, b, c):
     """アイデアスケッチを表示"""
 
-    len_N = c
-    scale = len_N / (a * b)  # 定数倍を想定しているが……実数のままにしたろ
+    scale = c / (a * b)  # 定数倍を想定しているが……実数のままにしたろ
     overview_width = int(scale * a)
     delta_a_b = a - b  # 負数になる
 
@@ -22,7 +21,7 @@ def print_idea_sketch(a, b, c):
     b_p_c = b + c   # ●b+c
 
     # グランディ数を表示するのに使う
-    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=len_N)
+    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=c)
 
     # 願望を表示
     print(f"""
@@ -77,8 +76,8 @@ def print_idea_sketch(a, b, c):
 
     # S は サブトラクションセット
 
-    x_axis_negative_len = len_N // a + 1
-    """x軸の負数をどこまで描画すればいいかというと、 a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
+    x_axis_negative_len = c // a + 1
+    """x軸の負数をどこまで描画すればいいかというと、 a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
 
     if (a == 1 and b == 4 and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
         """X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする"""
@@ -87,25 +86,27 @@ def print_idea_sketch(a, b, c):
     else:
         is_display_negative_parallelogram = True
 
-    y_axis_height = 2*len_N // a + 1
-    """y軸をどこまで描画すればいいかというと、a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
+    y_axis_height = 2*c // a + 1
+    """y軸をどこまで描画すればいいかというと、a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
 
     delta_y = b - a
     """ナナメに y軸 の並びを見たときの間隔"""
 
     x_axis_zero_len = 1
-    x_axis_positive_len = 2*len_N
+    x_axis_positive_len = 2*c
     """描画するx軸の０を含む整数部の長さ。平行四辺形を描きたいので、２週している"""
 
+    display_c = c
     if (a == 1 and b == 4 and c % 20 == 0):
         """尻尾の長さが、c より大きいケースでは、正味の部分を伸ばしたい"""
         overview_width *= 2
-        x_axis_positive_len = 3*len_N
+        display_c = 2*c
+        x_axis_positive_len = 3*c
 
     x_axis_width = x_axis_negative_len + x_axis_zero_len + x_axis_positive_len
     """描画するx軸全体の長さ"""
 
-    minimum_x = len_N - x_axis_negative_len
+    minimum_x = c - x_axis_negative_len
     """描画する最小のx"""
 
     # x軸の間隔
@@ -118,7 +119,7 @@ def print_idea_sketch(a, b, c):
         """x軸描画"""
         for x in range(minimum_x, minimum_x+x_axis_width):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
-            n = x % len_N
+            n = x % c
             print(f"{n:2}", end="")
 
         print(" for vector coordinates")  # 改行
@@ -132,15 +133,16 @@ def print_idea_sketch(a, b, c):
 
         print(indent, end="")
 
-        for x in range(0, len_N+1):
+        # 目盛り
+        for x in range(0, display_c+1):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
-            n = x % len_N
-            rev_n = (len_N - n) % len_N
+            n = x % c
+            rev_n = (c - n) % c
             print(f"{rev_n:2}", end="")
 
         # スペース パディング
         indent = ""
-        for _ in range(0, len_N):
+        for _ in range(0, c):
             indent += "  "
 
         print(indent, end="")
@@ -157,7 +159,7 @@ def print_idea_sketch(a, b, c):
 
         # 十の位
         # =====
-        grundy = grundy_list_obj.get_grundy_at(len_N)
+        grundy = grundy_list_obj.get_grundy_at(c)
         grundy //= 10
         if grundy == 0:
             grundy_str = "  "
@@ -167,9 +169,9 @@ def print_idea_sketch(a, b, c):
         print(f"{indent}{grundy_str}", end="")
         """画面真ん中あたり"""
 
-        for x in range(0, len_N):
+        for x in range(0, display_c):
             """画面右側あたり"""
-            rev_x = len_N - x - 1
+            rev_x = c - x - 1
             grundy = grundy_list_obj.get_grundy_at(rev_x)
             grundy //= 10
             if grundy == 0:
@@ -183,24 +185,24 @@ def print_idea_sketch(a, b, c):
 
         # 一の位
         # =====
-        grundy = grundy_list_obj.get_grundy_at(len_N)
+        grundy = grundy_list_obj.get_grundy_at(c)
         grundy %= 10
         print(f"{indent} {grundy}", end="")
         """画面真ん中あたり"""
 
-        for x in range(0, len_N):
+        for x in range(0, display_c):
             """画面右側あたり"""
-            rev_x = len_N - x - 1
+            rev_x = c - x - 1
             grundy = grundy_list_obj.get_grundy_at(rev_x)
             grundy %= 10
             print(f" {grundy}", end="")
 
         # スペース パディング
         indent = ""
-        for _ in range(0, len_N):
+        for _ in range(0, c):
             indent += "  "
 
-        print(f"{indent} grundy")  # 改行
+        print(f"{indent} grundy Right to Left")  # 改行
 
     def print_underline_x_axis():
         """下線も引いたろ"""
@@ -234,7 +236,7 @@ def print_idea_sketch(a, b, c):
                 for x in range(0, overview_width+1+y):  # yが１段下がるほど、xは右に1伸びる。台形になる
                     # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
                     n = (y * a) + ((x-y) * b)
-                    n %= len_N
+                    n %= c
 
                     print(f"{n:2.0f}{x_axis_interval_space}", end="")
             else:
@@ -249,7 +251,7 @@ def print_idea_sketch(a, b, c):
 
                 # 正味の部分
                 for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
-                    n = (a*y + b*x) % len_N
+                    n = (a*y + b*x) % c
                     print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
             print("\n")  # 空行をはさむ
@@ -269,7 +271,7 @@ def print_idea_sketch(a, b, c):
                 print(indent, end="")
 
                 for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
-                    n = (a*y + b*x) % len_N
+                    n = (a*y + b*x) % c
                     print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
                 print("\n")  # 空行をはさむ
