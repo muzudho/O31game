@@ -204,7 +204,15 @@ def print_idea_sketch(a, b, c):
     def print_table():
         """表の描画"""
 
-        for y in range(0, y_axis_height // 2):
+        is_exists_x_axis_negative = 0 < x_axis_negative_len
+        """X軸の負数部を描くか？"""
+
+        if is_exists_x_axis_negative:
+            y_axis_height_extend = 0
+        else:
+            y_axis_height_extend = 1  # 表示して目視確認して調整した
+
+        for y in range(0, y_axis_height // 2 + y_axis_height_extend):
             """上半分の台形（X軸の負数部を描かないのであれば平行四辺形）の部分"""
 
             padding_width = x_axis_negative_len - y * delta_y
@@ -216,7 +224,7 @@ def print_idea_sketch(a, b, c):
 
             print(indent, end="")
 
-            if 0 < x_axis_negative_len:
+            if is_exists_x_axis_negative:
                 """X軸の負数部も描くのであれば、台形にする"""
                 for x in range(0, overview_width+1+y):  # yが１段下がるほど、xは右に1伸びる。台形になる
                     # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
@@ -240,7 +248,7 @@ def print_idea_sketch(a, b, c):
 
             print("\n")  # 空行をはさむ
 
-        if 0 < x_axis_negative_len:
+        if is_exists_x_axis_negative:
             """X軸の負数部を描いた場合、平行四辺形を伸ばさないと形が悪くなるので伸ばす"""
 
             for y in range(y_axis_height // 2, y_axis_height):
