@@ -72,3 +72,16 @@ class GrundyListObj:
             局面の石の数
         """
         return self.__grundy_list[i]
+
+    def get_bit_grundy_at(self, i: int):
+        """ビット グランディ数
+
+        Parameters
+        ----------
+        i : int
+            局面の石の数
+        """
+        if self.__grundy_list[i] == 0:
+            return 0
+
+        return 1

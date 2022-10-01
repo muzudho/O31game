@@ -86,13 +86,17 @@ def print_idea_sketch(a, b, c):
     display_c = c
     """表示する正味の部分のX方向の長さ"""
 
+    y_axis_height = 2*c // a + 1
+    """y軸をどこまで描画すればいいかというと、a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
+
     if (a == 1 and b == 4 and c == 20):
         """X軸の負数部にめっちゃ伸びるやつは個別対応"""
         # TODO 調整むずかしいから、すっきりさせたい
-        x_axis_negative_len = 3*c
+        x_axis_negative_len = 5*c
         x_axis_positive_len = 5*c
         overview_width *= 3
         display_c = 3*c
+        y_axis_height = 3*c // a + 1
     elif (a == 1 and b == 4 and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
         """X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする"""
         x_axis_positive_len = 3*c
@@ -102,9 +106,6 @@ def print_idea_sketch(a, b, c):
         display_c = 2*c
     else:
         pass
-
-    y_axis_height = 2*c // a + 1
-    """y軸をどこまで描画すればいいかというと、a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
 
     delta_y = b - a
     """ナナメに y軸 の並びを見たときの間隔"""
@@ -155,7 +156,7 @@ def print_idea_sketch(a, b, c):
 
         print(" reversing for the game")  # 改行
 
-    def print_x_axis_grundy():
+    def print_x_axis_bit_grundy():
         """グランディ数の描画
         X軸は 右から左に読む（反転している）ことに注意"""
 
@@ -164,7 +165,7 @@ def print_idea_sketch(a, b, c):
         # 目盛り
         for i in range(0, display_length):
             rev_x = display_length - i - 1
-            grundy = grundy_list_obj.get_grundy_at(rev_x)
+            grundy = grundy_list_obj.get_bit_grundy_at(rev_x)
             print(f"{grundy:2}", end="")
 
         # スペース パディング
@@ -172,7 +173,7 @@ def print_idea_sketch(a, b, c):
         for _ in range(0, c):
             indent += "  "
 
-        print(f"{indent} grundy (right to left)")  # 改行
+        print(f"{indent} bit-grundy (right to left)")  # 改行
 
     def print_underline_x_axis():
         """下線も引いたろ"""
@@ -245,7 +246,7 @@ def print_idea_sketch(a, b, c):
 
         print("\n")
 
-    print_x_axis_grundy()
+    print_x_axis_bit_grundy()
     print_underline_x_axis()
     print_x_axis_reversing_for_the_game()
     print_underline_x_axis()
