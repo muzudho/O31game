@@ -79,13 +79,37 @@ def print_idea_sketch(a, b, c):
     def print_x_axis():
         """x軸描画"""
 
-        for x in range(0, 2*len_N+1):  # `2*len_N+1` - 横がループしてることを表したいので右端に 0 を置きたいので、 +1 する
+        negative_len = overview_width
+        zero_and_pozitive_len = len_N + 1
+        x_axis_width = negative_len + zero_and_pozitive_len
+
+        minimum_x = len_N - negative_len
+
+        for x in range(minimum_x, minimum_x+x_axis_width):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
             n = x % len_N
             print(f"{n:2}", end="")
 
         print("")  # 改行
 
+    def print_x_axis_rev():
+        """x軸描画"""
+
+        negative_len = overview_width
+        zero_and_pozitive_len = len_N + 1
+        x_axis_width = negative_len + zero_and_pozitive_len
+
+        minimum_x = len_N - negative_len
+
+        for x in range(minimum_x, minimum_x+x_axis_width):
+            # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
+            n = x % len_N
+            rev_n = (len_N - n) % len_N
+            print(f"{rev_n:2}", end="")
+
+        print("")  # 改行
+
+    def print_underline_x_axis():
         # 下線も引いたろ
         for _ in range(0, 2*len_N+1):
             print(f"──", end="")
@@ -95,24 +119,26 @@ def print_idea_sketch(a, b, c):
     def print_table():
         """表の描画"""
 
+        negative_len = overview_width
+        center_x_0 = negative_len
+        # print(f"center_x_0:{center_x_0}")
+
         delta_y = b - a
         # print(f"delta_y:{delta_y}")
-        center_x_0 = len_N
-        # print(f"center_x_0:{center_x_0}")
 
         # 縦幅は、 overview_width+1 あれば十分
         for y in range(0, overview_width+1):
 
             padding_x = center_x_0 - (y * delta_y)
 
-            # インデント間違えると全部ずれる（＾～＾） 気を付けて正確にやれ（＾～＾）
+            # ドット パディング
             indent = ""
             for x in range(0, padding_x):
                 indent += " ."
 
             print(indent, end="")
 
-            for x in range(0, overview_width+1):  # 盤の横幅は動かない
+            for x in range(0, overview_width+1+y):  # y軸１つ下がるごとに x軸１つ右に伸びる。台形になる
                 # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
                 n = (y * a) + ((x-y) * b)
                 n %= len_N
@@ -130,7 +156,9 @@ def print_idea_sketch(a, b, c):
 
         print("")
 
+    print_x_axis_rev()
     print_x_axis()
+    print_underline_x_axis()
     print_table()
 
 
