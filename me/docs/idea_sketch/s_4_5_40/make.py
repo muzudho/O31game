@@ -219,7 +219,7 @@ def print_idea_sketch(a, b, c):
 
                 print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
-            print("\n") # 空行をはさむ
+            print("\n")  # 空行をはさむ
 
         for y in range(y_axis_height // 2, y_axis_height):
             """下半分の平行四辺形の部分"""
@@ -284,11 +284,10 @@ Please input "a b c". However,
     y = az
     z = your favorite integer greater than 1
 Example:
-    S=4 5 40    S=2 3 12
-    S=5 6 60    S=2 4 16
-    S=5 7 105   S=2 5 10
-    S=4 6 72
-    S=4 6 48
+    S=4 5 40
+    S=4 5 20    S=2 4 16   S=5 6 60
+    S=4 5 60    S=2 5 10   S=5 7 105
+    S=4 6 72    S=2 3 12   S=4 6 48
 > S=""")
     tokens = enter.split()
     print_idea_sketch(a=int(tokens[0]), b=int(tokens[1]), c=int(tokens[2]))
