@@ -107,17 +107,43 @@ def print_idea_sketch(a, b, c):
             n = x % len_N
             print(f"{n:2}", end="")
 
-        print("")  # 改行
+        print(" for vector coordinates")  # 改行
 
-    def print_x_axis_rev():
+    def print_x_axis_reversing_for_the_game():
         """x軸描画"""
-        for x in range(minimum_x, minimum_x+x_axis_width):
+        # ドット パディング
+        indent = ""
+        for _ in range(0, x_axis_negative_len):
+            indent += " ."
+
+        print(indent, end="")
+
+        for x in range(0, len_N+1):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
             n = x % len_N
             rev_n = (len_N - n) % len_N
             print(f"{rev_n:2}", end="")
 
-        print(" reverse")  # 改行
+        # スペース パディング
+        indent = ""
+        for _ in range(0, len_N):
+            indent += "  "
+
+        print(indent, end="")
+
+        print(" reversing for the game")  # 改行
+
+    def print_x_axis_grundy():
+        """グランディ数の描画"""
+        # ドット パディング
+        indent = ""
+        for _ in range(0, x_axis_negative_len):
+            indent += " ."
+
+        # 十の位
+        print(f"{indent}")  # 改行
+        # 一の位
+        print(f"{indent} grundy")  # 改行
 
     def print_underline_x_axis():
         """下線も引いたろ"""
@@ -136,7 +162,7 @@ def print_idea_sketch(a, b, c):
 
             # ドット パディング
             indent = ""
-            for x in range(0, padding_width):
+            for _ in range(0, padding_width):
                 indent += " ."
 
             print(indent, end="")
@@ -169,7 +195,9 @@ def print_idea_sketch(a, b, c):
 
         print("\n")
 
-    print_x_axis_rev()
+    print_x_axis_grundy()
+    print_underline_x_axis()
+    print_x_axis_reversing_for_the_game()
     print_underline_x_axis()
     print_x_axis()
     print_underline_x_axis()
