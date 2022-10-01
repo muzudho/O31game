@@ -20,9 +20,6 @@ def print_idea_sketch(a, b, c):
     a_p_b = a + b   # ■a+b
     b_p_c = b + c   # ●b+c
 
-    # グランディ数を表示するのに使う
-    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=c)
-
     # 願望を表示
     print(f"""
         This is a wish. I wish it was like this
@@ -102,6 +99,9 @@ def print_idea_sketch(a, b, c):
         overview_width *= 2
         display_c = 2*c
         x_axis_positive_len = 3*c
+
+    # グランディ数を表示するのに使う
+    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=display_c)
 
     x_axis_width = x_axis_negative_len + x_axis_zero_len + x_axis_positive_len
     """描画するx軸全体の長さ"""
@@ -202,7 +202,7 @@ def print_idea_sketch(a, b, c):
         for _ in range(0, c):
             indent += "  "
 
-        print(f"{indent} grundy Right to Left")  # 改行
+        print(f"{indent} grundy (right to left)")  # 改行
 
     def print_underline_x_axis():
         """下線も引いたろ"""
