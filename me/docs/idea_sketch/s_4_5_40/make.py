@@ -79,7 +79,7 @@ def print_idea_sketch(a, b, c):
     def print_x_axis():
         """x軸描画"""
 
-        for x in range(0, 2*len_N+1):  # 眠いが無理やり書いた（＾～＾）
+        for x in range(0, 2*len_N+1):  # `2*len_N+1` - 横がループしてることを表したいので右端に 0 を置きたいので、 +1 する
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
             n = x % len_N
             print(f"{n:2}", end="")
@@ -95,16 +95,24 @@ def print_idea_sketch(a, b, c):
     def print_table():
         """表の描画"""
 
-        for y in range(0, overview_height+1):
+        delta_y = b - a
+        # print(f"delta_y:{delta_y}")
+        center_x_0 = len_N
+        # print(f"center_x_0:{center_x_0}")
+
+        # 縦幅は、 overview_width+1 あれば十分
+        for y in range(0, overview_width+1):
+
+            padding_x = center_x_0 - (y * delta_y)
 
             # インデント間違えると全部ずれる（＾～＾） 気を付けて正確にやれ（＾～＾）
             indent = ""
-            for _ in range(0, overview_height*(b-a)-(y*(b-a))):  # 眠くて難しい式を書いてしまった（＾～＾）！
+            for x in range(0, padding_x):
                 indent += " ."
 
             print(indent, end="")
 
-            for x in range(0, overview_width+1):  # 横がループしてることを表したいので 1 多めに
+            for x in range(0, overview_width+1):  # 盤の横幅は動かない
                 # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
                 n = (y * a) + ((x-y) * b)
                 n %= len_N
@@ -117,6 +125,7 @@ def print_idea_sketch(a, b, c):
 
                 print(f"{n:2.0f}{interval_space}", end="")
 
+            # print(f"padding_x:{padding_x}")
             print("\n")
 
         print("")
