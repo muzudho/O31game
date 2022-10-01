@@ -1,10 +1,11 @@
 """
-cd me/docs/idea_sketch/s_4_5_40
+cd me
 
-python.exe make.py
+python.exe -m docs.idea_sketch.s_4_5_40.make
 """
+from kernel.math.grundy import GrundyListObj
 
-print("Idea sketch")
+print("This is an idea sketch.")
 
 
 def print_idea_sketch(a, b, c):
@@ -21,30 +22,32 @@ def print_idea_sketch(a, b, c):
     a_p_b = a + b   # ■a+b
     b_p_c = b + c   # ●b+c
 
+    # グランディ数を表示するのに使う
+    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=len_N)
+
     # 願望を表示
     print(f"""
         This is a wish. I wish it was like this
         =======================================
 
-        S = {{ a, b, c }}
-        len(N) = c        c = abn        n = c / ab        Is this a <= n <= b ?
+        S = {{ a, b, c }}    (a < b < c. c = abn)
+        c is maximum game size "len(N)"
         I guess one of ■a+b, ●b+c, ▲c+a is the period.
             - ■a+b is just like a constant.
             - ●b+c is mysterious. I have seen it when a<=n<=b, abn=c.
             - ▲c+a when c is a multiple of 3 is often periodic.
 
 
-                  b or b+c
+                  b is b+c (mod c)
                        ===
-        0 ─────────> ● ─────────> 2b         × (a * scale)
-                    /    +b     /
+        0 ─────────> ● ─────────> 2b
+                    /     b     /
                    / a-b       /
                   /           /
                  ▲ ────────> ■ a+b
-              a or c+a         ===
+                               ===
+              a is c+a (mod c)
                    ===
-
-              × (b * scale)
     """)
 
     if a <= scale and scale <= b:
@@ -57,21 +60,20 @@ def print_idea_sketch(a, b, c):
         In this case
         ============
 
-        S = {{ {a}, {b}, {c} }}
-        len(N) = c        c = {a}・{b}n        n = {scale}        This is {is_this_a_n_b}a <= n <= b.
+        S = {{ {a}, {b}, {c} }}    ({a} < {b} < {c}. {c} = {a}・{b}n)
+        n = {scale}. n is scale.        This is {is_this_a_n_b}a <= n <= b.
         I guess one of ■{a_p_b}, ●{b_p_c}, ▲{c_p_a} is the period.
 
-                  {b:2} or {b_p_c:2}
+                  {b:2} is {b_p_c:2} (mod {c})
                         ==
-        0 ─────────> ● ─────────>{2*b:2}         × {overview_width}
-                    /   +{b:2}    /
+        0 ─────────> ● ─────────>{2*b:2}
+                    /    {b:2}     /
                    / {delta_a_b}        /
                   /           /
                  ▲ ────────> ■ {a_p_b:2}
-              {a:2} or {c_p_a:2}         ==
+                               ==
+              {a:2} is {c_p_a:2} (mod {c})
                     ==
-
-              × {overview_height}
     """)
 
     # S は サブトラクションセット
@@ -134,15 +136,58 @@ def print_idea_sketch(a, b, c):
         print(" reversing for the game")  # 改行
 
     def print_x_axis_grundy():
-        """グランディ数の描画"""
+        """グランディ数の描画
+        X軸は反転していることに注意"""
         # ドット パディング
         indent = ""
         for _ in range(0, x_axis_negative_len):
             indent += " ."
 
         # 十の位
-        print(f"{indent}")  # 改行
+        # =====
+        grundy = grundy_list_obj.get_grundy_at(len_N)
+        grundy //= 10
+        if grundy == 0:
+            grundy_str = "  "
+        else:
+            grundy_str = f"{grundy}"
+
+        print(f"{indent}{grundy_str}", end="")
+        """画面真ん中あたり"""
+
+        for x in range(0, len_N):
+            """画面右側あたり"""
+            rev_x = len_N - x - 1
+            grundy = grundy_list_obj.get_grundy_at(rev_x)
+            grundy //= 10
+            if grundy == 0:
+                grundy_str = "  "
+            else:
+                grundy_str = f" {grundy}"
+
+            print(f"{grundy_str}", end="")
+
+        print("")  # 改行
+
         # 一の位
+        # =====
+        grundy = grundy_list_obj.get_grundy_at(len_N)
+        grundy %= 10
+        print(f"{indent} {grundy}", end="")
+        """画面真ん中あたり"""
+
+        for x in range(0, len_N):
+            """画面右側あたり"""
+            rev_x = len_N - x - 1
+            grundy = grundy_list_obj.get_grundy_at(rev_x)
+            grundy %= 10
+            print(f" {grundy}", end="")
+
+        # スペース パディング
+        indent = ""
+        for _ in range(0, len_N):
+            indent += "  "
+
         print(f"{indent} grundy")  # 改行
 
     def print_underline_x_axis():
