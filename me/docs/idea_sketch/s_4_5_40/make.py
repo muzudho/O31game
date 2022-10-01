@@ -73,19 +73,33 @@ def print_idea_sketch(a, b, c):
 
     # S は サブトラクションセット
 
+    x_axis_zero_len = 1
+    x_axis_positive_len = 2*c
+    """描画するx軸の０を含む整数部の長さ。平行四辺形を描きたいので、２週している"""
+
     x_axis_negative_len = c // a + 1
     """x軸の負数をどこまで描画すればいいかというと、 a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
 
     is_display_negative_parallelogram = True
     """X軸の負数部に伸びる平行四辺形を描くか？"""
 
+    display_c = c
+    """表示する正味の部分のX方向の長さ"""
+
     if (a == 1 and b == 4 and c == 20):
         """X軸の負数部にめっちゃ伸びるやつは個別対応"""
+        # TODO 調整むずかしいから、すっきりさせたい
         x_axis_negative_len = 3*c
-    elif (a == 1 and b == 4 and 20 < c and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
+        x_axis_positive_len = 5*c
+        overview_width *= 3
+        display_c = 3*c
+    elif (a == 1 and b == 4 and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
         """X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする"""
+        x_axis_positive_len = 3*c
         x_axis_negative_len = 0
         is_display_negative_parallelogram = False
+        overview_width *= 2
+        display_c = 2*c
     else:
         pass
 
@@ -94,17 +108,6 @@ def print_idea_sketch(a, b, c):
 
     delta_y = b - a
     """ナナメに y軸 の並びを見たときの間隔"""
-
-    x_axis_zero_len = 1
-    x_axis_positive_len = 2*c
-    """描画するx軸の０を含む整数部の長さ。平行四辺形を描きたいので、２週している"""
-
-    display_c = c
-    if (a == 1 and b == 4 and c % 20 == 0):
-        """尻尾の長さが、c より大きいケースでは、正味の部分を伸ばしたい"""
-        overview_width *= 2
-        display_c = 2*c
-        x_axis_positive_len = 3*c
 
     # グランディ数を表示するのに使う
     grundy_list_obj = GrundyListObj.make(
