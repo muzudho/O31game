@@ -14,7 +14,6 @@ def print_idea_sketch(a, b, c):
     len_N = c
     scale = len_N / (a * b)  # 定数倍を想定しているが……実数のままにしたろ
     overview_width = int(scale * a)
-    overview_height = int(scale * b)
     delta_a_b = a - b  # 負数になる
 
     # 周期を当てるのに使う
@@ -82,8 +81,11 @@ def print_idea_sketch(a, b, c):
     """x軸の負数をどこまで描画すればいいかというと、 a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
 
     if (a == 1 and b == 4 and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
-        # X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする
+        """X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする"""
         x_axis_negative_len = 0
+        is_display_negative_parallelogram = False
+    else:
+        is_display_negative_parallelogram = True
 
     y_axis_height = 2*len_N // a + 1
     """y軸をどこまで描画すればいいかというと、a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
@@ -93,6 +95,11 @@ def print_idea_sketch(a, b, c):
 
     zero_and_pozitive_len = 2*len_N + 1
     """描画するx軸の０を含む整数部の長さ。平行四辺形を描きたいので、２週している"""
+
+    if (a == 1 and b == 4 and c % 20 == 0):
+        """尻尾の長さが、c より大きいケースでは、正味の部分を伸ばしたい"""
+        overview_width *= 2
+        # zero_and_pozitive_len = 3*len_N + 1
 
     x_axis_width = x_axis_negative_len + zero_and_pozitive_len
     """描画するx軸全体の長さ"""
@@ -204,10 +211,7 @@ def print_idea_sketch(a, b, c):
     def print_table():
         """表の描画"""
 
-        is_exists_x_axis_negative = 0 < x_axis_negative_len
-        """X軸の負数部を描くか？"""
-
-        if is_exists_x_axis_negative:
+        if is_display_negative_parallelogram:
             y_axis_height_extend = 0
         else:
             y_axis_height_extend = 1  # 表示して目視確認して調整した
@@ -224,7 +228,7 @@ def print_idea_sketch(a, b, c):
 
             print(indent, end="")
 
-            if is_exists_x_axis_negative:
+            if is_display_negative_parallelogram:
                 """X軸の負数部も描くのであれば、台形にする"""
                 for x in range(0, overview_width+1+y):  # yが１段下がるほど、xは右に1伸びる。台形になる
                     # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
@@ -242,13 +246,14 @@ def print_idea_sketch(a, b, c):
 
                 print(indent, end="")
 
+                # 正味の部分
                 for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
                     n = (a*y + b*x) % len_N
                     print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
             print("\n")  # 空行をはさむ
 
-        if is_exists_x_axis_negative:
+        if is_display_negative_parallelogram:
             """X軸の負数部を描いた場合、平行四辺形を伸ばさないと形が悪くなるので伸ばす"""
 
             for y in range(y_axis_height // 2, y_axis_height):
