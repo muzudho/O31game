@@ -89,7 +89,15 @@ def print_idea_sketch(a, b, c):
     y_axis_height = 2*c // a + 1
     """y軸をどこまで描画すればいいかというと、a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
 
-    if (a == 1 and b == 4 and c == 20):
+    if (a == 1 and b == 2 and c == 3):
+        """最小パターン。小さすぎるので大きくしたい"""
+        # TODO 調整むずかしいから、すっきりさせたい
+        x_axis_negative_len = 9*c
+        x_axis_positive_len = 9*c
+        overview_width *= 10
+        display_c = 7*c
+        y_axis_height = 7*c // a + 1
+    elif (a == 1 and b == 4 and c == 20):
         """X軸の負数部にめっちゃ伸びるやつは個別対応"""
         # TODO 調整むずかしいから、すっきりさせたい
         x_axis_negative_len = 5*c

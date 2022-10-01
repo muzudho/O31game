@@ -1,4 +1,11 @@
-# Author: Muzudho
+"""
+Author: Muzudho
+
+Run
+===
+cd me
+python.exe -m battle31
+"""
 
 from kernel import Kernel
 from kernel.scenes import Scenes
