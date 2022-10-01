@@ -81,7 +81,7 @@ def print_idea_sketch(a, b, c):
     x_axis_negative_len = len_N // a + 1
     """x軸の負数をどこまで描画すればいいかというと、 a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
 
-    if a == 3 and b == 9 and c == 27:
+    if (a == 1 and b == 4 and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
         # X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする
         x_axis_negative_len = 0
 
@@ -314,9 +314,9 @@ Please input "a b c". However,
     y = az
     z = your favorite integer greater than 1
 Example:
-    S=4 5 40    S=2 3 12                                         S=1 3 15
+    S=4 5 40    S=2 3 12                                         S=1 3 15    S=1 4 20
     S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9      S=3 9 27
-    S=4 5 60    S=2 5 10   S=5 7 105    S=4 6 72    S=1 3 15
+    S=4 5 60    S=2 5 10   S=5 7 105    S=4 6 72    S=1 3 15     S=3 7 42
 > S=""")
     tokens = enter.split()
     print_idea_sketch(a=int(tokens[0]), b=int(tokens[1]), c=int(tokens[2]))
