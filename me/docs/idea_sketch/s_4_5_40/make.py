@@ -76,14 +76,16 @@ def print_idea_sketch(a, b, c):
 
     # S は サブトラクションセット
 
+    x_axis_negative_len = len_N // a + 1
+    """x軸の負数をどこまで描画すればいいかというと、 a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
+
     def print_x_axis():
         """x軸描画"""
 
-        negative_len = overview_width
         zero_and_pozitive_len = len_N + 1
-        x_axis_width = negative_len + zero_and_pozitive_len
+        x_axis_width = x_axis_negative_len + zero_and_pozitive_len
 
-        minimum_x = len_N - negative_len
+        minimum_x = len_N - x_axis_negative_len
 
         for x in range(minimum_x, minimum_x+x_axis_width):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
@@ -95,11 +97,10 @@ def print_idea_sketch(a, b, c):
     def print_x_axis_rev():
         """x軸描画"""
 
-        negative_len = overview_width
         zero_and_pozitive_len = len_N + 1
-        x_axis_width = negative_len + zero_and_pozitive_len
+        x_axis_width = x_axis_negative_len + zero_and_pozitive_len
 
-        minimum_x = len_N - negative_len
+        minimum_x = len_N - x_axis_negative_len
 
         for x in range(minimum_x, minimum_x+x_axis_width):
             # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
@@ -107,7 +108,7 @@ def print_idea_sketch(a, b, c):
             rev_n = (len_N - n) % len_N
             print(f"{rev_n:2}", end="")
 
-        print("")  # 改行
+        print(" reverse")  # 改行
 
     def print_underline_x_axis():
         # 下線も引いたろ
@@ -129,16 +130,16 @@ def print_idea_sketch(a, b, c):
         # 縦幅は、 overview_width+1 あれば十分
         for y in range(0, overview_width+1):
 
-            padding_x = center_x_0 - (y * delta_y)
+            padding_width = x_axis_negative_len - y * (b-a)
 
             # ドット パディング
             indent = ""
-            for x in range(0, padding_x):
+            for x in range(0, padding_width):
                 indent += " ."
 
             print(indent, end="")
 
-            for x in range(0, overview_width+1+y):  # y軸１つ下がるごとに x軸１つ右に伸びる。台形になる
+            for x in range(0, overview_width+1):
                 # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
                 n = (y * a) + ((x-y) * b)
                 n %= len_N
@@ -157,6 +158,7 @@ def print_idea_sketch(a, b, c):
         print("")
 
     print_x_axis_rev()
+    print_underline_x_axis()
     print_x_axis()
     print_underline_x_axis()
     print_table()
@@ -199,7 +201,7 @@ Please input "a b c". However,
 Example:
     S=4 5 40    S=2 3 12
     S=5 6 60    S=2 4 16
-    S=5 7 105
+    S=5 7 105   S=2 5 10
     S=4 6 72
     S=4 6 48
 > S=""")
