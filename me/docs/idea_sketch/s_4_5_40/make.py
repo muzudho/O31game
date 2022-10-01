@@ -101,7 +101,8 @@ def print_idea_sketch(a, b, c):
         x_axis_positive_len = 3*c
 
     # グランディ数を表示するのに使う
-    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=display_c)
+    grundy_list_obj = GrundyListObj.make(
+        S={a, b, c}, len_N=x_axis_negative_len+display_c)
 
     x_axis_width = x_axis_negative_len + x_axis_zero_len + x_axis_positive_len
     """描画するx軸全体の長さ"""
@@ -151,51 +152,14 @@ def print_idea_sketch(a, b, c):
 
     def print_x_axis_grundy():
         """グランディ数の描画
-        X軸は反転していることに注意"""
-        # ドット パディング
-        indent = ""
-        for _ in range(0, x_axis_negative_len):
-            indent += " ."
+        X軸は 右から左に読む（反転している）ことに注意"""
 
-        # 十の位
-        # =====
-        grundy = grundy_list_obj.get_grundy_at(c)
-        grundy //= 10
-        if grundy == 0:
-            grundy_str = "  "
-        else:
-            grundy_str = f"{grundy}"
+        display_length = x_axis_negative_len + display_c + 1
 
-        print(f"{indent}{grundy_str}", end="")
-        """画面真ん中あたり"""
-
-        for x in range(0, display_c):
-            """画面右側あたり"""
-            rev_x = c - x - 1
+        for i in range(0, display_length):
+            rev_x = display_length - i - 1
             grundy = grundy_list_obj.get_grundy_at(rev_x)
-            grundy //= 10
-            if grundy == 0:
-                grundy_str = "  "
-            else:
-                grundy_str = f" {grundy}"
-
-            print(f"{grundy_str}", end="")
-
-        print("")  # 改行
-
-        # 一の位
-        # =====
-        grundy = grundy_list_obj.get_grundy_at(c)
-        grundy %= 10
-        print(f"{indent} {grundy}", end="")
-        """画面真ん中あたり"""
-
-        for x in range(0, display_c):
-            """画面右側あたり"""
-            rev_x = c - x - 1
-            grundy = grundy_list_obj.get_grundy_at(rev_x)
-            grundy %= 10
-            print(f" {grundy}", end="")
+            print(f"{grundy:2}", end="")
 
         # スペース パディング
         indent = ""
