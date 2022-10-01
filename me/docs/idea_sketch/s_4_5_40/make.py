@@ -126,20 +126,15 @@ def print_idea_sketch(a, b, c):
         print(" for vector coordinates")  # 改行
 
     def print_x_axis_reversing_for_the_game():
-        """x軸描画"""
-        # ドット パディング
-        indent = ""
-        for _ in range(0, x_axis_negative_len):
-            indent += " ."
+        """x軸描画
+        X軸は 右から左に読む（反転している）ことに注意"""
 
-        print(indent, end="")
+        display_length = x_axis_negative_len + display_c + 1
 
         # 目盛り
-        for x in range(0, display_c+1):
-            # 負数の剰余の実装は２種類あるが、Pythonでは上手く行った
-            n = x % c
-            rev_n = (c - n) % c
-            print(f"{rev_n:2}", end="")
+        for x in range(0, display_length):
+            rev_x = display_length - x - 1
+            print(f"{rev_x:2}", end="")
 
         # スペース パディング
         indent = ""
@@ -156,6 +151,7 @@ def print_idea_sketch(a, b, c):
 
         display_length = x_axis_negative_len + display_c + 1
 
+        # 目盛り
         for i in range(0, display_length):
             rev_x = display_length - i - 1
             grundy = grundy_list_obj.get_grundy_at(rev_x)
