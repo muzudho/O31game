@@ -76,12 +76,18 @@ def print_idea_sketch(a, b, c):
     x_axis_negative_len = c // a + 1
     """x軸の負数をどこまで描画すればいいかというと、 a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
 
-    if (a == 1 and b == 4 and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
+    is_display_negative_parallelogram = True
+    """X軸の負数部に伸びる平行四辺形を描くか？"""
+
+    if (a == 1 and b == 4 and c == 20):
+        """X軸の負数部にめっちゃ伸びるやつは個別対応"""
+        x_axis_negative_len = 3*c
+    elif (a == 1 and b == 4 and 20 < c and c % 20 == 0) or (a == 3 and b == 7 and c == 42) or (a == 3 and b == 9 and c == 27):
         """X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする"""
         x_axis_negative_len = 0
         is_display_negative_parallelogram = False
     else:
-        is_display_negative_parallelogram = True
+        pass
 
     y_axis_height = 2*c // a + 1
     """y軸をどこまで描画すればいいかというと、a の距離で c に届くまで。ループを見たいので、左端を1多く取る"""
@@ -134,6 +140,7 @@ def print_idea_sketch(a, b, c):
         # 目盛り
         for x in range(0, display_length):
             rev_x = display_length - x - 1
+            rev_x %= 100  # 2桁しか表示できない
             print(f"{rev_x:2}", end="")
 
         # スペース パディング
