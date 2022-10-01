@@ -93,15 +93,16 @@ def print_idea_sketch(a, b, c):
     delta_y = b - a
     """ナナメに y軸 の並びを見たときの間隔"""
 
-    zero_and_pozitive_len = 2*len_N + 1
+    x_axis_zero_len = 1
+    x_axis_positive_len = 2*len_N
     """描画するx軸の０を含む整数部の長さ。平行四辺形を描きたいので、２週している"""
 
     if (a == 1 and b == 4 and c % 20 == 0):
         """尻尾の長さが、c より大きいケースでは、正味の部分を伸ばしたい"""
         overview_width *= 2
-        # zero_and_pozitive_len = 3*len_N + 1
+        x_axis_positive_len = 3*len_N
 
-    x_axis_width = x_axis_negative_len + zero_and_pozitive_len
+    x_axis_width = x_axis_negative_len + x_axis_zero_len + x_axis_positive_len
     """描画するx軸全体の長さ"""
 
     minimum_x = len_N - x_axis_negative_len
