@@ -81,7 +81,11 @@ def print_idea_sketch(a, b, c):
     x_axis_negative_len = len_N // a + 1
     """x軸の負数をどこまで描画すればいいかというと、 a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
 
-    y_axis_height = x_axis_negative_len
+    if a == 3 and b == 9 and c == 27:
+        # X軸の負数部が巨大になる想定外のケースは個別に対応。X軸の負数部を表示しないことにする
+        x_axis_negative_len = 0
+
+    y_axis_height = 2*len_N // a + 1
     """y軸をどこまで描画すればいいかというと、a の距離で len_N に届くまで。ループを見たいので、左端を1多く取る"""
 
     delta_y = b - a
@@ -201,7 +205,7 @@ def print_idea_sketch(a, b, c):
         """表の描画"""
 
         for y in range(0, y_axis_height // 2):
-            """上半分の台形の部分"""
+            """上半分の台形（X軸の負数部を描かないのであれば平行四辺形）の部分"""
 
             padding_width = x_axis_negative_len - y * delta_y
 
@@ -212,31 +216,49 @@ def print_idea_sketch(a, b, c):
 
             print(indent, end="")
 
-            for x in range(0, overview_width+1+y):  # yが１段下がるほど、xは右に1伸びる。台形になる
-                # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
-                n = (y * a) + ((x-y) * b)
-                n %= len_N
+            if 0 < x_axis_negative_len:
+                """X軸の負数部も描くのであれば、台形にする"""
+                for x in range(0, overview_width+1+y):  # yが１段下がるほど、xは右に1伸びる。台形になる
+                    # y軸値に横幅を掛けたり、なんかひねくれた式だが、プリントアウトして納得してほしい
+                    n = (y * a) + ((x-y) * b)
+                    n %= len_N
 
-                print(f"{n:2.0f}{x_axis_interval_space}", end="")
+                    print(f"{n:2.0f}{x_axis_interval_space}", end="")
+            else:
+                padding_width = x_axis_negative_len + y * a
 
-            print("\n")  # 空行をはさむ
+                # ドット パディング
+                indent = ""
+                for x in range(0, padding_width):
+                    indent += " ."
 
-        for y in range(y_axis_height // 2, y_axis_height):
-            """下半分の平行四辺形の部分"""
-            padding_width = x_axis_negative_len + y * a
+                print(indent, end="")
 
-            # ドット パディング
-            indent = ""
-            for x in range(0, padding_width):
-                indent += " ."
-
-            print(indent, end="")
-            # ここに描画
-            for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
-                n = (a*y + b*x) % len_N
-                print(f"{n:2.0f}{x_axis_interval_space}", end="")
+                for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
+                    n = (a*y + b*x) % len_N
+                    print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
             print("\n")  # 空行をはさむ
+
+        if 0 < x_axis_negative_len:
+            """X軸の負数部を描いた場合、平行四辺形を伸ばさないと形が悪くなるので伸ばす"""
+
+            for y in range(y_axis_height // 2, y_axis_height):
+                """下半分の平行四辺形の部分"""
+                padding_width = x_axis_negative_len + y * a
+
+                # ドット パディング
+                indent = ""
+                for x in range(0, padding_width):
+                    indent += " ."
+
+                print(indent, end="")
+
+                for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
+                    n = (a*y + b*x) % len_N
+                    print(f"{n:2.0f}{x_axis_interval_space}", end="")
+
+                print("\n")  # 空行をはさむ
 
         print("\n")
 
@@ -284,8 +306,8 @@ Please input "a b c". However,
     y = az
     z = your favorite integer greater than 1
 Example:
-    S=4 5 40    S=2 3 12
-    S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9
+    S=4 5 40    S=2 3 12                                         S=1 3 15
+    S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9      S=3 9 27
     S=4 5 60    S=2 5 10   S=5 7 105    S=4 6 72    S=1 3 15
 > S=""")
     tokens = enter.split()
