@@ -284,10 +284,9 @@ Please input "a b c". However,
     y = az
     z = your favorite integer greater than 1
 Example:
-    S=4 5 40
-    S=4 5 20    S=2 4 16   S=5 6 60
-    S=4 5 60    S=2 5 10   S=5 7 105
-    S=4 6 72    S=2 3 12   S=4 6 48
+    S=4 5 40    S=2 3 12
+    S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9
+    S=4 5 60    S=2 5 10   S=5 7 105    S=4 6 72    S=1 3 15
 > S=""")
     tokens = enter.split()
     print_idea_sketch(a=int(tokens[0]), b=int(tokens[1]), c=int(tokens[2]))
