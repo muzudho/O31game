@@ -219,8 +219,7 @@ def print_idea_sketch(a, b, c):
 
                 print(f"{n:2.0f}{x_axis_interval_space}", end="")
 
-            # print(f"padding_x:{padding_x}")
-            print("")
+            print("\n") # 空行をはさむ
 
         for y in range(y_axis_height // 2, y_axis_height):
             """下半分の平行四辺形の部分"""
@@ -236,7 +235,8 @@ def print_idea_sketch(a, b, c):
             for x in range(0, overview_width+1):  # x軸方向の幅は変わらない
                 n = (a*y + b*x) % len_N
                 print(f"{n:2.0f}{x_axis_interval_space}", end="")
-            print("")
+
+            print("\n")  # 空行をはさむ
 
         print("\n")
 
