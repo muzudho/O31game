@@ -97,6 +97,13 @@ def print_idea_sketch(a, b, c):
         overview_width *= 10
         display_c = 7*c
         y_axis_height = 7*c // a + 1
+    elif (a == 1 and b == 6 and c == 30):
+        """個別対応"""
+        x_axis_positive_len = 5*c
+        x_axis_negative_len = 0
+        is_display_negative_parallelogram = False
+        overview_width *= 4
+        display_c = 4*c
     elif (a == 1 and b == 4 and c == 20):
         """X軸の負数部にめっちゃ伸びるやつは個別対応"""
         # TODO 調整むずかしいから、すっきりさせたい
@@ -299,7 +306,7 @@ Please input "a b c". However,
     z = your favorite integer greater than 1
 Example:
     S=4 5 40    S=2 3 12                                         S=1 3 15    S=1 4 20
-    S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9      S=3 9 27
+    S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9      S=3 9 27    S=1 6 30
     S=4 5 60    S=2 5 10   S=5 7 105    S=4 6 72    S=1 3 15     S=3 7 42
 > S=""")
     tokens = enter.split()
