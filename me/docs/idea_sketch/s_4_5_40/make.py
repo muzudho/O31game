@@ -104,6 +104,14 @@ def print_idea_sketch(a, b, c):
         is_display_negative_parallelogram = False
         overview_width *= 4
         display_c = 4*c
+    elif (a == 2 and b == 3 and c == 24):
+        """個別対応"""
+        x_axis_positive_len = 5*c
+        x_axis_negative_len = 0
+        is_display_negative_parallelogram = False
+        overview_width *= 5
+        display_c = 8*c
+        y_axis_height = 9*c // a + 1
     elif (a == 1 and b == 4 and c == 20):
         """X軸の負数部にめっちゃ伸びるやつは個別対応"""
         # TODO 調整むずかしいから、すっきりさせたい
@@ -298,16 +306,15 @@ if __name__ == "__main__":
     """
 
     enter = input("""S={a,b,c}.
-Please input "a b c". However,
-    c = ax
-    c = by
-    x = bz
-    y = az
-    z = your favorite integer greater than 1
+Please input "a b c".
+             However, c = abn, n is your favorite integer greater than 0
 Example:
-    S=4 5 40    S=2 3 12                                         S=1 3 15    S=1 4 20
-    S=4 5 20    S=2 4 16   S=5 6 60     S=4 6 48    S=1 3 9      S=3 9 27    S=1 6 30
-    S=4 5 60    S=2 5 10   S=5 7 105    S=4 6 72    S=1 3 15     S=3 7 42
+    # a+b period  b+c period   c+a period  c+a with tail     alternative2  alternative5 with tail  alternative6
+    # ----------  ----------   ----------  -------------     ------------  ----------------------  ------------
+      S=4 5 40    S=4 5 20     S=1 4 20    S=1 6 30          S=1 3 15      S=3 7 42                S=3 9 27
+      S=2 3 12    S=2 5 10     S=4 5 60    S=4 6 48          S=1 3 9
+      S=2 4 16    S=5 6 60     S=5 7 105
+                               S=2 3 24
 > S=""")
     tokens = enter.split()
     print_idea_sketch(a=int(tokens[0]), b=int(tokens[1]), c=int(tokens[2]))
