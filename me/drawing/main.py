@@ -40,23 +40,23 @@ Nz = [0] * (len_Nz+1)
 board = [""] * len_Nz
 
 # 駒の配置の算出
-for i in range(1, len_Nz):
+for i in range(0, len_Nz):
     dst_a = i-a
     dst_b = i-b
     dst_c = i-c
-    if 0 < dst_a:
+    if 0 <= dst_a:
         if board[dst_a] == "":
             board[i] += "a"
 
-    if 0 < dst_b:
+    if 0 <= dst_b:
         if board[dst_b] == "":
             board[i] += "b"
 
-    if 0 < dst_c:
+    if 0 <= dst_c:
         if board[dst_c] == "":
             board[i] += "c"
 
-for i in range(1, len_Nz):
+for i in range(0, len_Nz):
     if board[i] == "":
         board[i] = "."
 
@@ -74,7 +74,7 @@ for i in range(0, len_Nz):
 for i in range(0, len_Nz):
     cv2.putText(canvas,
                 f"{i}",
-                (int((i*50+5)*zoom), int(150*zoom)),  # x,y
+                (int((i*50+5)*zoom), int(140*zoom)),  # x,y
                 None,  # font
                 1.0 * zoom,  # font_scale
                 font_color,  # color
