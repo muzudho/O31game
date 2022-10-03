@@ -14,5 +14,13 @@ canvas = np.full((250, 600, 3), 128, dtype=np.uint8)
 white = (255, 255, 255)
 cv2.line(canvas, (120, 10), (220, 110), white, thickness=1)
 
+cv2.putText(canvas,
+            f"12345678abcdefg",
+            (100, 100),  # x,y
+            None,  # font
+            1.0,  # font_scale
+            (200, 190, 180),  # color
+            0)  # line_type
+
 date = datetime.now().strftime("%Y%m%d_%H%M%S")
 cv2.imwrite(f"./output/{date}-tmp.png", canvas)
