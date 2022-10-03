@@ -18,7 +18,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
 
     image_width = int((len_Nz * char_width + margin_left) * zoom)
     image_width = int(image_width/2)  # 全体を入れるのではなく、左半分ぐらいを画像にする
-    image_height = int(char_width*10*zoom)
+    image_height = int(char_width*11*zoom)
 
     # 描画する画像を作る,128を変えると色を変えれます 0黒→255白
     canvas = np.full((image_height, image_width, 3), 240, dtype=np.uint8)
