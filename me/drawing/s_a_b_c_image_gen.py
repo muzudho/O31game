@@ -21,8 +21,11 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
 
     # 描画する画像を作る,128を変えると色を変えれます 0黒→255白
     canvas = np.full((image_height, image_width, 3), 240, dtype=np.uint8)
+    # Blue,Green,Red
     font_color = (55, 55, 55)
-    line_color = (55, 55, 55)
+    color_red = (90, 90, 220)
+    color_green = (90, 220, 90)
+    color_blue = (220, 90, 90)
     line_thickness = 1
 
     # サブトラクションセットを表示
@@ -64,16 +67,53 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
         if board[i] == "":
             board[i] = "."
 
-    def print_pieces(y):
+    def print_empty_pieces(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            cv2.putText(canvas,
-                        f"{board[i]}",
-                        (int((i*char_width+margin_left)*zoom), y),  # x,y
-                        None,  # font
-                        1.0 * zoom,  # font_scale
-                        font_color,  # color
-                        0)  # line_type
+            if board[i] == ".":
+                cv2.putText(canvas,
+                            f".",
+                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            None,  # font
+                            1.0 * zoom,  # font_scale
+                            font_color,  # color
+                            0)  # line_type
+
+    def print_a_pieces(y):
+        """駒を描画"""
+        for i in range(0, len_Nz):
+            if "a" in board[i]:
+                cv2.putText(canvas,
+                            f"a",
+                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            None,  # font
+                            1.0 * zoom,  # font_scale
+                            color_red,  # color
+                            0)  # line_type
+
+    def print_b_pieces(y):
+        """駒を描画"""
+        for i in range(0, len_Nz):
+            if "b" in board[i]:
+                cv2.putText(canvas,
+                            f"b",
+                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            None,  # font
+                            1.0 * zoom,  # font_scale
+                            color_green,  # color
+                            0)  # line_type
+
+    def print_c_pieces(y):
+        """駒を描画"""
+        for i in range(0, len_Nz):
+            if "c" in board[i]:
+                cv2.putText(canvas,
+                            f"c",
+                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            None,  # font
+                            1.0 * zoom,  # font_scale
+                            color_blue,  # color
+                            0)  # line_type
 
     def print_occupied_pieces(y):
         """駒の有無を描画"""
@@ -106,6 +146,14 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
         """mate線を描画"""
         for mate_line in mate_lines:
             # 線、描画する画像を指定、座標1点目、2点目、色、線の太さ
+            s_element = mate_line[0]
+            if s_element == "a":
+                line_color = color_red
+            elif s_element == "b":
+                line_color = color_green
+            elif s_element == "c":
+                line_color = color_blue
+
             src_i = mate_line[1]
             src_x = int((char_width*src_i+margin_left)*zoom)
 
@@ -115,16 +163,23 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
             cv2.line(canvas, (src_x, src_y),
                      (dst_x, dst_y), line_color, thickness=line_thickness)
 
-    print_pieces(y=int(90*zoom))
+    print_c_pieces(y=int(90*zoom))
     """駒を描画"""
 
-    print_mate_lins(src_y=int(110*zoom), dst_y=int(380*zoom))
+    print_b_pieces(y=int(130*zoom))
+    """駒を描画"""
+
+    print_a_pieces(y=int(170*zoom))
+    print_empty_pieces(y=int(170*zoom))
+    """駒を描画"""
+
+    print_mate_lins(src_y=int(190*zoom), dst_y=int(460*zoom))
     """mate線を描画"""
 
-    print_occupied_pieces(y=int(400*zoom))
+    print_occupied_pieces(y=int(480*zoom))
     """駒の有無を描画"""
 
-    print_x_axis(y=int(440*zoom))
+    print_x_axis(y=int(520*zoom))
     """x軸を描画"""
 
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
