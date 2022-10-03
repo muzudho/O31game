@@ -17,6 +17,7 @@ len_Nz = 200
 
 gen_s_a_b_c_image(a=1, b=2, c=3, len_Nz=len_Nz, zoom=zoom)
 gen_s_a_b_c_image(a=1, b=3, c=5, len_Nz=len_Nz, zoom=zoom)
+gen_s_a_b_c_image(a=4, b=9, c=19, len_Nz=len_Nz, zoom=zoom)
 
 for i in range(0, 100):
     a = random.randint(1, 10)
