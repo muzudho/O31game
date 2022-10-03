@@ -17,6 +17,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     """一文字の幅の目安"""
 
     image_width = int((len_Nz * char_width + margin_left) * zoom)
+    image_width = int(image_width/2)  # 全体を入れるのではなく、左半分ぐらいを画像にする
     image_height = int(char_width*10*zoom)
 
     # 描画する画像を作る,128を変えると色を変えれます 0黒→255白
@@ -28,17 +29,11 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     color_blue = (220, 90, 90)
     line_thickness = 1
 
-    # サブトラクションセットを表示
-    cv2.putText(canvas,
-                f"S = {{ {a}, {b}, {c} }}",
-                (int(5*zoom), int(30*zoom)),  # x,y
-                None,  # font
-                1.0 * zoom,  # font_scale
-                font_color,  # color
-                0)  # line_type
-
     board = [""] * len_Nz
     """盤"""
+
+    occupied_bitboard = [False] * len_Nz
+    """オキュパイド ビット盤"""
 
     mate_lines = []
     """mate線"""
@@ -66,6 +61,10 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     for i in range(0, len_Nz):
         if board[i] == "":
             board[i] = "."
+
+    for i in range(0, len_Nz):
+        if board[i] != "":
+            occupied_bitboard[i] = True
 
     def print_empty_pieces(y):
         """駒を描画"""
@@ -162,6 +161,53 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
 
             cv2.line(canvas, (src_x, src_y),
                      (dst_x, dst_y), line_color, thickness=line_thickness)
+
+    def match_partial(array1, begin1, array2, begin2, length):
+        for i in range(0, length):
+            if array1[begin1 + i] != array2[begin2 + i]:
+                return False
+
+        return True
+
+    def find_period():
+        """周期を調べる"""
+
+        # 最初の２つのパターン
+        begin = 0
+
+        for step in range(2, int(len_Nz/2)):
+            """周期の長さを少しずつ広げていく"""
+            end = begin + step
+            pattern = occupied_bitboard[begin:end]
+
+            for phase_offset in range(0, step):
+                """位相のずれを考慮"""
+
+                match_count = 0
+
+                for i in range(end+phase_offset, len_Nz, step):
+                    if i+step < len_Nz:
+                        if not match_partial(occupied_bitboard, i, pattern, 0, step):
+                            break
+
+                        match_count += 1
+                    elif 0 < match_count:
+                        # なるべく最後の方まで見て、周期が続いていたら
+                        return step
+
+        return "-9999"
+        """見つからなかった"""
+
+    maybe_period = find_period()
+
+    # サブトラクションセットを表示
+    cv2.putText(canvas,
+                f"S = {{ {a}, {b}, {c} }} Maybe period:{maybe_period}",
+                (int(5*zoom), int(30*zoom)),  # x,y
+                None,  # font
+                1.0 * zoom,  # font_scale
+                font_color,  # color
+                0)  # line_type
 
     print_c_pieces(y=int(90*zoom))
     """駒を描画"""
