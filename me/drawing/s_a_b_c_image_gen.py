@@ -75,6 +75,22 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
                         font_color,  # color
                         0)  # line_type
 
+    def print_occupied_pieces(y):
+        """駒の有無を描画"""
+        for i in range(0, len_Nz):
+            if board[i] == ".":
+                piece = "x"
+            else:
+                piece = "."
+
+            cv2.putText(canvas,
+                        f"{piece}",
+                        (int((i*char_width+margin_left)*zoom), y),  # x,y
+                        None,  # font
+                        1.0 * zoom,  # font_scale
+                        font_color,  # color
+                        0)  # line_type
+
     def print_x_axis(y):
         """x軸を描画"""
         for i in range(0, len_Nz):
@@ -105,8 +121,8 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     print_mate_lins(src_y=int(110*zoom), dst_y=int(380*zoom))
     """mate線を描画"""
 
-    print_pieces(y=int(400*zoom))
-    """駒を描画"""
+    print_occupied_pieces(y=int(400*zoom))
+    """駒の有無を描画"""
 
     print_x_axis(y=int(440*zoom))
     """x軸を描画"""
