@@ -10,7 +10,7 @@ len_Nz = 201
 """とりあえず c の２倍はある要素数。画像の横幅にも使われるので大きすぎないように
 画像ファイルは、この半分ぐらいの部分で作ります"""
 
-for i in range(0, 4):
+for i in range(0, 100):
     a = random.randint(1, 10)
     b = a + random.randint(1, 10)
     c = b + random.randint(1, 10)

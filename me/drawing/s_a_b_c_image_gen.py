@@ -32,9 +32,6 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     board = [""] * len_Nz
     """盤"""
 
-    occupied_bitboard = [False] * len_Nz
-    """オキュパイド ビット盤"""
-
     mate_lines = []
     """mate線"""
 
@@ -61,10 +58,6 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     for i in range(0, len_Nz):
         if board[i] == "":
             board[i] = "."
-
-    for i in range(0, len_Nz):
-        if board[i] != "":
-            occupied_bitboard[i] = True
 
     def print_empty_pieces(y):
         """駒を描画"""
@@ -162,6 +155,15 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
             cv2.line(canvas, (src_x, src_y),
                      (dst_x, dst_y), line_color, thickness=line_thickness)
 
+    def match_repeat(array1, begin1, pattern_array):
+        for i in range(begin1, len(array1)-len(pattern_array)):
+            is_matched = match_partial(
+                array1, begin1, pattern_array, 0, len(pattern_array))
+            if is_matched:
+                return True
+
+        return False
+
     def match_partial(array1, begin1, array2, begin2, length):
         for i in range(0, length):
             if array1[begin1 + i] != array2[begin2 + i]:
@@ -169,40 +171,9 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
 
         return True
 
-    def find_period():
-        """周期を調べる"""
-
-        # 最初の２つのパターン
-        begin = 0
-
-        for step in range(2, int(len_Nz/2)):
-            """周期の長さを少しずつ広げていく"""
-            end = begin + step
-            pattern = occupied_bitboard[begin:end]
-
-            for phase_offset in range(0, step):
-                """位相のずれを考慮"""
-
-                match_count = 0
-
-                for i in range(end+phase_offset, len_Nz, step):
-                    if i+step < len_Nz:
-                        if not match_partial(occupied_bitboard, i, pattern, 0, step):
-                            break
-
-                        match_count += 1
-                    elif 0 < match_count:
-                        # なるべく最後の方まで見て、周期が続いていたら
-                        return step
-
-        return "-9999"
-        """見つからなかった"""
-
-    maybe_period = find_period()
-
     # サブトラクションセットを表示
     cv2.putText(canvas,
-                f"S = {{ {a}, {b}, {c} }} Maybe period:{maybe_period}",
+                f"S = {{ {a}, {b}, {c} }}",
                 (int(5*zoom), int(30*zoom)),  # x,y
                 None,  # font
                 1.0 * zoom,  # font_scale
