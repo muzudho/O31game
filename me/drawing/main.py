@@ -17,7 +17,20 @@ len_Nz = 200
 
 
 def main():
-    # 3和音シリーズ
+    gen_odds()
+
+
+def gen_odds():
+    """奇数シリーズ"""
+    gen_s_a_b_c_image(a=1, b=3, c=5, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=7, c=9, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=13, c=15, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=5, b=7, c=13, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=7, b=43, c=45, len_Nz=len_Nz, zoom=zoom)
+
+
+def gen_3chord():
+    """3和音シリーズ"""
     for ms in range(0, 12):
         """Music scale
         1: C
