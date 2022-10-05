@@ -9,56 +9,58 @@ import random
 def main():
     print("Gear with moving hole")
 
-    a = random.randint(0, 10)
-    b = random.randint(a+0, a+10)
-    c = random.randint(b+0, b+10)
+    a = 5
+    b = 7
+    c = 13
+    len_Nz = 40
     print(f"S={{a,b,c}} : S={{{a}, {b}, {c}}}")
 
     # n mod a + n mod b + n mod c の略
-    go_gear("a + b + c", a, b, c)  # a.b.c
-    go_gear("a + b - c", a, b, c)
-    go_gear("a - b + c", a, b, c)
-    go_gear("a - b - c", a, b, c)
-    go_gear("a + c + b", a, c, b)  # a.c.b
-    go_gear("a + c - b", a, c, b)
-    go_gear("a - c + b", a, c, b)
-    go_gear("a - c - b", a, c, b)
-    go_gear("b + a + c", b, a, c)  # b.a.c
-    go_gear("b + a - c", b, a, c)
-    go_gear("b - a + c", b, a, c)
-    go_gear("b - a - c", b, a, c)
-    go_gear("b + c + a", b, c, a)  # b.c.a
-    go_gear("b + c - a", b, c, a)
-    go_gear("b - c + a", b, c, a)
-    go_gear("b - c - a", b, c, a)
-    go_gear("c + a + b", c, a, b)  # c.a.b
-    go_gear("c + a - b", c, a, b)
-    go_gear("c - a + b", c, a, b)
-    go_gear("c - a - b", c, a, b)
-    go_gear("c + b + a", c, b, a)  # c.b.a
-    go_gear("c + b - a", c, b, a)
-    go_gear("c - b + a", c, b, a)
-    go_gear("c - b - a", c, b, a)
+    go_gear("a + b + c", a, b, c, len_Nz)  # a.b.c
+    go_gear("a + b - c", a, b, c, len_Nz)
+    go_gear("a - b + c", a, b, c, len_Nz)
+    go_gear("a - b - c", a, b, c, len_Nz)
+    go_gear("a + c + b", a, c, b, len_Nz)  # a.c.b
+    go_gear("a + c - b", a, c, b, len_Nz)
+    go_gear("a - c + b", a, c, b, len_Nz)
+    go_gear("a - c - b", a, c, b, len_Nz)
+    go_gear("b + a + c", b, a, c, len_Nz)  # b.a.c
+    go_gear("b + a - c", b, a, c, len_Nz)
+    go_gear("b - a + c", b, a, c, len_Nz)
+    go_gear("b - a - c", b, a, c, len_Nz)
+    go_gear("b + c + a", b, c, a, len_Nz)  # b.c.a
+    go_gear("b + c - a", b, c, a, len_Nz)
+    go_gear("b - c + a", b, c, a, len_Nz)
+    go_gear("b - c - a", b, c, a, len_Nz)
+    go_gear("c + a + b", c, a, b, len_Nz)  # c.a.b
+    go_gear("c + a - b", c, a, b, len_Nz)
+    go_gear("c - a + b", c, a, b, len_Nz)
+    go_gear("c - a - b", c, a, b, len_Nz)
+    go_gear("c + b + a", c, b, a, len_Nz)  # c.b.a
+    go_gear("c + b - a", c, b, a, len_Nz)
+    go_gear("c - b + a", c, b, a, len_Nz)
+    go_gear("c - b - a", c, b, a, len_Nz)
 
 
-def go_gear(expression, a, b, c):
+def go_gear(expression, a, b, c, len_Nz):
     """n1 op1 n2 op2 op3"""
     tokens = expression.split(" ")
     m1 = choise_operand(tokens[0], a, b, c)
     m2 = choise_operand(tokens[2], a, b, c)
     m3 = choise_operand(tokens[4], a, b, c)
     print(f"""
-n n mod {m1:>2} {tokens[1]} n mod {m2:>2} {tokens[3]} n mod {m3:>2}
-  --------   --------   --------   -----""")
+n n mod {m1:>2} {tokens[1]} n mod {m2:>2} {tokens[3]} n mod {m3:>2}   Grundy
+  --------   --------   --------   ------""")
 
-    for n in range(0, 40):
+    for n in range(0, len_Nz):
         l1 = n % m1
         l2 = n % m2
         l3 = n % m3
         value = do_operator(l1, tokens[1], l2)
         value = do_operator(value, tokens[3], l3)
+        value = value % 4  # 0～3 にしたい
         print(
-            f"n {l1:8} {tokens[1]} {l2:8} {tokens[3]} {l3:8} = {value:5}")
+            f"n {l1:8} {tokens[1]} {l2:8} {tokens[3]} {l3:8} = {value:6}")
 
 
 def choise_operand(expected, a, b, c):
