@@ -9,6 +9,9 @@ expected_grundy_seq = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
                        2, 2, 0, 2, 2, 3, 3, 1, 0, 3, 0, 0, 0, 1, 0, 1, 1, 1, 2, 1, 0, 2, 0, 3, 2, 1, 0, 1, 0, 3, ]
 """S={3,5,7}"""
 
+best_match_rate = 0.0
+"""最大一致率"""
+
 
 def main():
     global expected_grundy_seq
@@ -58,7 +61,7 @@ def main():
 
 def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
     """n1 op1 n2 op2 op3"""
-    global expected_grundy_seq
+    global expected_grundy_seq, best_match_rate
 
     tokens = expression.split(" ")
     m1 = choise_operand(tokens[0], a, b, c)
@@ -69,12 +72,10 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
     mm3 = choise_operand(tokens[4], aa, bb, cc)
     op1 = tokens[1]
     op2 = tokens[3]
-    print(f"""Joke program
-
- n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy
+    print(f""" n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy
 -- ----------   ----------   ----------   ------""")
 
-    is_perfect = True
+    match_count = 0
 
     i = 0
     for n in range(0, len_Nz):
@@ -87,16 +88,22 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
         print(
             f"{n:>2} {l1:10} {op1} {l2:10} {op2} {l3:10} = {value:6}")
 
-        if expected_grundy_seq[i] != value:
-            is_perfect = False
+        if expected_grundy_seq[i] == value:
+            match_count += 1
 
         i += 1
 
-    is_perfect = True
-    if is_perfect:
-        text = f"""
- n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy
--- ----------   ----------   ----------   ------
+    match_rate = match_count / len_Nz
+
+    if best_match_rate < match_rate:
+        best_match_rate = match_rate  # Update
+
+        text = f"""Joke program
+
+match_rate:{match_rate:1.2f}
+
+ n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy Expected
+-- ----------   ----------   ----------   ------ --------
 """
 
         for n in range(0, len_Nz):
@@ -106,9 +113,10 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
             value = do_operator(l1, tokens[1], l2)
             value = do_operator(value, tokens[3], l3)
             value = value % 4  # 0～3 にしたい
-            text += f"{n:>2} {l1:10} {op1} {l2:10} {op2} {l3:10} = {value:6}\n"
+            expected = expected_grundy_seq[n]
+            text += f"{n:>2} {l1:10} {op1} {l2:10} {op2} {l3:10} = {value:6} {expected:8}\n"
 
-        with open('./oh_my_god.csv', 'w', encoding="utf-8") as f:
+        with open('./oh_my_god.txt', 'w', encoding="utf-8") as f:
             f.write(text)
         raise ValueError("Oh, my God!")
 
