@@ -14,39 +14,35 @@ def main():
     c = random.randint(b+0, b+10)
     print(f"S={{a,b,c}} : S={{{a}, {b}, {c}}}")
 
-    for a in range(1, 3):
-        for b in range(a+1, a+3):
-            for c in range(b+1, b+1+3):
+    go_gear("a + b + c", a, b, c)  # a.b.c
+    go_gear("a + b - c", a, b, c)
+    go_gear("a - b + c", a, b, c)
+    go_gear("a - b - c", a, b, c)
 
-                go_gear("a + b + c", a, b, c)  # a.b.c
-                go_gear("a + b - c", a, b, c)
-                go_gear("a - b + c", a, b, c)
-                go_gear("a - b - c", a, b, c)
+    go_gear("a + c + b", a, c, b)  # a.c.b
+    go_gear("a + c - b", a, c, b)
+    go_gear("a - c + b", a, c, b)
+    go_gear("a - c - b", a, c, b)
 
-                go_gear("a + c + b", a, c, b)  # a.c.b
-                go_gear("a + c - b", a, c, b)
-                go_gear("a - c + b", a, c, b)
-                go_gear("a - c - b", a, c, b)
+    go_gear("b + a + c", b, a, c)  # b.a.c
+    go_gear("b + a - c", b, a, c)
+    go_gear("b - a + c", b, a, c)
+    go_gear("b - a - c", b, a, c)
 
-                go_gear("b + a + c", b, a, c)  # b.a.c
-                go_gear("b + a - c", b, a, c)
-                go_gear("b - a + c", b, a, c)
-                go_gear("b - a - c", b, a, c)
+    go_gear("b + c + a", b, c, a)  # b.c.a
+    go_gear("b + c - a", b, c, a)
+    go_gear("b - c + a", b, c, a)
+    go_gear("b - c - a", b, c, a)
 
-                go_gear("b + c + a", b, c, a)  # b.c.a
-                go_gear("b + c - a", b, c, a)
-                go_gear("b - c + a", b, c, a)
-                go_gear("b - c - a", b, c, a)
+    go_gear("c + a + b", c, a, b)  # c.a.b
+    go_gear("c + a - b", c, a, b)
+    go_gear("c - a + b", c, a, b)
+    go_gear("c - a - b", c, a, b)
 
-                go_gear("c + a + b", c, a, b)  # c.a.b
-                go_gear("c + a - b", c, a, b)
-                go_gear("c - a + b", c, a, b)
-                go_gear("c - a - b", c, a, b)
-
-                go_gear("c + b + a", c, b, a)  # c.b.a
-                go_gear("c + b - a", c, b, a)
-                go_gear("c - b + a", c, b, a)
-                go_gear("c - b - a", c, b, a)
+    go_gear("c + b + a", c, b, a)  # c.b.a
+    go_gear("c + b - a", c, b, a)
+    go_gear("c - b + a", c, b, a)
+    go_gear("c - b - a", c, b, a)
 
 
 def go_gear(expression, a, b, c):
