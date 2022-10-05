@@ -5,6 +5,7 @@ python.exe -m ideas.gear_with_moving_hole.main
 """
 import random
 
+expected_title = "S={3,5,7} feeling lucky!"
 expected_grundy_seq = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
                        2, 2, 0, 2, 2, 3, 3, 1, 0, 3, 0, 0, 0, 1, 0, 1, 1, 1, 2, 1, 0, 2, 0, 3, 2, 1, 0, 1, 0, 3, ]
 """S={3,5,7}"""
@@ -15,7 +16,10 @@ best_match_rate = 0.0
 
 def main():
     global expected_grundy_seq
+
     len_Nz = 40
+
+    print("Playout! Gear with moving hole")
 
     # playout = 10000
     # for i in range(0, playout):
@@ -30,8 +34,7 @@ def main():
         bb = random.randint(0, 10)
         cc = random.randint(0, 10)
 
-        print("Gear with moving hole")
-        print(f"S={{a,b,c}} : S={{{a}, {b}, {c}}}")
+        # print(f"S={{a,b,c}} : S={{{a}, {b}, {c}}}")
 
         # n aa mod a + n bb mod b + n cc mod c の略
         go_gear("a + b + c", a, b, c, aa, bb, cc, len_Nz)  # a.b.c
@@ -73,8 +76,8 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
     mm3 = choise_operand(tokens[4], aa, bb, cc)
     op1 = tokens[1]
     op2 = tokens[3]
-    print(f""" n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy
--- ----------   ----------   ----------   ------""")
+    # print(f""" n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy
+# -- ----------   ----------   ----------   ------""")
 
     match_count = 0
 
@@ -101,9 +104,10 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
 
         text = f"""Joke program
 
+{expected_title}
 match_rate:{match_rate:1.2f}
 
- n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy Expected
+ n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}    mod 4 Expected
 -- ----------   ----------   ----------   ------ --------
 """
 
