@@ -14,12 +14,12 @@ def main():
     global expected_grundy_seq
     len_Nz = 40
 
-    playout = 100
+    playout = 10000
     for i in range(0, playout):
 
-        a = random.randint(1, 100)
-        b = random.randint(a+1, a+100)
-        c = random.randint(b+1, b+100)
+        a = random.randint(1, 10)
+        b = random.randint(a+1, a+10)
+        c = random.randint(b+1, b+10)
 
         # 係数。線形ではないだろうし
         aa = random.randint(0, 10)
