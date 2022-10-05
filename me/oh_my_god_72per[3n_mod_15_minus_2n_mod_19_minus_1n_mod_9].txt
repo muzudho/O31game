@@ -3,7 +3,7 @@ Joke program
 S={3,5,7} feeling lucky!
 match_rate:0.72
 
- n  3n mod 15 -  2n mod 19 - 10n mod  9   Grundy Expected
+ n  3n mod 15 -  2n mod 19 -  1n mod  9    mod 4 Expected
 -- ----------   ----------   ----------   ------ --------
  0          0 -          0 -          0 =      0        0
  1          3 -          2 -          1 =      0        0

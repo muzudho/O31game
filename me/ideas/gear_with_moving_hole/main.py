@@ -107,7 +107,7 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
 {expected_title}
 match_rate:{match_rate:1.2f}
 
- n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}   Grundy Expected
+ n {mm1:>2}n mod {m1:>2} {op1} {mm2:>2}n mod {m2:>2} {op2} {mm3:>2}n mod {m3:>2}    mod 4 Expected
 -- ----------   ----------   ----------   ------ --------
 """
 
