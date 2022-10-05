@@ -3,7 +3,7 @@ cd me
 
 python.exe -m docs.idea_sketch.s_4_5_40.make
 """
-from kernel.math.grundy import GrundyListObj
+from kernel.math.grundy import GrundySequence
 
 print("This is an idea sketch.")
 
@@ -23,7 +23,7 @@ def print_idea_sketch(a, b, c):
     b_p_c = b + c   # ●b+c
 
     # グランディ数を表示するのに使う
-    grundy_list_obj = GrundyListObj.make(S={a, b, c}, len_N=len_N)
+    grundy_sequence = GrundySequence.make(S={a, b, c}, len_N=len_N)
 
     # 願望を表示
     print(f"""
@@ -149,7 +149,7 @@ def print_idea_sketch(a, b, c):
 
         # 十の位
         # =====
-        grundy = grundy_list_obj.get_grundy_at(len_N)
+        grundy = grundy_sequence.get_grundy_at(len_N)
         grundy //= 10
         if grundy == 0:
             grundy_str = "  "
@@ -162,7 +162,7 @@ def print_idea_sketch(a, b, c):
         for x in range(0, len_N):
             """画面右側あたり"""
             rev_x = len_N - x - 1
-            grundy = grundy_list_obj.get_grundy_at(rev_x)
+            grundy = grundy_sequence.get_grundy_at(rev_x)
             grundy //= 10
             if grundy == 0:
                 grundy_str = "  "
@@ -175,7 +175,7 @@ def print_idea_sketch(a, b, c):
 
         # 一の位
         # =====
-        grundy = grundy_list_obj.get_grundy_at(len_N)
+        grundy = grundy_sequence.get_grundy_at(len_N)
         grundy %= 10
         print(f"{indent} {grundy}", end="")
         """画面真ん中あたり"""
@@ -183,7 +183,7 @@ def print_idea_sketch(a, b, c):
         for x in range(0, len_N):
             """画面右側あたり"""
             rev_x = len_N - x - 1
-            grundy = grundy_list_obj.get_grundy_at(rev_x)
+            grundy = grundy_sequence.get_grundy_at(rev_x)
             grundy %= 10
             print(f" {grundy}", end="")
 

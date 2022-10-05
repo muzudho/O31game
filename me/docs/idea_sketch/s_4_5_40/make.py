@@ -3,7 +3,7 @@ cd me
 
 python.exe -m docs.idea_sketch.s_4_5_40.make
 """
-from kernel.math.grundy import GrundyListObj
+from kernel.math.grundy import GrundySequence
 
 print("This is an idea sketch.")
 
@@ -134,7 +134,7 @@ def print_idea_sketch(a, b, c):
     """ナナメに y軸 の並びを見たときの間隔"""
 
     # グランディ数を表示するのに使う
-    grundy_list_obj = GrundyListObj.make(
+    grundy_sequence = GrundySequence.make(
         S={a, b, c}, len_N=x_axis_negative_len+display_c)
 
     x_axis_width = x_axis_negative_len + x_axis_zero_len + x_axis_positive_len
@@ -188,7 +188,7 @@ def print_idea_sketch(a, b, c):
         # 目盛り
         for i in range(0, display_length):
             rev_x = display_length - i - 1
-            grundy = grundy_list_obj.get_bit_grundy_at(rev_x)
+            grundy = grundy_sequence.get_bit_grundy_at(rev_x)
             print(f"{grundy:2}", end="")
 
         # スペース パディング

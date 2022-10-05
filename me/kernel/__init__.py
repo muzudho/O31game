@@ -1,4 +1,4 @@
-from kernel.math.grundy import GrundyListObj
+from kernel.math.grundy import GrundySequence
 
 
 class Kernel:
@@ -62,7 +62,7 @@ class Kernel:
         self.__record = value
 
     @property
-    def grundy_list_obj(self):
+    def grundy_sequence(self):
         """グランディ数の一覧オブジェクト"""
         return self.__grundy_list_obj
 
@@ -74,6 +74,6 @@ class Kernel:
 
     def new_game(self):
         """新規対局作成"""
-        self.__grundy_list_obj = GrundyListObj.make(
+        self.__grundy_list_obj = GrundySequence.make(
             S=set(self.__numbers_to_choose),
             len_N=self.__rest)

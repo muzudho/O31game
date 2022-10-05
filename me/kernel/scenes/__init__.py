@@ -1,4 +1,4 @@
-from kernel.math.grundy import GrundyListObj
+from kernel.math.grundy import GrundySequence
 
 
 class Scenes:
@@ -116,7 +116,7 @@ You can't take the remaining stones!
 """
 
     @staticmethod
-    def stringify_position_text(rest, number_taken, grundy_list_obj: GrundyListObj):
+    def stringify_position_text(rest, number_taken, grundy_sequence: GrundySequence):
         """局面の文字列
 
         Example
@@ -179,7 +179,7 @@ You can't take the remaining stones!
 
         # グランディ数の十の位を描画（上限を９９とします）
         for nth in range(1, rest+1):  # 序数に変換
-            grundy = grundy_list_obj.get_grundy_at(nth)
+            grundy = grundy_sequence.get_grundy_at(nth)
             if grundy < 10:
                 s += " "
             else:
@@ -189,7 +189,7 @@ You can't take the remaining stones!
 
         # グランディ数の一の位を描画
         for nth in range(1, rest+1):  # 序数に変換
-            grundy = grundy_list_obj.get_grundy_at(nth)
+            grundy = grundy_sequence.get_grundy_at(nth)
             s += f"{grundy%10}"
 
         s += " grundy\n"

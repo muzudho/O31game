@@ -67,10 +67,10 @@ def main():
     kernel.new_game()
 
     print(Scenes.stringify_position_text(
-        kernel.rest, 0, kernel.grundy_list_obj))
+        kernel.rest, 0, kernel.grundy_sequence))
 
     # for i in range(0, kernel.rest+1):
-    #    grundy = kernel.grundy_list_obj.get_grundy_at(i)
+    #    grundy = kernel.grundy_sequence.get_grundy_at(i)
     #    print(f"i:{i} grundy:{grundy}")
 
     # Play
@@ -112,7 +112,7 @@ def main():
                             record_item.removed_chooses)
 
                         print(Scenes.stringify_position_text(
-                            kernel.rest, 0, kernel.grundy_list_obj))
+                            kernel.rest, 0, kernel.grundy_sequence))
                     else:
                         print("No more undo!")
 
@@ -135,7 +135,7 @@ def main():
             number_taken=number_taken, removed_chooses=removed_chooses))
         kernel.rest -= number_taken
         print(Scenes.stringify_position_text(
-            kernel.rest, number_taken, kernel.grundy_list_obj))
+            kernel.rest, number_taken, kernel.grundy_sequence))
 
         if kernel.rest < 1:
             # 最後の石を取った
@@ -165,7 +165,7 @@ def main():
             number_taken=number_taken, removed_chooses=removed_chooses))
         kernel.rest -= number_taken
         print(Scenes.stringify_position_text(
-            kernel.rest, number_taken, kernel.grundy_list_obj))
+            kernel.rest, number_taken, kernel.grundy_sequence))
 
         if kernel.rest < 1:
             # 最後の石を取られた

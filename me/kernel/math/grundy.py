@@ -1,8 +1,8 @@
 from kernel.math.mex import mex
 
 
-class GrundyListObj:
-    """グランディ数のリストを持つオブジェクト。
+class GrundySequence:
+    """グランディ数列
 
     X軸上の任意の１点だけのグランディ数が欲しい、ということはできず、
     グランディ数は、原点から X軸上の任意の点までのグランディ数の配列として用意される"""
@@ -20,7 +20,7 @@ class GrundyListObj:
 
         Returns
         -------
-        grundy_list_obj : GrundyListObj
+        grundy_sequence : GrundySequence
         """
 
         # グランディ数の配列のサイズ確定
@@ -56,7 +56,7 @@ class GrundyListObj:
 
             grundy_list[i] = grundy
 
-        return GrundyListObj(grundy_list)
+        return GrundySequence(grundy_list)
 
     def __init__(self, grundy_list: list):
 
