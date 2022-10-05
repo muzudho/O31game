@@ -17,8 +17,9 @@ def main():
     global expected_grundy_seq
     len_Nz = 40
 
-    playout = 10000
-    for i in range(0, playout):
+    # playout = 10000
+    # for i in range(0, playout):
+    while True:
 
         a = random.randint(1, 10)
         b = random.randint(a+1, a+10)
@@ -85,8 +86,8 @@ def go_gear(expression, a, b, c, aa, bb, cc, len_Nz):
         value = do_operator(l1, tokens[1], l2)
         value = do_operator(value, tokens[3], l3)
         value = value % 4  # 0～3 にしたい
-        print(
-            f"{n:>2} {l1:10} {op1} {l2:10} {op2} {l3:10} = {value:6}")
+        # print(
+        #    f"{n:>2} {l1:10} {op1} {l2:10} {op2} {l3:10} = {value:6}")
 
         if expected_grundy_seq[i] == value:
             match_count += 1
@@ -118,7 +119,7 @@ match_rate:{match_rate:1.2f}
 
         with open('./oh_my_god.txt', 'w', encoding="utf-8") as f:
             f.write(text)
-        raise ValueError("Oh, my God!")
+        # raise ValueError("Oh, my God!")
 
 
 def choise_operand(expected, a, b, c):
