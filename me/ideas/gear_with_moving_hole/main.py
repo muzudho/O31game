@@ -5,44 +5,50 @@ python.exe -m ideas.gear_with_moving_hole.main
 """
 import random
 
-a = 5
-b = 7
-c = 13
-len_Nz = 40
 expected_grundy_seq = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
                        2, 2, 0, 2, 2, 3, 3, 1, 0, 3, 0, 0, 0, 1, 0, 1, 1, 1, 2, 1, 0, 2, 0, 3, 2, 1, 0, 1, 0, 3, ]
+"""S={3,5,7}"""
 
 
 def main():
-    global a, b, c, len_Nz, expected_grundy_seq
-    print("Gear with moving hole")
-    print(f"S={{a,b,c}} : S={{{a}, {b}, {c}}}")
+    global expected_grundy_seq
+    len_Nz = 40
 
-    # n mod a + n mod b + n mod c の略
-    go_gear("a + b + c", a, b, c, len_Nz)  # a.b.c
-    go_gear("a + b - c", a, b, c, len_Nz)
-    go_gear("a - b + c", a, b, c, len_Nz)
-    go_gear("a - b - c", a, b, c, len_Nz)
-    go_gear("a + c + b", a, c, b, len_Nz)  # a.c.b
-    go_gear("a + c - b", a, c, b, len_Nz)
-    go_gear("a - c + b", a, c, b, len_Nz)
-    go_gear("a - c - b", a, c, b, len_Nz)
-    go_gear("b + a + c", b, a, c, len_Nz)  # b.a.c
-    go_gear("b + a - c", b, a, c, len_Nz)
-    go_gear("b - a + c", b, a, c, len_Nz)
-    go_gear("b - a - c", b, a, c, len_Nz)
-    go_gear("b + c + a", b, c, a, len_Nz)  # b.c.a
-    go_gear("b + c - a", b, c, a, len_Nz)
-    go_gear("b - c + a", b, c, a, len_Nz)
-    go_gear("b - c - a", b, c, a, len_Nz)
-    go_gear("c + a + b", c, a, b, len_Nz)  # c.a.b
-    go_gear("c + a - b", c, a, b, len_Nz)
-    go_gear("c - a + b", c, a, b, len_Nz)
-    go_gear("c - a - b", c, a, b, len_Nz)
-    go_gear("c + b + a", c, b, a, len_Nz)  # c.b.a
-    go_gear("c + b - a", c, b, a, len_Nz)
-    go_gear("c - b + a", c, b, a, len_Nz)
-    go_gear("c - b - a", c, b, a, len_Nz)
+    playout = 100
+    for i in range(0, playout):
+
+        a = random.randint(1, 100)
+        b = random.randint(a+1, a+100)
+        c = random.randint(b+1, b+100)
+
+        print("Gear with moving hole")
+        print(f"S={{a,b,c}} : S={{{a}, {b}, {c}}}")
+
+        # n mod a + n mod b + n mod c の略
+        go_gear("a + b + c", a, b, c, len_Nz)  # a.b.c
+        go_gear("a + b - c", a, b, c, len_Nz)
+        go_gear("a - b + c", a, b, c, len_Nz)
+        go_gear("a - b - c", a, b, c, len_Nz)
+        go_gear("a + c + b", a, c, b, len_Nz)  # a.c.b
+        go_gear("a + c - b", a, c, b, len_Nz)
+        go_gear("a - c + b", a, c, b, len_Nz)
+        go_gear("a - c - b", a, c, b, len_Nz)
+        go_gear("b + a + c", b, a, c, len_Nz)  # b.a.c
+        go_gear("b + a - c", b, a, c, len_Nz)
+        go_gear("b - a + c", b, a, c, len_Nz)
+        go_gear("b - a - c", b, a, c, len_Nz)
+        go_gear("b + c + a", b, c, a, len_Nz)  # b.c.a
+        go_gear("b + c - a", b, c, a, len_Nz)
+        go_gear("b - c + a", b, c, a, len_Nz)
+        go_gear("b - c - a", b, c, a, len_Nz)
+        go_gear("c + a + b", c, a, b, len_Nz)  # c.a.b
+        go_gear("c + a - b", c, a, b, len_Nz)
+        go_gear("c - a + b", c, a, b, len_Nz)
+        go_gear("c - a - b", c, a, b, len_Nz)
+        go_gear("c + b + a", c, b, a, len_Nz)  # c.b.a
+        go_gear("c + b - a", c, b, a, len_Nz)
+        go_gear("c - b + a", c, b, a, len_Nz)
+        go_gear("c - b - a", c, b, a, len_Nz)
 
 
 def go_gear(expression, a, b, c, len_Nz):
