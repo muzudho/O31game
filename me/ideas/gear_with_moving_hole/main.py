@@ -51,10 +51,20 @@ def go_gear(expression, a, b, c):
     n1 = choise_operand(tokens[0], a, b, c)
     n2 = choise_operand(tokens[2], a, b, c)
     n3 = choise_operand(tokens[4], a, b, c)
-    value = do_operator(n1, tokens[1], n2)
-    value = do_operator(value, tokens[3], n3)
+    print(f"""
+n {tokens[0]:2} mod 3 {tokens[1]} {tokens[2]:2} mod 5 {tokens[3]} {tokens[4]:2} mod 7
+  --------   --------   --------   -----""")
+    m1 = 3
+    m2 = 5
+    m3 = 7
+
+    l1 = n1 % m1
+    l2 = n2 % m2
+    l3 = n3 % m3
+    value = do_operator(l1, tokens[1], l2)
+    value = do_operator(value, tokens[3], l3)
     print(
-        f"    {tokens[0]}    {tokens[1]}    {tokens[2]}    {tokens[3]}    {tokens[4]}    =    {value}")
+        f"n {l1:8} {tokens[1]} {l2:8} {tokens[3]} {l3:8} = {value:5}\n")
 
 
 def choise_operand(expected, a, b, c):
