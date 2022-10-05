@@ -24,13 +24,14 @@ class GrundySequence:
         """
 
         # グランディ数の配列のサイズ確定。 0 を含めるので 1 足す
-        grundy_list = [0] * (len_N+1)
+        len_Nz = len_N + 1
+        grundy_list = [0] * len_Nz
 
-        # 昇順ソート
+        # 昇順ソート a < b < c
         S_list = list(S)
         S_list.sort()
 
-        for i in range(0, len_N+1):
+        for i in range(0, len_Nz):
             """i は局面の石の数"""
 
             T = []
