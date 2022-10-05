@@ -23,7 +23,7 @@ class GrundySequence:
         grundy_sequence : GrundySequence
         """
 
-        # グランディ数の配列のサイズ確定
+        # グランディ数の配列のサイズ確定。 0 を含めるので 1 足す
         grundy_list = [0] * (len_N+1)
 
         # 昇順ソート

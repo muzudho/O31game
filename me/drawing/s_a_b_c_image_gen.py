@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 # from datetime import datetime
+from kernel.math.grundy import GrundySequence
 
 
 def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
@@ -16,9 +17,12 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     char_width = 50
     """一文字の幅の目安"""
 
+    grundy_sequence = GrundySequence.make(S={a, b, c}, len_N=len_Nz-1)
+    """グランディ数列"""
+
     image_width = int((len_Nz * char_width + margin_left) * zoom)
     image_width = int(image_width/2)  # 全体を入れるのではなく、左半分ぐらいを画像にする
-    image_height = int(char_width*11*zoom)
+    image_height = int(char_width*12*zoom)
 
     # 描画する画像を作る,128を変えると色を変えれます 0黒→255白
     canvas = np.full((image_height, image_width, 3), 240, dtype=np.uint8)
@@ -59,13 +63,23 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
         if board[i] == "":
             board[i] = "."
 
+    def print_subtraction_set(y):
+        """サブトラクションセットを表示"""
+        cv2.putText(canvas,
+                    f"S = {{ {a}, {b}, {c} }}",
+                    (int(5*zoom), int(y*zoom)),  # x,y
+                    None,  # font
+                    1.0 * zoom,  # font_scale
+                    font_color,  # color
+                    0)  # line_type
+
     def print_empty_pieces(y):
         """駒を描画"""
         for i in range(0, len_Nz):
             if board[i] == ".":
                 cv2.putText(canvas,
                             f".",
-                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             font_color,  # color
@@ -77,7 +91,8 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
             if "a" in board[i]:
                 cv2.putText(canvas,
                             f"a",
-                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            (int((i*char_width+margin_left)*zoom),
+                             int(y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             color_red,  # color
@@ -89,7 +104,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
             if "b" in board[i]:
                 cv2.putText(canvas,
                             f"b",
-                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             color_green,  # color
@@ -101,7 +116,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
             if "c" in board[i]:
                 cv2.putText(canvas,
                             f"c",
-                            (int((i*char_width+margin_left)*zoom), y),  # x,y
+                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             color_blue,  # color
@@ -117,7 +132,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
 
             cv2.putText(canvas,
                         f"{piece}",
-                        (int((i*char_width+margin_left)*zoom), y),  # x,y
+                        (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
                         None,  # font
                         1.0 * zoom,  # font_scale
                         font_color,  # color
@@ -128,7 +143,19 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
         for i in range(0, len_Nz):
             cv2.putText(canvas,
                         f"{i}",
-                        (int((i*char_width+margin_left)*zoom), y),  # x,y
+                        (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
+                        None,  # font
+                        1.0 * zoom,  # font_scale
+                        font_color,  # color
+                        0)  # line_type
+
+    def print_grundy_sequence(y):
+        """グランディ数列を描画"""
+        for i in range(0, len_Nz):
+            grundy_number = grundy_sequence.get_grundy_at(i)
+            cv2.putText(canvas,
+                        f"{grundy_number}",
+                        (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
                         None,  # font
                         1.0 * zoom,  # font_scale
                         font_color,  # color
@@ -152,51 +179,42 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
             dst_i = mate_line[2]
             dst_x = int((char_width*dst_i+margin_left)*zoom)
 
-            cv2.line(canvas, (src_x, src_y),
-                     (dst_x, dst_y), line_color, thickness=line_thickness)
+            cv2.line(canvas, (src_x, int(src_y*zoom)),
+                     (dst_x, int(dst_y*zoom)), line_color, thickness=line_thickness)
 
-    def match_repeat(array1, begin1, pattern_array):
-        for i in range(begin1, len(array1)-len(pattern_array)):
-            is_matched = match_partial(
-                array1, begin1, pattern_array, 0, len(pattern_array))
-            if is_matched:
-                return True
+    y = 0
+    y += 30
+    print_subtraction_set(y=y)
+    """サブトラクションセットを表示"""
 
-        return False
-
-    def match_partial(array1, begin1, array2, begin2, length):
-        for i in range(0, length):
-            if array1[begin1 + i] != array2[begin2 + i]:
-                return False
-
-        return True
-
-    # サブトラクションセットを表示
-    cv2.putText(canvas,
-                f"S = {{ {a}, {b}, {c} }}",
-                (int(5*zoom), int(30*zoom)),  # x,y
-                None,  # font
-                1.0 * zoom,  # font_scale
-                font_color,  # color
-                0)  # line_type
-
-    print_c_pieces(y=int(90*zoom))
+    y += 60  # 90
+    print_c_pieces(y=y)
     """駒を描画"""
 
-    print_b_pieces(y=int(130*zoom))
+    y += 40  # 130
+    print_b_pieces(y=y)
     """駒を描画"""
 
-    print_a_pieces(y=int(170*zoom))
-    print_empty_pieces(y=int(170*zoom))
+    y += 40  # 170
+    print_a_pieces(y=y)
     """駒を描画"""
 
-    print_mate_lins(src_y=int(190*zoom), dst_y=int(460*zoom))
+    print_empty_pieces(y=y)
+    """重ねてエンプティ駒を描画"""
+
+    y += 20  # 190, 460
+    print_mate_lins(src_y=y, dst_y=y+270)
     """mate線を描画"""
 
-    print_occupied_pieces(y=int(480*zoom))
+    y += 290  # 480
+    print_occupied_pieces(y=y)
     """駒の有無を描画"""
 
-    print_x_axis(y=int(520*zoom))
+    y += 40  # 520
+    print_grundy_sequence(y=y)
+
+    y += 40  # 560
+    print_x_axis(y=y)
     """x軸を描画"""
 
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
