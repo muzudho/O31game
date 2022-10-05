@@ -31,3 +31,10 @@ python.exe battle31.py
 * aと同じ分指しているcが、尻尾の後ろの方にある
   * cの手前のスペースに、後ろの b が指してくる
 
+# 参考にした記事
+
+## Python
+
+### CV2
+
+📖 [How to draw Chinese text on the image using `cv2.putText`correctly? (Python+OpenCV)](https://stackoverflow.com/questions/50854235/how-to-draw-chinese-text-on-the-image-using-cv2-puttextcorrectly-pythonopen)  

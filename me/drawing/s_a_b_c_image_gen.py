@@ -2,6 +2,19 @@ import cv2
 import numpy as np
 # from datetime import datetime
 from kernel.math.grundy import GrundySequence
+# マルチバイト文字対応
+from PIL import ImageFont, ImageDraw, Image
+
+
+def put_multibyte_char(canvas, text):
+    fontpath = "./simsun.ttc"  # <== 这里是宋体路径
+    font = ImageFont.truetype(fontpath, 32)
+    img_pil = Image.fromarray(canvas)
+    draw = ImageDraw.Draw(img_pil)
+    b, g, r, a = 0, 255, 0, 0
+    draw.text((50, 80),  text, font=font, fill=(b, g, r, a))
+    canvas2 = np.array(img_pil)
+    return canvas2
 
 
 def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
@@ -15,6 +28,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     margin_left = 5
 
     char_width = 50
+    char_height = 40
     """一文字の幅の目安"""
 
     grundy_sequence = GrundySequence.make(S={a, b, c}, len_N=len_Nz-1)
@@ -22,7 +36,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
 
     image_width = int((len_Nz * char_width + margin_left) * zoom)
     image_width = int(image_width/2)  # 全体を入れるのではなく、左半分ぐらいを画像にする
-    image_height = int(char_width*12*zoom)
+    image_height = int(char_height*13*zoom)
 
     # 描画する画像を作る,128を変えると色を変えれます 0黒→255白
     canvas = np.full((image_height, image_width, 3), 240, dtype=np.uint8)
@@ -150,16 +164,26 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
                         0)  # line_type
 
     def print_grundy_sequence(y):
-        """グランディ数列を描画"""
+        """グランディ数列を図形的に描画"""
         for i in range(0, len_Nz):
             grundy_number = grundy_sequence.get_grundy_at(i)
-            cv2.putText(canvas,
-                        f"{grundy_number}",
-                        (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
-                        None,  # font
-                        1.0 * zoom,  # font_scale
-                        font_color,  # color
-                        0)  # line_type
+
+            if grundy_number == 0:
+                label = "x"
+                vertical_repeat = 1
+            else:
+                label = "."
+                vertical_repeat = grundy_number
+
+            for j in range(0, vertical_repeat):  # 文字を上にずらしながら重ねていく
+                cv2.putText(canvas,
+                            label,
+                            (int((i*char_width+margin_left)*zoom),
+                             int((y-(char_height/4)*j)*zoom)),  # x,y
+                            None,  # font
+                            1.0 * zoom,  # font_scale
+                            font_color,  # color
+                            0)  # line_type
 
     def print_mate_lins(src_y, dst_y):
         """mate線を描画"""
@@ -187,33 +211,29 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     print_subtraction_set(y=y)
     """サブトラクションセットを表示"""
 
-    y += 60  # 90
+    y += 50  # 80
     print_c_pieces(y=y)
     """駒を描画"""
 
-    y += 40  # 130
+    y += char_height  # 120
     print_b_pieces(y=y)
     """駒を描画"""
 
-    y += 40  # 170
+    y += char_height  # 160
     print_a_pieces(y=y)
     """駒を描画"""
 
     print_empty_pieces(y=y)
     """重ねてエンプティ駒を描画"""
 
-    y += 20  # 190, 460
+    y += 20  # 180, 450
     print_mate_lins(src_y=y, dst_y=y+270)
     """mate線を描画"""
 
-    y += 290  # 480
-    print_occupied_pieces(y=y)
-    """駒の有無を描画"""
-
-    y += 40  # 520
+    y += 290  # 470
     print_grundy_sequence(y=y)
 
-    y += 40  # 560
+    y += char_height  # 530
     print_x_axis(y=y)
     """x軸を描画"""
 

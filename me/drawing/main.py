@@ -1,5 +1,6 @@
 """
 pip install opencv-python
+pip install Pillow
 
 cd me
 
