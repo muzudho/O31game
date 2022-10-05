@@ -18,7 +18,7 @@ len_Nz = 200
 
 
 def main():
-    gen_s_a_b_c_image(a=1, b=4, c=7, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=8, c=10, len_Nz=len_Nz, zoom=zoom)
     # gen_odds()
 
 
