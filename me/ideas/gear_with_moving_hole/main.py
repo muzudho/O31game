@@ -18,33 +18,38 @@ def main():
         for b in range(a+1, a+3):
             for c in range(b+1, b+1+3):
 
-                go_gear(a, b, c, "a + b + c")  # a.b.c
-                print(f"    a+b-c={a+b-c:3}")
-                print(f"    a-b+c={a-b+c:3}")
-                print(f"    a-b-c={a-b-c:3}")
-                print(f"    a+c+b={a+c+b:3}")  # a.c.b
-                print(f"    a+c-b={a+c-b:3}")
-                print(f"    a-c+b={a-c+b:3}")
-                print(f"    a-c-b={a-c-b:3}")
-                print(f"    b+a+c={b+a+c:3}")  # b.a.c
-                print(f"    b+a-c={b+a-c:3}")
-                print(f"    b-a+c={b-a+c:3}")
-                print(f"    b-a-c={b-a-c:3}")
-                print(f"    b+c+a={b+c+a:3}")  # b.c.a
-                print(f"    b+c-a={b+c-a:3}")
-                print(f"    b-c+a={b-c+a:3}")
-                print(f"    b-c-a={b-c-a:3}")
-                print(f"    c+a+b={c+a+b:3}")  # c.a.b
-                print(f"    c+a-b={c+a-b:3}")
-                print(f"    c-a+b={c-a+b:3}")
-                print(f"    c-a-b={c-a-b:3}")
-                print(f"    c+b+a={c+b+a:3}")  # c.b.a
-                print(f"    c+b-a={c+b-a:3}")
-                print(f"    c-b+a={c-b+a:3}")
-                print(f"    c-b-a={c-b-a:3}")
+                go_gear("a + b + c", a, b, c)  # a.b.c
+                go_gear("a + b - c", a, b, c)
+                go_gear("a - b + c", a, b, c)
+                go_gear("a - b - c", a, b, c)
+
+                go_gear("a + c + b", a, c, b)  # a.c.b
+                go_gear("a + c - b", a, c, b)
+                go_gear("a - c + b", a, c, b)
+                go_gear("a - c - b", a, c, b)
+
+                go_gear("b + a + c", b, a, c)  # b.a.c
+                go_gear("b + a - c", b, a, c)
+                go_gear("b - a + c", b, a, c)
+                go_gear("b - a - c", b, a, c)
+
+                go_gear("b + c + a", b, c, a)  # b.c.a
+                go_gear("b + c - a", b, c, a)
+                go_gear("b - c + a", b, c, a)
+                go_gear("b - c - a", b, c, a)
+
+                go_gear("c + a + b", c, a, b)  # c.a.b
+                go_gear("c + a - b", c, a, b)
+                go_gear("c - a + b", c, a, b)
+                go_gear("c - a - b", c, a, b)
+
+                go_gear("c + b + a", c, b, a)  # c.b.a
+                go_gear("c + b - a", c, b, a)
+                go_gear("c - b + a", c, b, a)
+                go_gear("c - b - a", c, b, a)
 
 
-def go_gear(a, b, c, expression):
+def go_gear(expression, a, b, c):
     """n1 op1 n2 op2 op3"""
     tokens = expression.split(" ")
     n1 = choise_operand(tokens[0], a, b, c)
