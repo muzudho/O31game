@@ -1,6 +1,7 @@
 # (^q^)
 *_tmp.csv
 *_tmp.png
+tmp_folder/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
