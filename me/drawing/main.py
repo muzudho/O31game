@@ -18,8 +18,9 @@ len_Nz = 200
 
 
 def main():
-    gen_s_a_b_c_image(a=3, b=8, c=10, len_Nz=len_Nz, zoom=zoom)
+    # gen_s_a_b_c_image(a=8, b=12, c=32, len_Nz=len_Nz, zoom=zoom)
     # gen_odds()
+    gen_3chord()
 
 
 def gen_odds():
@@ -33,6 +34,8 @@ def gen_odds():
 
 def gen_3chord():
     """3和音シリーズ"""
+    roots = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
     for ms in range(0, 12):
         """Music scale
         1: C
@@ -48,22 +51,54 @@ def gen_3chord():
         11: A#
         12: B
         """
-        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=8+ms, len_Nz=len_Nz, zoom=zoom)
+        root = roots[ms]
+
+        if ms % 2 == 0:
+            eo = "ooe"
+        else:
+            eo = "eeo"
+        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=8+ms,
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}_{eo}")
         """メジャーコード"""
 
-        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=8+ms, len_Nz=len_Nz, zoom=zoom)
+        if ms % 2 == 0:
+            eo = "oee"
+        else:
+            eo = "eoo"
+        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=8+ms,
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}m_{eo}")
         """m マイナーコード"""
 
-        gen_s_a_b_c_image(a=1+ms, b=6+ms, c=8+ms, len_Nz=len_Nz, zoom=zoom)
+        if ms % 2 == 0:
+            eo = "oee"
+        else:
+            eo = "eoo"
+        gen_s_a_b_c_image(a=1+ms, b=6+ms, c=8+ms,
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}sus4_{eo}")
         """sus4 サスフォー"""
 
-        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=7+ms, len_Nz=len_Nz, zoom=zoom)
+        if ms % 2 == 0:
+            eo = "ooo"
+        else:
+            eo = "eee"
+        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=7+ms,
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}-5_{eo}")
         """-5 フラットファイブ"""
 
-        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=9+ms, len_Nz=len_Nz, zoom=zoom)
+        if ms % 2 == 0:
+            eo = "ooo"
+        else:
+            eo = "eee"
+        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=9+ms,
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}aug_{eo}")
         """aug オーギュメント"""
 
-        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=7+ms, len_Nz=len_Nz, zoom=zoom)
+        if ms % 2 == 0:
+            eo = "oeo"
+        else:
+            eo = "eoe"
+        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=7+ms,
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}dim_{eo}")
         """dim ディミニッシュ"""
 
 

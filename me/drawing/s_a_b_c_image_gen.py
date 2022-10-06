@@ -4,7 +4,7 @@ import numpy as np
 from kernel.math.grundy import GrundySequence
 
 
-def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
+def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix=""):
     """
     Parameters
     ----------
@@ -225,4 +225,4 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0):
     """x軸を描画"""
 
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
-    cv2.imwrite(f"./output/s_{a:02}_{b:02}_{c:02}_tmp.png", canvas)
+    cv2.imwrite(f"./output/s_{a:02}_{b:02}_{c:02}{suffix}_tmp.png", canvas)
