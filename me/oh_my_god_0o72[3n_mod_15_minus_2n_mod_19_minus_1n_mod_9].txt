@@ -1,6 +1,6 @@
 Joke program
 
-S={3,5,7} feeling lucky!
+S={5,7,13} feeling lucky!
 match_rate:0.72
 
  n  3n mod 15 -  2n mod 19 -  1n mod  9    mod 4 Expected
