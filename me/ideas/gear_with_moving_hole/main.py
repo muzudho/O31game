@@ -5,10 +5,10 @@ python.exe -m ideas.gear_with_moving_hole.main
 """
 import random
 
-expected_title = "S={3,5,7} feeling lucky!"
+expected_title = "S={5,7,13} feeling lucky!"
 expected_grundy_seq = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
                        2, 2, 0, 2, 2, 3, 3, 1, 0, 3, 0, 0, 0, 1, 0, 1, 1, 1, 2, 1, 0, 2, 0, 3, 2, 1, 0, 1, 0, 3, ]
-"""S={3,5,7}"""
+"""S={5,7,13}"""
 
 best_match_rate = 0.0
 """最大一致率"""
