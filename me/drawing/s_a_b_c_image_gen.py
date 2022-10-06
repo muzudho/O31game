@@ -4,7 +4,7 @@ import numpy as np
 from kernel.math.grundy import GrundySequence
 
 
-def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix=""):
+def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     """
     Parameters
     ----------
@@ -247,6 +247,11 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix=""):
     else:
         suffix_text = ""
 
+    if is_temporary:
+        tmp_text = "_tmp"
+    else:
+        tmp_text = ""
+
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
     cv2.imwrite(
-        f"./output/s_{a:02}_{b:02}_{c:02}_{eo_code}{suffix_text}_tmp.png", canvas)
+        f"./output/s_{a:02}_{b:02}_{c:02}_{eo_code}{suffix_text}{tmp_text}.png", canvas)

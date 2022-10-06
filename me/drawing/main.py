@@ -35,6 +35,7 @@ def gen_odds():
 def gen_3chord():
     """3和音シリーズ"""
     roots = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    is_temporary = False
 
     for ms in range(0, 12):
         """Music scale
@@ -54,27 +55,27 @@ def gen_3chord():
         root = roots[ms]
 
         gen_s_a_b_c_image(a=1+ms, b=5+ms, c=8+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}", is_temporary=is_temporary)
         """メジャーコード"""
 
         gen_s_a_b_c_image(a=1+ms, b=4+ms, c=8+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}m")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}m", is_temporary=is_temporary)
         """m マイナーコード"""
 
         gen_s_a_b_c_image(a=1+ms, b=6+ms, c=8+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}sus4")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}sus4", is_temporary=is_temporary)
         """sus4 サスフォー"""
 
         gen_s_a_b_c_image(a=1+ms, b=5+ms, c=7+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}-5")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}-5", is_temporary=is_temporary)
         """-5 フラットファイブ"""
 
         gen_s_a_b_c_image(a=1+ms, b=5+ms, c=9+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}aug")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}aug", is_temporary=is_temporary)
         """aug オーギュメント"""
 
         gen_s_a_b_c_image(a=1+ms, b=4+ms, c=7+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}dim")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}dim", is_temporary=is_temporary)
         """dim ディミニッシュ"""
 
 
