@@ -53,52 +53,28 @@ def gen_3chord():
         """
         root = roots[ms]
 
-        if ms % 2 == 0:
-            eo = "ooe"
-        else:
-            eo = "eeo"
         gen_s_a_b_c_image(a=1+ms, b=5+ms, c=8+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}_{eo}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}")
         """メジャーコード"""
 
-        if ms % 2 == 0:
-            eo = "oee"
-        else:
-            eo = "eoo"
         gen_s_a_b_c_image(a=1+ms, b=4+ms, c=8+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}m_{eo}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}m")
         """m マイナーコード"""
 
-        if ms % 2 == 0:
-            eo = "oee"
-        else:
-            eo = "eoo"
         gen_s_a_b_c_image(a=1+ms, b=6+ms, c=8+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}sus4_{eo}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}sus4")
         """sus4 サスフォー"""
 
-        if ms % 2 == 0:
-            eo = "ooo"
-        else:
-            eo = "eee"
         gen_s_a_b_c_image(a=1+ms, b=5+ms, c=7+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}-5_{eo}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}-5")
         """-5 フラットファイブ"""
 
-        if ms % 2 == 0:
-            eo = "ooo"
-        else:
-            eo = "eee"
         gen_s_a_b_c_image(a=1+ms, b=5+ms, c=9+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}aug_{eo}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}aug")
         """aug オーギュメント"""
 
-        if ms % 2 == 0:
-            eo = "oeo"
-        else:
-            eo = "eoe"
         gen_s_a_b_c_image(a=1+ms, b=4+ms, c=7+ms,
-                          len_Nz=len_Nz, zoom=zoom, suffix=f"_{root}dim_{eo}")
+                          len_Nz=len_Nz, zoom=zoom, suffix=f"{root}dim")
         """dim ディミニッシュ"""
 
 

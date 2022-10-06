@@ -34,6 +34,24 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix=""):
     color_blue = (220, 90, 90)
     line_thickness = 1
 
+    if a % 2 == 0:
+        eo_a = "E"
+    else:
+        eo_a = "o"
+
+    if b % 2 == 0:
+        eo_b = "E"
+    else:
+        eo_b = "o"
+
+    if c % 2 == 0:
+        eo_c = "E"
+    else:
+        eo_c = "o"
+
+    eo_code = f"{eo_a}{eo_b}{eo_c}"
+    """偶奇も付けたい。文字が潰れると見分けにくいので e の方を大文字にした"""
+
     board = [""] * len_Nz
     """盤"""
 
@@ -67,7 +85,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix=""):
     def print_subtraction_set(y):
         """サブトラクションセットを表示"""
         cv2.putText(canvas,
-                    f"S = {{ {a}, {b}, {c} }}",
+                    f"S = {{ {a}, {b}, {c} }} {eo_code} {suffix}",
                     (int(5*zoom), int(y*zoom)),  # x,y
                     None,  # font
                     1.0 * zoom,  # font_scale
@@ -224,5 +242,11 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix=""):
     print_x_axis(y=y)
     """x軸を描画"""
 
+    if suffix != "":
+        suffix_text = f"_{suffix}"
+    else:
+        suffix_text = ""
+
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
-    cv2.imwrite(f"./output/s_{a:02}_{b:02}_{c:02}{suffix}_tmp.png", canvas)
+    cv2.imwrite(
+        f"./output/s_{a:02}_{b:02}_{c:02}_{eo_code}{suffix_text}_tmp.png", canvas)
