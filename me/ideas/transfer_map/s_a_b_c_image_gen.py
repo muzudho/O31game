@@ -9,6 +9,7 @@ python.exe -m ideas.vector_coordinate.main
 import cv2
 import numpy as np
 from kernel.math.eo_code import EoCode
+from kernel.math.music_chord import MusicChord
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0):
@@ -20,6 +21,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
     """
 
     eo_code = EoCode.stringify(a, b, c)
+    music_chord = MusicChord.stringify(a, b, c)
 
     ha = 2*3  # height a
     hb = 2*2
@@ -85,8 +87,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
             """c毛の描画"""
             paint_c_hair(canvas, transposition_table[hash_key])
 
+        if music_chord != "":
+            music_chord_text = f"_{music_chord}"
+        else:
+            music_chord_text = ""
+
         cv2.imwrite(
-            f"./output/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}_tmp.png", canvas)
+            f"./output/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}_tmp.png", canvas)
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
@@ -132,7 +139,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
     def paint_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
         cv2.putText(canvas,
-                    f"S = {{ {a}, {b}, {c} }} {eo_code}",
+                    f"S = {{ {a}, {b}, {c} }} {eo_code} {music_chord}",
                     (int((x+char_base_width+margin_left)*zoom),
                      int((y+char_base_height+margin_left)*zoom)),  # x,y
                     None,  # font

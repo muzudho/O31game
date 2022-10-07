@@ -3,7 +3,8 @@ class EoCode:
 
     @staticmethod
     def stringify(a, b, c):
-        """文字が潰れると見分けにくいので e の方を大文字にした"""
+        """文字が潰れると見分けにくいので e の方を大文字にした
+        - ファイル名にも使える文字"""
 
         if a % 2 == 0:
             eo_a = "E"
