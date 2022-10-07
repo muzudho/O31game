@@ -8,7 +8,7 @@ python.exe -m ideas.transfer_map.main
 """
 from ideas.transfer_map.s_a_b_c_image_gen import gen_s_a_b_c_image
 
-zoom = 0.4
+zoom = 1.0
 """倍率。1倍はかなりでかい"""
 
 

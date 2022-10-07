@@ -32,12 +32,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
     margin_top = 20
     margin_bottom = 5
 
-    columns = 60
-    rows = 60
+    columns = 100
+    rows = 100
 
     char_base_width = -10
     char_base_height = 5
-    char_width = 50
+    char_width = 40
     char_height = 40
     """一文字の幅の目安"""
 
