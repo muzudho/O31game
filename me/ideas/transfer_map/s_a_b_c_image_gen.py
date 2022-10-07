@@ -29,7 +29,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 20 + 1000
+    margin_top = 20 + 2000
     margin_bottom = 5
 
     columns = 100
@@ -54,7 +54,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         image_width = int(
             (columns * char_width + margin_left + margin_right) * zoom)
         image_height = int(
-            (rows * char_height+margin_top + margin_bottom)*1/3*zoom)
+            (rows * char_height+margin_top + margin_bottom)*2/3*zoom)
 
         # 画像データは数値の配列
         monochrome_color = 240  # 0黒→255白
@@ -223,8 +223,14 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """a石を描く"""
         x = point["x"]
         y = point["y"]
+
+        if x < 21:
+            label = f"{x}"
+        else:
+            label = ""
+
         cv2.putText(canvas,
-                    f"{x}",
+                    label,
                     (int((x*char_width+char_base_width+margin_left)*zoom),
                      int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
@@ -236,8 +242,14 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """b石を描く"""
         x = point["x"]
         y = point["y"]
+
+        if x < 21:
+            label = f"{x}"
+        else:
+            label = ""
+
         cv2.putText(canvas,
-                    f"{x}",
+                    label,
                     (int((x*char_width+char_base_width+margin_left)*zoom),
                      int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
@@ -249,8 +261,14 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """c石を描く"""
         x = point["x"]
         y = point["y"]
+
+        if x < 21:
+            label = f"{x}"
+        else:
+            label = ""
+
         cv2.putText(canvas,
-                    f"{x}",
+                    label,
                     (int((x*char_width+char_base_width+margin_left)*zoom),
                      int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
