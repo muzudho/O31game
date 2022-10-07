@@ -100,7 +100,7 @@ class GrundySequence:
 
 
 class DameColorSequence():
-    """囲碁の駄目のようにグランディ数 0 を着色"""
+    """WIP 囲碁の駄目のようにグランディ数 0 を着色"""
 
     @staticmethod
     def make(grundy_sequence):

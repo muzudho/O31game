@@ -25,8 +25,10 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     image_width = int(image_width/2)  # 全体を入れるのではなく、左半分ぐらいを画像にする
     image_height = int(char_height*13*zoom)
 
-    # 描画する画像を作る,128を変えると色を変えれます 0黒→255白
-    canvas = np.full((image_height, image_width, 3), 240, dtype=np.uint8)
+    # 画像データは数値の配列
+    monochrome_color = 240  # 0黒→255白
+    canvas = np.full((image_height, image_width, 3),
+                     monochrome_color, dtype=np.uint8)
     # Blue,Green,Red
     font_color = (55, 55, 55)
     color_red = (90, 90, 220)
