@@ -44,6 +44,9 @@ def main():
     line_thickness = 1
     """線の太さ"""
 
+    rest_x_point = []
+    """残りの点"""
+
     def make_image():
         image_width = int(
             (columns * char_width + margin_left + margin_right) * zoom)
@@ -58,29 +61,55 @@ def main():
         # x石の描画
         x = 0
         y = 0
-        print_x_stone(canvas, x, y)
-
-        # a石の描画
-        x2 = a
-        y2 = ha
-        print_a_stone(canvas, x2, y2)
-
-        # x-->a線の描画
-        print_a_line(canvas, x, y, x2, y2)
-
-        # b石の描画
-        x2 = b
-        y2 = hb
-        print_b_stone(canvas, x2, y2)
-
-        # x-->b線の描画
-        print_b_line(canvas, x, y, x2, y2)
+        paint_x_stone(canvas, x, y)
+        paint_3_hairs(canvas, x, y)
+        make_next_point_from(x, y)
 
         cv2.imwrite(
             f"./output/vector_coordinate_tmp.png", canvas)
         """画像出力"""
 
-    def print_x_stone(canvas, x, y):
+    def make_next_point_from(x, y):
+        point = {"x": x+a, "y": y+ha}
+        rest_x_point.append(point)
+        """次のa点"""
+
+        point = {"x": x+b, "y": y+hb}
+        rest_x_point.append(point)
+        """次のb点"""
+
+        point = {"x": x+c, "y": y+hc}
+        rest_x_point.append(point)
+        """次のc点"""
+
+    def paint_3_hairs(canvas, x, y):
+        """三本毛を描く"""
+
+        x2 = a
+        y2 = ha
+        paint_a_stone(canvas, x2, y2)
+        """a石の描画"""
+
+        paint_a_line(canvas, x, y, x2, y2)
+        """x-->a線の描画"""
+
+        x2 = b
+        y2 = hb
+        paint_b_stone(canvas, x2, y2)
+        """b石の描画"""
+
+        paint_b_line(canvas, x, y, x2, y2)
+        """x-->b線の描画"""
+
+        x2 = c
+        y2 = hc
+        paint_c_stone(canvas, x2, y2)
+        """c石の描画"""
+
+        paint_c_line(canvas, x, y, x2, y2)
+        """x-->c線の描画"""
+
+    def paint_x_stone(canvas, x, y):
         """x石を描く"""
         cv2.putText(canvas,
                     "x",
@@ -91,7 +120,7 @@ def main():
                     color_black,  # color
                     0)  # line_type
 
-    def print_a_stone(canvas, x, y):
+    def paint_a_stone(canvas, x, y):
         """a石を描く"""
         cv2.putText(canvas,
                     "a",
@@ -102,7 +131,7 @@ def main():
                     color_red,  # color
                     0)  # line_type
 
-    def print_b_stone(canvas, x, y):
+    def paint_b_stone(canvas, x, y):
         """b石を描く"""
         cv2.putText(canvas,
                     "b",
@@ -113,7 +142,7 @@ def main():
                     color_green,  # color
                     0)  # line_type
 
-    def print_c_stone(canvas, x, y):
+    def paint_c_stone(canvas, x, y):
         """c石を描く"""
         cv2.putText(canvas,
                     "b",
@@ -124,17 +153,17 @@ def main():
                     color_blue,  # color
                     0)  # line_type
 
-    def print_a_line(canvas, x, y, x2, y2):
+    def paint_a_line(canvas, x, y, x2, y2):
         """-->a線の描画"""
         cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
                  (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_red, thickness=line_thickness)
 
-    def print_b_line(canvas, x, y, x2, y2):
+    def paint_b_line(canvas, x, y, x2, y2):
         """-->b線の描画"""
         cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
                  (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_green, thickness=line_thickness)
 
-    def print_c_line(canvas, x, y, x2, y2):
+    def paint_c_line(canvas, x, y, x2, y2):
         """-->c線の描画"""
         cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
                  (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_blue, thickness=line_thickness)
