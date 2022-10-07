@@ -102,7 +102,7 @@ def main():
     def make_next_nodes_from(src_point):
         sx = src_point["x"]
         sy = src_point["y"]
-        if sx < 10 and sy < 10:
+        if sx < columns and sy < rows:
             a_point = {"x": sx+a, "y": sy+ha}
             """次のa点"""
 
@@ -157,10 +157,12 @@ def main():
 
     def paint_a_stone(canvas, point):
         """a石を描く"""
+        x = point["x"]
+        y = point["y"]
         cv2.putText(canvas,
-                    "a",
-                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
-                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    f"{x}",
+                    (int((x*char_width+char_base_width+margin_left)*zoom),
+                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_red,  # color
@@ -168,10 +170,12 @@ def main():
 
     def paint_b_stone(canvas, point):
         """b石を描く"""
+        x = point["x"]
+        y = point["y"]
         cv2.putText(canvas,
-                    "b",
-                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
-                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    f"{x}",
+                    (int((x*char_width+char_base_width+margin_left)*zoom),
+                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_green,  # color
@@ -179,10 +183,12 @@ def main():
 
     def paint_c_stone(canvas, point):
         """c石を描く"""
+        x = point["x"]
+        y = point["y"]
         cv2.putText(canvas,
-                    "b",
-                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
-                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    f"{x}",
+                    (int((x*char_width+char_base_width+margin_left)*zoom),
+                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_blue,  # color
