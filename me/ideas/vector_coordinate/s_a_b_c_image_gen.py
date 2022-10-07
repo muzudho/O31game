@@ -10,16 +10,17 @@ import cv2
 import numpy as np
 
 
-def gen_s_a_b_c_image():
-    zoom = 0.4
-    """倍率。1倍はかなりでかい"""
+def gen_s_a_b_c_image(a, b, c, zoom=1.0):
+    """
+    Parameters
+    ----------
+    zoom : float
+        倍率。1倍はかなりでかい
+    """
 
-    a = 1
-    b = 3
-    c = 5
-    ha = 3  # height a
-    hb = 2
-    hc = 1
+    ha = 2*3  # height a
+    hb = 2*2
+    hc = 2*1
 
     margin_left = 20
     margin_right = 5
