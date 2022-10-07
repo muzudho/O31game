@@ -29,12 +29,15 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     monochrome_color = 240  # 0黒→255白
     canvas = np.full((image_height, image_width, 3),
                      monochrome_color, dtype=np.uint8)
-    # Blue,Green,Red
+
     font_color = (55, 55, 55)
     color_red = (90, 90, 220)
     color_green = (90, 220, 90)
     color_blue = (220, 90, 90)
+    """色"""
+
     line_thickness = 1
+    """線の太さ"""
 
     if a % 2 == 0:
         eo_a = "E"
