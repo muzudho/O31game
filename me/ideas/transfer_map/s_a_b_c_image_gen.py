@@ -143,13 +143,40 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def paint_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
+        location = (int((x+char_base_width+margin_left)*zoom),
+                    int((y+char_base_height+margin_left)*4*zoom))
+        font_scale = 4.0 * zoom
+
         cv2.putText(canvas,
-                    f"S = {{ {a}, {b}, {c} }} {eo_code} {music_chord}",
-                    (int((x+char_base_width+margin_left)*zoom),
-                     int((y+char_base_height+margin_left)*zoom)),  # x,y
+                    f"S = {{   ,   ,    }} {eo_code} {music_chord}",
+                    location,  # x,y
                     None,  # font
-                    1.0 * zoom,  # font_scale
+                    font_scale,  # font_scale
                     color_black,  # color
+                    0)  # line_type
+
+        cv2.putText(canvas,
+                    f"      {a:2}",
+                    location,  # x,y
+                    None,  # font
+                    font_scale,  # font_scale
+                    color_red,  # color
+                    0)  # line_type
+
+        cv2.putText(canvas,
+                    f"          {b:2}",
+                    location,  # x,y
+                    None,  # font
+                    font_scale,  # font_scale
+                    color_green,  # color
+                    0)  # line_type
+
+        cv2.putText(canvas,
+                    f"              {c:2}",
+                    location,  # x,y
+                    None,  # font
+                    font_scale,  # font_scale
+                    color_blue,  # color
                     0)  # line_type
 
     def paint_3_hairs(canvas, three_hairs):
