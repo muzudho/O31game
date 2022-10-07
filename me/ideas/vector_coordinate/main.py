@@ -61,19 +61,23 @@ def main():
         # モデル作成
         transposition_table = dict()
 
-        root_point = {"x": 0, "y": 0}
+        root_point = {"x": 0, "y": 1}
         """根の点"""
 
         make_some_next_nodes_from(root_point, transposition_table)
 
+        paint_subtraction_set(canvas, 0, 0)
+        """サブストラクションセット描画"""
+
         paint_x_stone(canvas, root_point)
+        """根の点描画"""
 
         for hash_key in transposition_table.keys():
             """三本毛の描画"""
             paint_3_hairs(canvas, transposition_table[hash_key])
 
         cv2.imwrite(
-            f"./output/vector_coordinate_tmp.png", canvas)
+            f"./output/vec_field_s_{a:02}_{b:02}_{c:02}_tmp.png", canvas)
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
@@ -115,6 +119,17 @@ def main():
             return (src_point, a_point, b_point, c_point)
 
         return None
+
+    def paint_subtraction_set(canvas, x, y):
+        """サブトラクションセットを表示"""
+        cv2.putText(canvas,
+                    f"S = {{ {a}, {b}, {c} }}",
+                    (int((x+char_base_width+margin_left)*zoom),
+                     int((y+char_base_height+margin_left)*zoom)),  # x,y
+                    None,  # font
+                    1.0 * zoom,  # font_scale
+                    color_black,  # color
+                    0)  # line_type
 
     def paint_3_hairs(canvas, three_hairs):
         """三本毛を描く"""
