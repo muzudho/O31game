@@ -12,7 +12,7 @@ from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
 
 
-def gen_s_a_b_c_image(a, b, c, zoom=1.0):
+def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     """
     Parameters
     ----------
@@ -23,9 +23,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
 
-    ha = 2*3  # height a
-    hb = 2*2
-    hc = 2*1
+    ha = 3*3  # height a
+    hb = 3*2
+    hc = 3*1
 
     margin_left = 20
     margin_right = 5
@@ -92,8 +92,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
         else:
             music_chord_text = ""
 
+        if is_temporary:
+            tmp_text = "_tmp"
+        else:
+            tmp_text = ""
+
         cv2.imwrite(
-            f"./output/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}_tmp.png", canvas)
+            f"./output/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
@@ -203,10 +208,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
 
     def paint_x_stone(canvas, point):
         """x石を描く"""
+        x = point["x"]
+        y = point["y"]
         cv2.putText(canvas,
                     "x",
-                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
-                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    (int((x*char_width+char_base_width+margin_left)*zoom),
+                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_black,  # color

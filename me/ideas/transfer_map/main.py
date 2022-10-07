@@ -13,8 +13,8 @@ zoom = 1.0
 
 
 def main():
-    gen_s_a_b_c_image(a=1, b=3, c=5, zoom=zoom)
-    gen_s_a_b_c_image(a=2, b=4, c=6, zoom=zoom)
+    # gen_s_a_b_c_image(a=1, b=3, c=5, zoom=zoom)
+    # gen_s_a_b_c_image(a=2, b=4, c=6, zoom=zoom)
 
     gen_3chord()
 
@@ -38,22 +38,28 @@ def gen_3chord():
         12: B
         """
 
-        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=8+ms, zoom=zoom)
+        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=8+ms,
+                          zoom=zoom, is_temporary=False)
         """メジャーコード"""
 
-        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=8+ms, zoom=zoom)
+        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=8+ms,
+                          zoom=zoom, is_temporary=False)
         """m マイナーコード"""
 
-        gen_s_a_b_c_image(a=1+ms, b=6+ms, c=8+ms, zoom=zoom)
+        gen_s_a_b_c_image(a=1+ms, b=6+ms, c=8+ms,
+                          zoom=zoom, is_temporary=False)
         """sus4 サスフォー"""
 
-        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=7+ms, zoom=zoom)
+        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=7+ms,
+                          zoom=zoom, is_temporary=False)
         """-5 フラットファイブ"""
 
-        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=9+ms, zoom=zoom)
+        gen_s_a_b_c_image(a=1+ms, b=5+ms, c=9+ms,
+                          zoom=zoom, is_temporary=False)
         """aug オーギュメント"""
 
-        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=7+ms, zoom=zoom)
+        gen_s_a_b_c_image(a=1+ms, b=4+ms, c=7+ms,
+                          zoom=zoom, is_temporary=False)
         """dim ディミニッシュ"""
 
 
