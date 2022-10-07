@@ -44,7 +44,7 @@ def main():
     line_thickness = 1
     """線の太さ"""
 
-    rest_x_point = []
+    rest_next_point = []
     """残りの点"""
 
     def make_image():
@@ -65,44 +65,54 @@ def main():
         paint_3_hairs(canvas, x, y)
         make_next_point_from(x, y)
 
+        # while 0 < len(rest_next_point):
+        for _ in range(0, 100000):
+            if len(rest_next_point) < 1:
+                break
+
+            next_point = rest_next_point.pop(-1)
+            paint_3_hairs(canvas, next_point["x"], next_point["y"])
+            make_next_point_from(next_point["x"], next_point["y"])
+
         cv2.imwrite(
             f"./output/vector_coordinate_tmp.png", canvas)
         """画像出力"""
 
     def make_next_point_from(x, y):
-        point = {"x": x+a, "y": y+ha}
-        rest_x_point.append(point)
-        """次のa点"""
+        if x < 10 and y < 10:
+            point = {"x": x+a, "y": y+ha}
+            rest_next_point.append(point)
+            """次のa点"""
 
-        point = {"x": x+b, "y": y+hb}
-        rest_x_point.append(point)
-        """次のb点"""
+            point = {"x": x+b, "y": y+hb}
+            rest_next_point.append(point)
+            """次のb点"""
 
-        point = {"x": x+c, "y": y+hc}
-        rest_x_point.append(point)
-        """次のc点"""
+            point = {"x": x+c, "y": y+hc}
+            rest_next_point.append(point)
+            """次のc点"""
 
     def paint_3_hairs(canvas, x, y):
         """三本毛を描く"""
 
-        x2 = a
-        y2 = ha
+        x2 = x+a
+        y2 = y+ha
         paint_a_stone(canvas, x2, y2)
         """a石の描画"""
 
         paint_a_line(canvas, x, y, x2, y2)
         """x-->a線の描画"""
 
-        x2 = b
-        y2 = hb
+        x2 = x+b
+        y2 = y+hb
         paint_b_stone(canvas, x2, y2)
         """b石の描画"""
 
         paint_b_line(canvas, x, y, x2, y2)
         """x-->b線の描画"""
 
-        x2 = c
-        y2 = hc
+        x2 = x+c
+        y2 = y+hc
         paint_c_stone(canvas, x2, y2)
         """c石の描画"""
 
