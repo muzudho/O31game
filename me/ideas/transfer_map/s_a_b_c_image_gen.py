@@ -74,11 +74,19 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
         """根の点描画"""
 
         for hash_key in transposition_table.keys():
-            """三本毛の描画"""
-            paint_3_hairs(canvas, transposition_table[hash_key])
+            """a毛の描画"""
+            paint_a_hair(canvas, transposition_table[hash_key])
+
+        for hash_key in transposition_table.keys():
+            """b毛の描画"""
+            paint_b_hair(canvas, transposition_table[hash_key])
+
+        for hash_key in transposition_table.keys():
+            """c毛の描画"""
+            paint_c_hair(canvas, transposition_table[hash_key])
 
         cv2.imwrite(
-            f"./output/vec_field_s_{a:02}_{b:02}_{c:02}_tmp.png", canvas)
+            f"./output/transfer_map_s_{a:02}_{b:02}_{c:02}_tmp.png", canvas)
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
@@ -135,12 +143,22 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
     def paint_3_hairs(canvas, three_hairs):
         """三本毛を描く"""
 
+        paint_a_hair(canvas, three_hairs)
+        """a石と、x-->a線の描画"""
+
+        paint_a_hair(canvas, three_hairs)
+        """b石と、x-->b線の描画"""
+
+        paint_a_hair(canvas, three_hairs)
+        """c石と、x-->c線の描画"""
+
+    def paint_a_hair(canvas, three_hairs):
+        """a毛を描く"""
+
         src_point = three_hairs[0]
         """始点の石"""
 
         a_point = three_hairs[1]
-        b_point = three_hairs[2]
-        c_point = three_hairs[3]
 
         paint_a_stone(canvas, a_point)
         """a石の描画"""
@@ -148,11 +166,27 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0):
         paint_a_line(canvas, src_point, a_point)
         """x-->a線の描画"""
 
+    def paint_b_hair(canvas, three_hairs):
+        """b毛を描く"""
+
+        src_point = three_hairs[0]
+        """始点の石"""
+
+        b_point = three_hairs[2]
+
         paint_b_stone(canvas, b_point)
         """b石の描画"""
 
         paint_b_line(canvas, src_point, b_point)
         """x-->b線の描画"""
+
+    def paint_c_hair(canvas, three_hairs):
+        """c毛を描く"""
+
+        src_point = three_hairs[0]
+        """始点の石"""
+
+        c_point = three_hairs[3]
 
         paint_c_stone(canvas, c_point)
         """c石の描画"""

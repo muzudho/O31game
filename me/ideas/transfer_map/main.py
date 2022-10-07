@@ -4,9 +4,9 @@ pip install Pillow
 
 cd me
 
-python.exe -m ideas.vector_coordinate.main
+python.exe -m ideas.transfer_map.main
 """
-from ideas.vector_coordinate.s_a_b_c_image_gen import gen_s_a_b_c_image
+from ideas.transfer_map.s_a_b_c_image_gen import gen_s_a_b_c_image
 
 zoom = 0.4
 """倍率。1倍はかなりでかい"""
