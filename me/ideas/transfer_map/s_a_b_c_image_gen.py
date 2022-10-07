@@ -23,13 +23,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
 
-    ha = 3*3  # height a
-    hb = 3*2
-    hc = 3*1
+    ha = -a  # height a
+    hb = 0
+    hc = c
 
     margin_left = 20
     margin_right = 5
-    margin_top = 20
+    margin_top = 20 + 1000
     margin_bottom = 5
 
     columns = 100
@@ -37,8 +37,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     char_base_width = -10
     char_base_height = 5
-    char_width = 40
-    char_height = 40
+    char_width = 50
+    char_height = 50
     """一文字の幅の目安"""
 
     color_black = (55, 55, 55)
@@ -54,7 +54,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         image_width = int(
             (columns * char_width + margin_left + margin_right) * zoom)
         image_height = int(
-            (rows * char_height+margin_top + margin_bottom)*zoom)
+            (rows * char_height+margin_top + margin_bottom)*1/3*zoom)
 
         # 画像データは数値の配列
         monochrome_color = 240  # 0黒→255白
