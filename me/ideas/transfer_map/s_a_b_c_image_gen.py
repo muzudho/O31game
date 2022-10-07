@@ -23,6 +23,39 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
 
+    # いろんな軸の刻み方ができる
+
+    # aをx軸、bをy軸、cをz軸と考えれば、３次元の格子になる
+    # ha = 0  # height a
+    #hb = -b*c
+    #hc = c
+
+    # ha = b*c  # height a
+    #hb = a*c
+    #hc = a*b
+
+    # ha = 0  # height a
+    #hb = -a*c
+    #hc = a*b
+
+    # ha = 0  # height a
+    #hb = a*-b
+    #hc = b*c
+
+    # ha = 0  # height a
+    # hb = a*-b
+    # hc = a*c
+
+    # ha = -a  # height a
+    #hb = b
+    #hc = 0
+
+    # a を水平軸にすると見やすい感じがする
+    # ha = 0  # height a
+    #hb = -b
+    #hc = c
+
+    # 単純な例
     ha = -a  # height a
     hb = 0
     hc = c
@@ -98,7 +131,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             tmp_text = ""
 
         cv2.imwrite(
-            f"./output/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
+            f"./output_tmp/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
