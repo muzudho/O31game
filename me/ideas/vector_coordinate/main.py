@@ -64,25 +64,7 @@ def main():
         root_point = {"x": 0, "y": 0}
         """根の点"""
 
-        three_hairs = make_next_nodes_from(root_point)
-
-        if three_hairs is not None:
-            hash_key = (three_hairs[0]["x"], three_hairs[0]["y"],
-                        three_hairs[1]["x"], three_hairs[1]["y"],
-                        three_hairs[2]["x"], three_hairs[2]["y"],
-                        three_hairs[3]["x"], three_hairs[3]["y"])
-            if not (hash_key in transposition_table):
-                transposition_table[hash_key] = three_hairs
-                print(f"77. three_hairs {transposition_table[hash_key]}")
-
-                next_three_hairs = make_next_nodes_from(three_hairs[0])
-                """a点から生えている三本毛"""
-
-                next_three_hairs = make_next_nodes_from(three_hairs[1])
-                """b点から生えている三本毛"""
-
-                next_three_hairs = make_next_nodes_from(three_hairs[2])
-                """c点から生えている三本毛"""
+        make_some_next_nodes_from(root_point, transposition_table)
 
         paint_x_stone(canvas, root_point)
 
@@ -93,6 +75,29 @@ def main():
         cv2.imwrite(
             f"./output/vector_coordinate_tmp.png", canvas)
         """画像出力"""
+
+    def make_some_next_nodes_from(src_point, transposition_table):
+        three_hairs = make_next_nodes_from(src_point)
+
+        if three_hairs is not None:
+            hash_key = (three_hairs[0]["x"], three_hairs[0]["y"],
+                        three_hairs[1]["x"], three_hairs[1]["y"],
+                        three_hairs[2]["x"], three_hairs[2]["y"],
+                        three_hairs[3]["x"], three_hairs[3]["y"])
+            if not (hash_key in transposition_table):
+                transposition_table[hash_key] = three_hairs
+
+                a_point = three_hairs[1]
+                make_some_next_nodes_from(a_point, transposition_table)
+                """a点から生えている三本毛"""
+
+                b_point = three_hairs[2]
+                make_some_next_nodes_from(b_point, transposition_table)
+                """b点から生えている三本毛"""
+
+                c_point = three_hairs[3]
+                make_some_next_nodes_from(c_point, transposition_table)
+                """c点から生えている三本毛"""
 
     def make_next_nodes_from(src_point):
         sx = src_point["x"]
