@@ -65,15 +65,23 @@ def main():
         y2 = ha
         print_a_stone(canvas, x2, y2)
 
-        # x-a線の描画
-        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
-                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_red, thickness=line_thickness)
+        # x-->a線の描画
+        print_a_line(canvas, x, y, x2, y2)
+
+        # b石の描画
+        x2 = b
+        y2 = hb
+        print_b_stone(canvas, x2, y2)
+
+        # x-->b線の描画
+        print_b_line(canvas, x, y, x2, y2)
 
         cv2.imwrite(
             f"./output/vector_coordinate_tmp.png", canvas)
         """画像出力"""
 
     def print_x_stone(canvas, x, y):
+        """x石を描く"""
         cv2.putText(canvas,
                     "x",
                     (int((x*char_width+char_base_width+margin_left)*zoom),
@@ -84,6 +92,7 @@ def main():
                     0)  # line_type
 
     def print_a_stone(canvas, x, y):
+        """a石を描く"""
         cv2.putText(canvas,
                     "a",
                     (int((x*char_width+char_base_width+margin_left)*zoom),
@@ -92,6 +101,43 @@ def main():
                     zoom,  # font_scale
                     color_red,  # color
                     0)  # line_type
+
+    def print_b_stone(canvas, x, y):
+        """b石を描く"""
+        cv2.putText(canvas,
+                    "b",
+                    (int((x*char_width+char_base_width+margin_left)*zoom),
+                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    None,  # font
+                    zoom,  # font_scale
+                    color_green,  # color
+                    0)  # line_type
+
+    def print_c_stone(canvas, x, y):
+        """c石を描く"""
+        cv2.putText(canvas,
+                    "b",
+                    (int((x*char_width+char_base_width+margin_left)*zoom),
+                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    None,  # font
+                    zoom,  # font_scale
+                    color_blue,  # color
+                    0)  # line_type
+
+    def print_a_line(canvas, x, y, x2, y2):
+        """-->a線の描画"""
+        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
+                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_red, thickness=line_thickness)
+
+    def print_b_line(canvas, x, y, x2, y2):
+        """-->b線の描画"""
+        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
+                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_green, thickness=line_thickness)
+
+    def print_c_line(canvas, x, y, x2, y2):
+        """-->c線の描画"""
+        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
+                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_blue, thickness=line_thickness)
 
     make_image()
 
