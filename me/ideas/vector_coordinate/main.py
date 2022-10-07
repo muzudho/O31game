@@ -58,125 +58,145 @@ def main():
         canvas = np.full((image_height, image_width, 3),
                          monochrome_color, dtype=np.uint8)
 
-        # x石の描画
-        x = 0
-        y = 0
-        paint_x_stone(canvas, x, y)
-        paint_3_hairs(canvas, x, y)
-        make_next_point_from(x, y)
+        # モデル作成
+        transposition_table = dict()
 
-        # while 0 < len(rest_next_point):
-        for _ in range(0, 100000):
-            if len(rest_next_point) < 1:
-                break
+        root_point = {"x": 0, "y": 0}
+        """根の点"""
 
-            next_point = rest_next_point.pop(-1)
-            paint_3_hairs(canvas, next_point["x"], next_point["y"])
-            make_next_point_from(next_point["x"], next_point["y"])
+        three_hairs = make_next_nodes_from(root_point)
+
+        if three_hairs is not None:
+            hash_key = (three_hairs[0]["x"], three_hairs[0]["y"],
+                        three_hairs[1]["x"], three_hairs[1]["y"],
+                        three_hairs[2]["x"], three_hairs[2]["y"],
+                        three_hairs[3]["x"], three_hairs[3]["y"])
+            if not (hash_key in transposition_table):
+                transposition_table[hash_key] = three_hairs
+                print(f"77. three_hairs {transposition_table[hash_key]}")
+
+                next_three_hairs = make_next_nodes_from(three_hairs[0])
+                """a点から生えている三本毛"""
+
+                next_three_hairs = make_next_nodes_from(three_hairs[1])
+                """b点から生えている三本毛"""
+
+                next_three_hairs = make_next_nodes_from(three_hairs[2])
+                """c点から生えている三本毛"""
+
+        paint_x_stone(canvas, root_point)
+
+        for hash_key in transposition_table.keys():
+            """三本毛の描画"""
+            paint_3_hairs(canvas, transposition_table[hash_key])
 
         cv2.imwrite(
             f"./output/vector_coordinate_tmp.png", canvas)
         """画像出力"""
 
-    def make_next_point_from(x, y):
-        if x < 10 and y < 10:
-            point = {"x": x+a, "y": y+ha}
-            rest_next_point.append(point)
+    def make_next_nodes_from(src_point):
+        sx = src_point["x"]
+        sy = src_point["y"]
+        if sx < 10 and sy < 10:
+            a_point = {"x": sx+a, "y": sy+ha}
             """次のa点"""
 
-            point = {"x": x+b, "y": y+hb}
-            rest_next_point.append(point)
+            b_point = {"x": sx+b, "y": sy+hb}
             """次のb点"""
 
-            point = {"x": x+c, "y": y+hc}
-            rest_next_point.append(point)
+            c_point = {"x": sx+c, "y": sy+hc}
             """次のc点"""
 
-    def paint_3_hairs(canvas, x, y):
+            return (src_point, a_point, b_point, c_point)
+
+        return None
+
+    def paint_3_hairs(canvas, three_hairs):
         """三本毛を描く"""
 
-        x2 = x+a
-        y2 = y+ha
-        paint_a_stone(canvas, x2, y2)
+        src_point = three_hairs[0]
+        """始点の石"""
+
+        a_point = three_hairs[1]
+        b_point = three_hairs[2]
+        c_point = three_hairs[3]
+
+        paint_a_stone(canvas, a_point)
         """a石の描画"""
 
-        paint_a_line(canvas, x, y, x2, y2)
+        paint_a_line(canvas, src_point, a_point)
         """x-->a線の描画"""
 
-        x2 = x+b
-        y2 = y+hb
-        paint_b_stone(canvas, x2, y2)
+        paint_b_stone(canvas, b_point)
         """b石の描画"""
 
-        paint_b_line(canvas, x, y, x2, y2)
+        paint_b_line(canvas, src_point, b_point)
         """x-->b線の描画"""
 
-        x2 = x+c
-        y2 = y+hc
-        paint_c_stone(canvas, x2, y2)
+        paint_c_stone(canvas, c_point)
         """c石の描画"""
 
-        paint_c_line(canvas, x, y, x2, y2)
+        paint_c_line(canvas, src_point, c_point)
         """x-->c線の描画"""
 
-    def paint_x_stone(canvas, x, y):
+    def paint_x_stone(canvas, point):
         """x石を描く"""
         cv2.putText(canvas,
                     "x",
-                    (int((x*char_width+char_base_width+margin_left)*zoom),
-                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
+                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_black,  # color
                     0)  # line_type
 
-    def paint_a_stone(canvas, x, y):
+    def paint_a_stone(canvas, point):
         """a石を描く"""
         cv2.putText(canvas,
                     "a",
-                    (int((x*char_width+char_base_width+margin_left)*zoom),
-                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
+                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_red,  # color
                     0)  # line_type
 
-    def paint_b_stone(canvas, x, y):
+    def paint_b_stone(canvas, point):
         """b石を描く"""
         cv2.putText(canvas,
                     "b",
-                    (int((x*char_width+char_base_width+margin_left)*zoom),
-                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
+                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_green,  # color
                     0)  # line_type
 
-    def paint_c_stone(canvas, x, y):
+    def paint_c_stone(canvas, point):
         """c石を描く"""
         cv2.putText(canvas,
                     "b",
-                    (int((x*char_width+char_base_width+margin_left)*zoom),
-                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
+                    (int((point["x"]*char_width+char_base_width+margin_left)*zoom),
+                     int((point["y"]*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
                     color_blue,  # color
                     0)  # line_type
 
-    def paint_a_line(canvas, x, y, x2, y2):
+    def paint_a_line(canvas, src_point, dst_point):
         """-->a線の描画"""
-        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
-                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_red, thickness=line_thickness)
+        cv2.line(canvas, (int((src_point["x"]*char_width+margin_left)*zoom), int((src_point["y"]*char_height+margin_top)*zoom)),
+                 (int((dst_point["x"]*char_width+margin_left)*zoom), int((dst_point["y"]*char_height+margin_top)*zoom)), color_red, thickness=line_thickness)
 
-    def paint_b_line(canvas, x, y, x2, y2):
+    def paint_b_line(canvas, src_point, dst_point):
         """-->b線の描画"""
-        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
-                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_green, thickness=line_thickness)
+        cv2.line(canvas, (int((src_point["x"]*char_width+margin_left)*zoom), int((src_point["y"]*char_height+margin_top)*zoom)),
+                 (int((dst_point["x"]*char_width+margin_left)*zoom), int((dst_point["y"]*char_height+margin_top)*zoom)), color_green, thickness=line_thickness)
 
-    def paint_c_line(canvas, x, y, x2, y2):
+    def paint_c_line(canvas, src_point, dst_point):
         """-->c線の描画"""
-        cv2.line(canvas, (int((x*char_width+margin_left)*zoom), int((y*char_height+margin_top)*zoom)),
-                 (int((x2*char_width+margin_left)*zoom), int((y2*char_height+margin_top)*zoom)), color_blue, thickness=line_thickness)
+        cv2.line(canvas, (int((src_point["x"]*char_width+margin_left)*zoom), int((src_point["y"]*char_height+margin_top)*zoom)),
+                 (int((dst_point["x"]*char_width+margin_left)*zoom), int((dst_point["y"]*char_height+margin_top)*zoom)), color_blue, thickness=line_thickness)
 
     make_image()
 
