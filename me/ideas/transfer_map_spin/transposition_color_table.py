@@ -5,14 +5,14 @@ class TranspositionColorTable:
         self.__table = dict()
         """色テーブル"""
 
-    def add_stonecolor(self, x, y, stonecolor):
-        self.__table[hash((x, y))] = stonecolor
+    def add_stonecolor(self, point, stonecolor):
+        self.__table[hash(point)] = stonecolor
 
-    def get_stonecolor(self, x, y):
-        return self.__table[hash((x, y))]
+    def get_stonecolor(self, point):
+        return self.__table[hash(point)]
 
-    def contains_key(self, x, y):
-        return hash((x, y)) in self.__table
+    def contains_key(self, point):
+        return hash(point) in self.__table
 
     def keys(self):
         return self.__table.keys()

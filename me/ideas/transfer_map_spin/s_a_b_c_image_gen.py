@@ -115,7 +115,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         src_color_table = TranspositionColorTable()
         """重なる始点の優先色テーブル"""
 
-        root_point = {"x": 0, "y": 0}
+        root_point = (0, 0)  # x, y
         """根の点"""
 
         make_each_tridents_from(
@@ -161,21 +161,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         if trident is not None:
             """指定の範囲内のみ描画"""
 
-            sx = trident.src_point["x"]
-            sy = trident.src_point["y"]
-            """n番地
-            - 複数のyがあるので、一意ではない
-            """
-
             hash_key = trident.create_hash()
-            print(f"src({sx}, {sy}) hash_key:{hash_key}")
+            print(f"src({trident.src_point}) hash_key:{hash_key}")
 
             if not tp_table.contains_key(hash_key):
                 """存在しない三本毛なら登録"""
                 tp_table.add_trident(hash_key, trident)
-                src_color_table.add_stonecolor(sx, sy, src_stonecolor)
+                src_color_table.add_stonecolor(
+                    trident.src_point, src_stonecolor)
                 print(
-                    f"新規　 src({sx}, {sy}) src_stonecolor:{src_stonecolor}")
+                    f"新規　 src({trident.src_point}) src_stonecolor:{src_stonecolor}")
 
                 make_each_tridents_from(
                     trident.a_point, tp_table, stonecolor_a, src_color_table)
@@ -190,16 +185,17 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                 """c点から生えている三本毛"""
             else:
                 """存在する三本毛なら"""
-                exist_src_stonecolor = src_color_table.get_stonecolor(sx, sy)
+                exist_src_stonecolor = src_color_table.get_stonecolor(
+                    trident.src_point)
                 if exist_src_stonecolor < src_stonecolor:
                     """上書きできる石の色なら"""
                     src_color_table.add_stonecolor(
-                        sx, sy, src_stonecolor)  # Update
+                        trident.src_point, src_stonecolor)  # Update
                     print(
-                        f"上書き src({sx}, {sy}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
+                        f"上書き src({trident.src_point}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
                 else:
                     print(
-                        f"無視　 src({sx}, {sy}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
+                        f"無視　 src({trident.src_point}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
 
     def draw_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
@@ -243,11 +239,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """三本毛を描く"""
         global stonecolor_x, stonecolor_a, stonecolor_b, stonecolor_c
 
-        sx = trident.src_point["x"]
-        sy = trident.src_point["y"]
-
-        if src_color_table.contains_key(sx, sy):
-            stonecolor_begin = src_color_table.get_stonecolor(sx, sy)
+        if src_color_table.contains_key(trident.src_point):
+            stonecolor_begin = src_color_table.get_stonecolor(
+                trident.src_point)
         else:
             stonecolor_begin = stonecolor_x
 
@@ -320,8 +314,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def draw_x_stone(canvas, point):
         """x石を描く"""
-        x = point["x"]
-        y = point["y"]
+        x = point[0]
+        y = point[1]
         cv2.putText(canvas,
                     "x",
                     (int((x*char_width+char_base_width+margin_left)*zoom),
@@ -333,8 +327,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def draw_stone(canvas, point, color_stone):
         """石を描く"""
-        x = point["x"]
-        y = point["y"]
+        x = point[0]
+        y = point[1]
 
         if x <= display_max_number:
             label = f"{x}"
@@ -352,10 +346,10 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def draw_line(canvas, src_point, dst_point, color_line):
         """線の描画"""
-        sx = src_point["x"]
-        sy = src_point["y"]
-        dx = dst_point["x"]
-        dy = dst_point["y"]
+        sx = src_point[0]
+        sy = src_point[1]
+        dx = dst_point[0]
+        dy = dst_point[1]
         cv2.line(canvas, (int((sx*char_width+margin_left)*zoom), int((sy*char_height+margin_top)*zoom)),
                  (int((dx*char_width+margin_left)*zoom), int((dy*char_height+margin_top)*zoom)), color_line, thickness=line_thickness)
 

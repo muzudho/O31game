@@ -5,16 +5,16 @@ class TridentHair:
 
     @staticmethod
     def make(src_point, columns, rows, a, b, c, ha, hb, hc):
-        sx = src_point["x"]
-        sy = src_point["y"]
+        sx = src_point[0]
+        sy = src_point[1]
         if sx < columns and sy < rows:
-            a_point = {"x": sx+a, "y": sy+ha}
+            a_point = (sx+a, sy+ha)  # x, y
             """次のa点"""
 
-            b_point = {"x": sx+b, "y": sy+hb}
+            b_point = (sx+b, sy+hb)
             """次のb点"""
 
-            c_point = {"x": sx+c, "y": sy+hc}
+            c_point = (sx+c, sy+hc)
             """次のc点"""
 
             return TridentHair(src_point, a_point, b_point, c_point)
@@ -48,7 +48,7 @@ class TridentHair:
         return self.__c_point
 
     def create_hash(self):
-        return (self.src_point["x"], self.src_point["y"],
-                self.a_point["x"], self.a_point["y"],
-                self.b_point["x"], self.b_point["y"],
-                self.c_point["x"], self.c_point["y"])
+        return (self.src_point[0], self.src_point[1],  # x, y
+                self.a_point[0], self.a_point[1],
+                self.b_point[0], self.b_point[1],
+                self.c_point[0], self.c_point[1])
