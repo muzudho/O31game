@@ -195,23 +195,11 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                    get_color_from_stonecolor(stonecolor_end_a))
         """a石の描画"""
 
-        # 始点と終点の組み合わせによって色を変える
-        if stonecolor_begin == nim_constants.stonecolor_x:
-            color_line = color_line_x
-        elif stonecolor_begin == nim_constants.stonecolor_a:
-            color_line = color_line_a
-        elif stonecolor_begin == nim_constants.stonecolor_b:
-            color_line = color_line_a_b
-        elif stonecolor_begin == nim_constants.stonecolor_c:
-            color_line = color_line_c_a
-        else:
-            raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
-        print(
-            f"s-->a線描画 stonecolor_begin:{stonecolor_begin} color_line:{color_line}")
-
         if is_visibled_a_line:
             """s-->a線の描画"""
-            draw_line(canvas, trident.src_point, trident.a_point, color_line)
+            # 始点と終点の組み合わせによって色を変える
+            draw_line(canvas, trident.src_point, trident.a_point,
+                      get_color_from_2stones_color(stonecolor_begin, stonecolor_end_a))
 
         """a石と、s-->a線の描画"""
 
@@ -220,20 +208,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                    get_color_from_stonecolor(stonecolor_end_b))
         """b石の描画"""
 
-        if stonecolor_begin == nim_constants.stonecolor_x:
-            color_line = color_line_x
-        elif stonecolor_begin == nim_constants.stonecolor_a:
-            color_line = color_line_a_b
-        elif stonecolor_begin == nim_constants.stonecolor_b:
-            color_line = color_line_b
-        elif stonecolor_begin == nim_constants.stonecolor_c:
-            color_line = color_line_c_a
-        else:
-            raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
-
         # if is_visibled_b_line:
-            """s-->b線の描画"""
-            #draw_line(canvas, trident.src_point, trident.b_point, color_line)
+        # """s-->b線の描画"""
+        #draw_line(canvas, trident.src_point, trident.b_point, get_color_from_2stones_color(stonecolor_begin, stonecolor_end_b))
 
         """b石と、s-->b線の描画"""
 
@@ -242,34 +219,48 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                    get_color_from_stonecolor(stonecolor_end_c))
         """c石の描画"""
 
-        if stonecolor_begin == nim_constants.stonecolor_x:
-            color_line = color_line_x
-        elif stonecolor_begin == nim_constants.stonecolor_a:
-            color_line = color_line_a_b
-        elif stonecolor_begin == nim_constants.stonecolor_b:
-            color_line = color_line_b_c
-        elif stonecolor_begin == nim_constants.stonecolor_c:
-            color_line = color_line_c
-        else:
-            raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
-
         # if is_visibled_c_line:
-            """s-->c線の描画"""
-            #draw_line(canvas, trident.src_point, trident.c_point, color_line)
+        # """s-->c線の描画"""
+        #draw_line(canvas, trident.src_point, trident.c_point, get_color_from_2stones_color(stonecolor_begin, stonecolor_end_c))
 
         """c石と、s-->c線の描画"""
 
     def get_color_from_stonecolor(stonecolor):
         if stonecolor == nim_constants.stonecolor_x:
             return color_black
-        elif stonecolor == nim_constants.stonecolor_a:
+
+        if stonecolor == nim_constants.stonecolor_a:
             return color_red
-        elif stonecolor == nim_constants.stonecolor_b:
+
+        if stonecolor == nim_constants.stonecolor_b:
             return color_green
-        elif stonecolor == nim_constants.stonecolor_c:
+
+        if stonecolor == nim_constants.stonecolor_c:
             return color_blue
-        else:
-            raise ValueError(f"unexpected stonecolor:{stonecolor}")
+
+        raise ValueError(f"unexpected stonecolor:{stonecolor}")
+
+    def get_color_from_2stones_color(stonecolor_begin, stonecolor_end):
+        """始点の色と、終点の色の組み合わせによって色を変えます"""
+        if stonecolor_begin == stonecolor_end:
+            return get_color_from_stonecolor(stonecolor_begin)
+
+        if stonecolor_begin == nim_constants.stonecolor_x:
+            return get_color_from_stonecolor(stonecolor_end)
+
+        if stonecolor_end == nim_constants.stonecolor_x:
+            return get_color_from_stonecolor(stonecolor_begin)
+
+        if (stonecolor_begin == nim_constants.stonecolor_a and stonecolor_end == nim_constants.stonecolor_b) or (stonecolor_begin == nim_constants.stonecolor_b and stonecolor_end == nim_constants.stonecolor_a):
+            return color_line_a_b
+
+        if (stonecolor_begin == nim_constants.stonecolor_b and stonecolor_end == nim_constants.stonecolor_c) or (stonecolor_begin == nim_constants.stonecolor_c and stonecolor_end == nim_constants.stonecolor_b):
+            return color_line_b_c
+
+        if (stonecolor_begin == nim_constants.stonecolor_c and stonecolor_end == nim_constants.stonecolor_a) or (stonecolor_begin == nim_constants.stonecolor_a and stonecolor_end == nim_constants.stonecolor_c):
+            return color_line_c_a
+
+        return color_line_x
 
     def draw_x_stone(canvas, point):
         """x石を描く"""
