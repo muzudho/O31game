@@ -175,6 +175,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         sx = trident.src_point[0]
         stonecolor_begin = grundy_graph.grundy_sequence.get_grundy_at(sx)
+
+        # if stonecolor_begin != nim_constants.stonecolor_x:
+        #    """グランディ数 0 から生えているわけではない三本毛なら描きません"""
+#
+#            # 始点src
+#            draw_stone(canvas, trident.src_point,
+#                       get_color_from_stonecolor(nim_constants.stonecolor_x))
+#            """グランディ数 0石の描画"""
+#            return
+
         ax = trident.a_point[0]
         stonecolor_end_a = grundy_graph.grundy_sequence.get_grundy_at(ax)
         bx = trident.b_point[0]
@@ -183,42 +193,37 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         stonecolor_end_c = grundy_graph.grundy_sequence.get_grundy_at(cx)
         """始点の石の色"""
 
-        # 終点a
+        # 石は必ず描画
+
         draw_stone(canvas, trident.a_point,
                    get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(ax)))
-        """a石の描画"""
+        """終点a石"""
 
-        if is_visibled_a_line:
-            """s-->a線の描画"""
+        draw_stone(canvas, trident.b_point,
+                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(bx)))
+        """終点b石"""
+
+        draw_stone(canvas, trident.c_point,
+                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(cx)))
+        """終点c石"""
+
+        # エッジの描画
+
+        if stonecolor_end_a != nim_constants.stonecolor_x:
             # 始点と終点の組み合わせによって色を変える
             draw_line(canvas, trident.src_point, trident.a_point,
                       get_color_from_2stones_color(stonecolor_begin, stonecolor_end_a))
+            """s-->a線"""
 
-        """a石と、s-->a線の描画"""
-
-        # 終点b
-        draw_stone(canvas, trident.b_point,
-                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(bx)))
-        """b石の描画"""
-
-        if is_visibled_b_line:
-            """s-->b線の描画"""
+        if stonecolor_end_b != nim_constants.stonecolor_x:
             draw_line(canvas, trident.src_point, trident.b_point,
                       get_color_from_2stones_color(stonecolor_begin, stonecolor_end_b))
+            """s-->b線"""
 
-        """b石と、s-->b線の描画"""
-
-        # 終点c
-        draw_stone(canvas, trident.c_point,
-                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(cx)))
-        """c石の描画"""
-
-        if is_visibled_c_line:
-            """s-->c線の描画"""
+        if stonecolor_end_c != nim_constants.stonecolor_x:
             draw_line(canvas, trident.src_point, trident.c_point,
                       get_color_from_2stones_color(stonecolor_begin, stonecolor_end_c))
-
-        """c石と、s-->c線の描画"""
+            """s-->c線"""
 
     def get_color_from_stonecolor(stonecolor):
         if stonecolor == nim_constants.stonecolor_x:
