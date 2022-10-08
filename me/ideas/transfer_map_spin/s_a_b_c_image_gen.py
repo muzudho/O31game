@@ -114,17 +114,17 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         paint_x_stone(canvas, root_point)
         """根の点描画"""
 
-        for hash_key in tp_table.table.keys():
+        for hash_key in tp_table.keys():
             """a毛の描画"""
-            paint_a_hair(canvas, tp_table.table[hash_key])
+            paint_a_hair(canvas, tp_table.get_trident(hash_key))
 
-        for hash_key in tp_table.table.keys():
+        for hash_key in tp_table.keys():
             """b毛の描画"""
-            paint_b_hair(canvas, tp_table.table[hash_key])
+            paint_b_hair(canvas, tp_table.get_trident(hash_key))
 
-        for hash_key in tp_table.table.keys():
+        for hash_key in tp_table.keys():
             """c毛の描画"""
-            paint_c_hair(canvas, tp_table.table[hash_key])
+            paint_c_hair(canvas, tp_table.get_trident(hash_key))
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
@@ -154,7 +154,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         if trident is not None:
             hash_key = trident.create_hash()
-            if not (hash_key in tp_table.table):
+            if not tp_table.contains_key(hash_key):
                 tp_table.add_trident(hash_key, trident)
 
                 make_some_next_nodes_from(trident.a_point, tp_table)
