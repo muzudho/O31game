@@ -14,6 +14,8 @@ from kernel.math.music_chord import MusicChord
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     """
+    a < b < c
+
     Parameters
     ----------
     zoom : float
@@ -23,6 +25,28 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
     display_max_number = 50
+
+    is_visibled_a_line = True
+    is_visibled_b_line = True
+    is_visibled_c_line = True
+    """線の描画の有無"""
+
+    d_a_b = b-a
+    d_b_c = c-b
+    d_c_apb = c-(a+b)
+    """a,b,cの間隔"""
+
+    if d_a_b <= d_c_apb and d_b_c <= d_c_apb:
+        is_visibled_a_line = False
+        is_visibled_b_line = False
+        pass
+    elif d_a_b <= d_b_c and d_c_apb <= d_b_c:
+        is_visibled_a_line = False
+        is_visibled_c_line = False
+    elif d_b_c <= d_a_b and d_c_apb <= d_a_b:
+        is_visibled_b_line = False
+        is_visibled_c_line = False
+    """一番間隔の広い線だけ描画"""
 
     wa = 2*a  # weight a
     wb = 2*b
@@ -208,8 +232,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         paint_a_stone(canvas, a_point)
         """a石の描画"""
 
-        paint_a_line(canvas, src_point, a_point)
-        """x-->a線の描画"""
+        if is_visibled_a_line:
+            """x-->a線の描画"""
+            paint_a_line(canvas, src_point, a_point)
 
     def paint_b_hair(canvas, three_hairs):
         """b毛を描く"""
@@ -222,8 +247,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         paint_b_stone(canvas, b_point)
         """b石の描画"""
 
-        paint_b_line(canvas, src_point, b_point)
-        """x-->b線の描画"""
+        if is_visibled_b_line:
+            """x-->b線の描画"""
+            paint_b_line(canvas, src_point, b_point)
 
     def paint_c_hair(canvas, three_hairs):
         """c毛を描く"""
@@ -236,8 +262,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         paint_c_stone(canvas, c_point)
         """c石の描画"""
 
-        # paint_c_line(canvas, src_point, c_point)
-        """x-->c線の描画"""
+        if is_visibled_c_line:
+            """x-->c線の描画"""
+            paint_c_line(canvas, src_point, c_point)
 
     def paint_x_stone(canvas, point):
         """x石を描く"""
