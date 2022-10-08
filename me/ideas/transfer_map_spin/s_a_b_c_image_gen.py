@@ -12,6 +12,7 @@ from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
 from ideas.transfer_map_spin.trident_hair import TridentHair
 from ideas.transfer_map_spin.transposition_table import TranspositionTable
+from ideas.transfer_map_spin.transposition_color_table import TranspositionColorTable
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
@@ -71,6 +72,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     char_height = 50
     """一文字の幅の目安"""
 
+    stonecolor_x = 0
+    stonecolor_a = 1
+    stonecolor_b = 1
+    stonecolor_c = 1
+    """石の色"""
+
     color_black = (55, 55, 55)
     color_red = (90, 90, 220)
     color_green = (90, 220, 90)
@@ -78,6 +85,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     color_cyan = (90, 220, 220)
     color_magenta = (220, 90, 220)
     color_yellow = (220, 220, 90)
+    color_line_x = color_black
     color_line_a = color_cyan
     color_line_b = color_magenta
     color_line_c = color_yellow
@@ -100,31 +108,26 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         # モデル作成
         tp_table = TranspositionTable()
         """三本毛のテーブル"""
-        src_stone_table = dict()
+        src_color_table = TranspositionColorTable()
         """重なる始点の優先色テーブル"""
 
         root_point = {"x": 0, "y": 1}
+        src_color_table.add_color(0, stonecolor_x)
         """根の点"""
 
-        make_some_next_nodes_from(root_point, tp_table)
+        make_all_tridents_from(
+            root_point, tp_table, stonecolor_x, src_color_table)
 
         paint_subtraction_set(canvas, 0, 0)
         """サブストラクションセット描画"""
 
-        paint_x_stone(canvas, root_point)
+        draw_x_stone(canvas, root_point)
         """根の点描画"""
 
         for hash_key in tp_table.keys():
-            """a毛の描画"""
-            paint_a_hair(canvas, tp_table.get_trident(hash_key))
-
-        for hash_key in tp_table.keys():
-            """b毛の描画"""
-            paint_b_hair(canvas, tp_table.get_trident(hash_key))
-
-        for hash_key in tp_table.keys():
-            """c毛の描画"""
-            paint_c_hair(canvas, tp_table.get_trident(hash_key))
+            """三本毛の描画"""
+            trident = tp_table.get_trident(hash_key)
+            paint_trident(canvas, trident, src_color_table)
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
@@ -140,7 +143,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             f"./output_tmp/transfer_map_spin_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
-    def make_some_next_nodes_from(src_point, tp_table):
+    def make_all_tridents_from(src_point, tp_table, src_color, src_color_table):
         trident = TridentHair.make(
             src_point,
             columns=columns,
@@ -153,17 +156,29 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             hc=hc)
 
         if trident is not None:
+            """指定の範囲内のみ描画"""
+            n = trident.src_point["x"]
+
             hash_key = trident.create_hash()
             if not tp_table.contains_key(hash_key):
                 tp_table.add_trident(hash_key, trident)
 
-                make_some_next_nodes_from(trident.a_point, tp_table)
+                if src_color_table.contains_key(n):
+                    exist_src_color = src_color_table.get_color(n)
+
+                    if exist_src_color < src_color:
+                        src_color_table.add_color(n, src_color)  # Update
+
+                make_all_tridents_from(
+                    trident.a_point, tp_table, stonecolor_a, src_color_table)
                 """a点から生えている三本毛"""
 
-                make_some_next_nodes_from(trident.b_point, tp_table)
+                make_all_tridents_from(
+                    trident.b_point, tp_table, stonecolor_b, src_color_table)
                 """b点から生えている三本毛"""
 
-                make_some_next_nodes_from(trident.c_point, tp_table)
+                make_all_tridents_from(
+                    trident.c_point, tp_table, stonecolor_c, src_color_table)
                 """c点から生えている三本毛"""
 
     def paint_subtraction_set(canvas, x, y):
@@ -204,49 +219,67 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def paint_3_hairs(canvas, trident):
+    def paint_trident(canvas, trident, src_color_table):
         """三本毛を描く"""
 
-        paint_a_hair(canvas, trident)
+        n = trident.a_point["x"]
+
+        if src_color_table.contains_key(n):
+            stonecolor_at_n = src_color_table.get_color(n)
+
+            if stonecolor_at_n == stonecolor_x:
+                color_line = color_line_x
+            elif stonecolor_at_n == stonecolor_a:
+                color_line = color_line_a
+            elif stonecolor_at_n == stonecolor_b:
+                color_line = color_line_b
+            elif stonecolor_at_n == stonecolor_c:
+                color_line = color_line_c
+            elif stonecolor_at_n == stonecolor_x:
+                color_line = color_line_x
+        else:
+            color_line = color_line_x
+
+        paint_a_hair(canvas, trident, color_line)
         """a石と、x-->a線の描画"""
 
-        paint_a_hair(canvas, trident)
+        paint_b_hair(canvas, trident, color_line)
         """b石と、x-->b線の描画"""
 
-        paint_a_hair(canvas, trident)
+        paint_c_hair(canvas, trident, color_line)
         """c石と、x-->c線の描画"""
 
-    def paint_a_hair(canvas, trident):
+    def paint_a_hair(canvas, trident, color_line):
         """a毛を描く"""
 
-        paint_a_stone(canvas, trident.a_point)
+        draw_stone(canvas, trident.a_point, color_red)
         """a石の描画"""
 
         if is_visibled_a_line:
             """x-->a線の描画"""
-            draw_line(canvas, trident.src_point, trident.a_point, color_line_a)
+            draw_line(canvas, trident.src_point, trident.a_point, color_line)
 
-    def paint_b_hair(canvas, trident):
+    def paint_b_hair(canvas, trident, color_line):
         """b毛を描く"""
 
-        paint_b_stone(canvas, trident.b_point)
+        draw_stone(canvas, trident.b_point, color_green)
         """b石の描画"""
 
         if is_visibled_b_line:
             """x-->b線の描画"""
-            draw_line(canvas, trident.src_point, trident.b_point, color_line_b)
+            draw_line(canvas, trident.src_point, trident.b_point, color_line)
 
-    def paint_c_hair(canvas, trident):
+    def paint_c_hair(canvas, trident, color_line):
         """c毛を描く"""
 
-        paint_c_stone(canvas, trident.c_point)
+        draw_stone(canvas, trident.c_point, color_blue)
         """c石の描画"""
 
         if is_visibled_c_line:
             """x-->c線の描画"""
-            draw_line(canvas, trident.src_point, trident.c_point, color_line_c)
+            draw_line(canvas, trident.src_point, trident.c_point, color_line)
 
-    def paint_x_stone(canvas, point):
+    def draw_x_stone(canvas, point):
         """x石を描く"""
         x = point["x"]
         y = point["y"]
@@ -259,8 +292,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_black,  # color
                     0)  # line_type
 
-    def paint_a_stone(canvas, point):
-        """a石を描く"""
+    def draw_stone(canvas, point, color_stone):
+        """石を描く"""
         x = point["x"]
         y = point["y"]
 
@@ -275,45 +308,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                      int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
                     None,  # font
                     zoom,  # font_scale
-                    color_red,  # color
-                    0)  # line_type
-
-    def paint_b_stone(canvas, point):
-        """b石を描く"""
-        x = point["x"]
-        y = point["y"]
-
-        if x <= display_max_number:
-            label = f"{x}"
-        else:
-            label = ""
-
-        cv2.putText(canvas,
-                    label,
-                    (int((x*char_width+char_base_width+margin_left)*zoom),
-                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
-                    None,  # font
-                    zoom,  # font_scale
-                    color_green,  # color
-                    0)  # line_type
-
-    def paint_c_stone(canvas, point):
-        """c石を描く"""
-        x = point["x"]
-        y = point["y"]
-
-        if x <= display_max_number:
-            label = f"{x}"
-        else:
-            label = ""
-
-        cv2.putText(canvas,
-                    label,
-                    (int((x*char_width+char_base_width+margin_left)*zoom),
-                     int((y*char_height+char_base_height+margin_top)*zoom)),  # x,y
-                    None,  # font
-                    zoom,  # font_scale
-                    color_blue,  # color
+                    color_stone,  # color
                     0)  # line_type
 
     def draw_line(canvas, src_point, dst_point, color_line):

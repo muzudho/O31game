@@ -212,18 +212,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def paint_3_hairs(canvas, three_hairs):
-        """三本毛を描く"""
-
-        paint_a_hair(canvas, three_hairs)
-        """a石と、x-->a線の描画"""
-
-        paint_a_hair(canvas, three_hairs)
-        """b石と、x-->b線の描画"""
-
-        paint_a_hair(canvas, three_hairs)
-        """c石と、x-->c線の描画"""
-
     def paint_a_hair(canvas, three_hairs):
         """a毛を描く"""
 

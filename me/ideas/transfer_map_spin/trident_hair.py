@@ -1,5 +1,7 @@
 class TridentHair:
-    """三本毛"""
+    """三本毛
+
+    - 始点の石の色は含みません。始点の位置は含みます"""
 
     @staticmethod
     def make(src_point, columns, rows, wa, wb, wc, ha, hb, hc):
