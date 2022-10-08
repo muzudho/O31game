@@ -47,7 +47,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 2000
+    margin_top = 3000
     margin_bottom = 5
 
     columns = 100
