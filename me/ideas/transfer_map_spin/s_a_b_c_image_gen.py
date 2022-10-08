@@ -78,13 +78,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     color_cyan = (220, 220, 90)
     color_magenta = (220, 90, 220)
     color_yellow = (90, 220, 220)
-    color_line_x = color_black
-    color_line_a = color_red
-    color_line_b = color_green
-    color_line_c = color_blue
-    color_line_a_b = color_yellow  # color of light
-    color_line_b_c = color_cyan
-    color_line_c_a = color_magenta
     """色"""
 
     line_thickness = 1
@@ -252,15 +245,15 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             return get_color_from_stonecolor(stonecolor_begin)
 
         if (stonecolor_begin == nim_constants.stonecolor_a and stonecolor_end == nim_constants.stonecolor_b) or (stonecolor_begin == nim_constants.stonecolor_b and stonecolor_end == nim_constants.stonecolor_a):
-            return color_line_a_b
+            return color_yellow
 
         if (stonecolor_begin == nim_constants.stonecolor_b and stonecolor_end == nim_constants.stonecolor_c) or (stonecolor_begin == nim_constants.stonecolor_c and stonecolor_end == nim_constants.stonecolor_b):
-            return color_line_b_c
+            return color_cyan
 
         if (stonecolor_begin == nim_constants.stonecolor_c and stonecolor_end == nim_constants.stonecolor_a) or (stonecolor_begin == nim_constants.stonecolor_a and stonecolor_end == nim_constants.stonecolor_c):
-            return color_line_c_a
+            return color_magenta
 
-        return color_line_x
+        return color_black
 
     def draw_x_stone(canvas, point):
         """x石を描く"""

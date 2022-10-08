@@ -33,7 +33,6 @@ class GrundyGraph:
                 hc=hc)
 
             hash_key = trident.create_hash()
-            print(f"src({trident.src_point}) hash_key:{hash_key}")
 
             if not tp_table.contains_key(hash_key):
                 """存在しない三本毛なら登録"""
