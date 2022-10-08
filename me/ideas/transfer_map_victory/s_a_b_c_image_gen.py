@@ -28,27 +28,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     music_chord = MusicChord.stringify(a, b, c)
     display_max_number = 50
 
-    is_visibled_a_line = True
-    is_visibled_b_line = True
-    is_visibled_c_line = True
-    """線の描画の有無"""
-
     d_a_b = b-a
     d_b_c = c-b
     d_c_apb = c-(a+b)
     minimum_d = min([d_a_b, d_b_c, d_c_apb])
     maximum_d = max([d_a_b, d_b_c, d_c_apb])
     """a,b,cの間隔"""
-
-    # if d_a_b <= d_b_c or d_a_b <= d_c_apb:
-    #    is_visibled_a_line = False
-
-    # if d_b_c <= d_a_b or d_b_c <= d_c_apb:
-    #    is_visibled_b_line = False
-
-    # if d_c_apb <= d_a_b or d_c_apb <= d_b_c:
-    #    is_visibled_c_line = False
-    """一番間隔の狭い線を非表示"""
 
     # x軸、y軸、z軸と考えれば、３次元の格子になる
     ha = -a*b
@@ -132,7 +117,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             tmp_text = ""
 
         cv2.imwrite(
-            f"./output_tmp/transfer_map_spin_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
+            f"./output_tmp/transfer_victory_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
     def draw_subtraction_set(canvas, point):
@@ -140,8 +125,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         x = point[0]
         y = point[1]
         location = (int((x+char_base_width+margin_left)*zoom),
-                    int((y+char_base_height+margin_left)*4*zoom))
-        font_scale = 4.0 * zoom
+                    int((y+char_base_height+margin_left)*zoom))
+        font_scale = 1.0 * zoom
 
         cv2.putText(canvas,
                     f"S = {{   ,   ,    }} {eo_code} {music_chord}",
@@ -180,12 +165,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         sx = trident.src_point[0]
         ax = trident.a_point[0]
-        stonecolor_end_a = grundy_graph.grundy_sequence.get_grundy_at(ax)
         bx = trident.b_point[0]
-        stonecolor_end_b = grundy_graph.grundy_sequence.get_grundy_at(bx)
         cx = trident.c_point[0]
-        stonecolor_end_c = grundy_graph.grundy_sequence.get_grundy_at(cx)
-        """始点の石の色"""
+        """点の位置x"""
 
         # 石は必ず描画
 
@@ -202,27 +184,21 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """終点c石"""
 
         # エッジの描画
-        # グランディ数 0 の石の１つ手前から伸びている線だけ引けば必勝
-        previous_x = sx - 1
-        if 0 <= previous_x:
-            previous_stone_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(
-                previous_x)
+        # 三本毛の根+1 が、グランディ数 非0 のものだけ描けば必勝ルート
+        sx_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(sx+1)
+        if 0 != sx_grundy_number:
+            # 始点と終点の組み合わせによって色を変える
+            draw_line(canvas, trident.src_point, trident.a_point,
+                      color_red)
+            """s-->a線"""
 
-            if previous_stone_grundy_number == 0:
+            draw_line(canvas, trident.src_point, trident.b_point,
+                      color_green)
+            """s-->b線"""
 
-                # if stonecolor_end_a != nim_constants.stonecolor_x:
-                # 始点と終点の組み合わせによって色を変える
-                draw_line(canvas, trident.src_point, trident.a_point,
-                          color_red)
-                """s-->a線"""
-
-                draw_line(canvas, trident.src_point, trident.b_point,
-                          color_green)
-                """s-->b線"""
-
-                draw_line(canvas, trident.src_point, trident.c_point,
-                          color_blue)
-                """s-->c線"""
+            draw_line(canvas, trident.src_point, trident.c_point,
+                      color_blue)
+            """s-->c線"""
 
     def get_color_from_stonecolor(stonecolor):
         if stonecolor == nim_constants.stonecolor_x:
