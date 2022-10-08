@@ -1,0 +1,24 @@
+
+    def get_color_from_2stones_color(smaller_stonecolor, larger_stonecolor):
+        """始点の色と、終点の色の組み合わせによって色を変えます"""
+        if smaller_stonecolor == larger_stonecolor:
+            return get_color_from_stonecolor(smaller_stonecolor)
+
+        if smaller_stonecolor == nim_constants.stonecolor_x:
+            """小さい方の石が グランディ数 0 なら、線は大きい方の数に従う"""
+            return get_color_from_stonecolor(larger_stonecolor)
+
+        if larger_stonecolor == nim_constants.stonecolor_x:
+            """大きい方の石が グランディ数 0 なら、線はグランディ数 0 の方に従う"""
+            return get_color_from_stonecolor(nim_constants.stonecolor_x)
+
+        if (smaller_stonecolor == nim_constants.stonecolor_a and larger_stonecolor == nim_constants.stonecolor_b) or (smaller_stonecolor == nim_constants.stonecolor_b and larger_stonecolor == nim_constants.stonecolor_a):
+            return color_yellow
+
+        if (smaller_stonecolor == nim_constants.stonecolor_b and larger_stonecolor == nim_constants.stonecolor_c) or (smaller_stonecolor == nim_constants.stonecolor_c and larger_stonecolor == nim_constants.stonecolor_b):
+            return color_cyan
+
+        if (smaller_stonecolor == nim_constants.stonecolor_c and larger_stonecolor == nim_constants.stonecolor_a) or (smaller_stonecolor == nim_constants.stonecolor_a and larger_stonecolor == nim_constants.stonecolor_c):
+            return color_magenta
+
+        return get_color_from_stonecolor(nim_constants.stonecolor_x)

@@ -50,9 +50,14 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     #    is_visibled_c_line = False
     """一番間隔の狭い線を非表示"""
 
-    hc = a+b
-    hb = 0  # bは水平
-    ha = a  # aはナナメ
+    # x軸、y軸、z軸と考えれば、３次元の格子になる
+    ha = -a*b
+    hb = 0
+    hc = c
+
+    #hc = a+b
+    # hb = 0  # bは水平
+    # ha = a  # aはナナメ
     """width と height"""
 
     margin_left = 20
@@ -212,17 +217,17 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         if stonecolor_end_a != nim_constants.stonecolor_x:
             # 始点と終点の組み合わせによって色を変える
             draw_line(canvas, trident.src_point, trident.a_point,
-                      get_color_from_2stones_color(stonecolor_begin, stonecolor_end_a))
+                      color_red)
             """s-->a線"""
 
         if stonecolor_end_b != nim_constants.stonecolor_x:
             draw_line(canvas, trident.src_point, trident.b_point,
-                      get_color_from_2stones_color(stonecolor_begin, stonecolor_end_b))
+                      color_green)
             """s-->b線"""
 
         if stonecolor_end_c != nim_constants.stonecolor_x:
             draw_line(canvas, trident.src_point, trident.c_point,
-                      get_color_from_2stones_color(stonecolor_begin, stonecolor_end_c))
+                      color_blue)
             """s-->c線"""
 
     def get_color_from_stonecolor(stonecolor):
@@ -239,30 +244,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             return color_blue
 
         raise ValueError(f"unexpected stonecolor:{stonecolor}")
-
-    def get_color_from_2stones_color(smaller_stonecolor, larger_stonecolor):
-        """始点の色と、終点の色の組み合わせによって色を変えます"""
-        if smaller_stonecolor == larger_stonecolor:
-            return get_color_from_stonecolor(smaller_stonecolor)
-
-        if smaller_stonecolor == nim_constants.stonecolor_x:
-            """小さい方の石が グランディ数 0 なら、線は大きい方の数に従う"""
-            return get_color_from_stonecolor(larger_stonecolor)
-
-        if larger_stonecolor == nim_constants.stonecolor_x:
-            """大きい方の石が グランディ数 0 なら、線はグランディ数 0 の方に従う"""
-            return get_color_from_stonecolor(nim_constants.stonecolor_x)
-
-        if (smaller_stonecolor == nim_constants.stonecolor_a and larger_stonecolor == nim_constants.stonecolor_b) or (smaller_stonecolor == nim_constants.stonecolor_b and larger_stonecolor == nim_constants.stonecolor_a):
-            return color_yellow
-
-        if (smaller_stonecolor == nim_constants.stonecolor_b and larger_stonecolor == nim_constants.stonecolor_c) or (smaller_stonecolor == nim_constants.stonecolor_c and larger_stonecolor == nim_constants.stonecolor_b):
-            return color_cyan
-
-        if (smaller_stonecolor == nim_constants.stonecolor_c and larger_stonecolor == nim_constants.stonecolor_a) or (smaller_stonecolor == nim_constants.stonecolor_a and larger_stonecolor == nim_constants.stonecolor_c):
-            return color_magenta
-
-        return get_color_from_stonecolor(nim_constants.stonecolor_x)
 
     def draw_x_stone(canvas, point):
         """x石を描く"""
