@@ -22,16 +22,15 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
-    display_max_number = 40
+    display_max_number = 50
 
     wa = 2*a  # weight a
     wb = 2*b
     wc = 2*c
 
-    # いろんな軸の刻み方ができる
-    ha = 0  # aは水平
-    hb = (b-a+1)
-    hc = (c-b+1)
+    hc = a+b
+    hb = 0  # bは水平
+    ha = a  # aはナナメ
     """width と height"""
 
     margin_left = 20
@@ -237,7 +236,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         paint_c_stone(canvas, c_point)
         """c石の描画"""
 
-        paint_c_line(canvas, src_point, c_point)
+        # paint_c_line(canvas, src_point, c_point)
         """x-->c線の描画"""
 
     def paint_x_stone(canvas, point):
