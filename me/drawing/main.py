@@ -18,7 +18,13 @@ len_Nz = 200
 
 
 def main():
-    gen_a_plus_b()
+    # Clouds passer
+    gen_s_a_b_c_image(a=5, b=6, c=30, len_Nz=len_Nz,
+                      zoom=zoom, is_temporary=False)
+    # 5 と 6 で [5:15]
+
+    gen_a3_b5_c11to13()
+    # gen_a_plus_b()
 
     # 雲の動き
     # for b in range(3, 100):
@@ -48,6 +54,13 @@ def main():
     #            gen_s_a_b_c_image(a=a, b=b, c=c, len_Nz=len_Nz, zoom=zoom)
 
 
+def gen_a3_b5_c11to13():
+    """3,5,11～13 Clouds passer"""
+    gen_s_a_b_c_image(a=3, b=5, c=11, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=5, c=12, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=5, c=13, len_Nz=len_Nz, zoom=zoom)
+
+
 def gen_a_plus_b():
     """p=a+bシリーズ"""
     gen_s_a_b_c_image(a=1, b=2, c=4, len_Nz=len_Nz, zoom=zoom)
@@ -60,6 +73,9 @@ def gen_a_plus_b():
     gen_s_a_b_c_image(a=1, b=6, c=90, len_Nz=len_Nz, zoom=zoom)
     gen_s_a_b_c_image(a=2, b=3, c=12, len_Nz=len_Nz, zoom=zoom)
     gen_s_a_b_c_image(a=2, b=3, c=18, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=3, c=27, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=3, c=33, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=3, c=42, len_Nz=len_Nz, zoom=zoom)
     gen_s_a_b_c_image(a=2, b=4, c=8, len_Nz=len_Nz, zoom=zoom)
     gen_s_a_b_c_image(a=2, b=4, c=16, len_Nz=len_Nz, zoom=zoom)
     gen_s_a_b_c_image(a=2, b=5, c=9, len_Nz=len_Nz, zoom=zoom)
