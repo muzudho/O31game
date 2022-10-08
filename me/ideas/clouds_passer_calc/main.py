@@ -6,10 +6,17 @@ python.exe -m ideas.clouds_passer_calc.main
 
 
 def main():
-    n = 1
-    a1, a2, b1, b2 = clouds_passer_calc(3, 5, n)
-    print(f"n:{n} a:({a1},{a2}) b:{b1,b2}")
-    pass
+    a = 3
+    b = 5
+    for n in range(0, 3):
+        a1, a2, b1, b2 = clouds_passer_calc(a, b, n)
+        print(f"S={{ {a}, {b} }} n:{n} a_b=[{a1}:{b2}]")
+
+    a = 4
+    b = 6
+    for n in range(0, 3):
+        a1, a2, b1, b2 = clouds_passer_calc(a, b, n)
+        print(f"S={{ {a}, {b} }} n:{n} a_b=[{a1}:{b2}]")
 
 
 def clouds_passer_calc(a, b, n):
