@@ -121,7 +121,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         make_each_tridents_from(
             root_point, tp_table, stonecolor_x, src_color_table)
 
-        draw_subtraction_set(canvas, 0, 0)
+        draw_subtraction_set(canvas, (0, 0))
         """サブストラクションセット描画"""
 
         draw_x_stone(canvas, root_point)
@@ -197,8 +197,10 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     print(
                         f"無視　 src({trident.src_point}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
 
-    def draw_subtraction_set(canvas, x, y):
+    def draw_subtraction_set(canvas, point):
         """サブトラクションセットを表示"""
+        x = point[0]
+        y = point[1]
         location = (int((x+char_base_width+margin_left)*zoom),
                     int((y+char_base_height+margin_left)*4*zoom))
         font_scale = 4.0 * zoom
