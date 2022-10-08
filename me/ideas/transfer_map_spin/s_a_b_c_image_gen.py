@@ -161,14 +161,21 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         if trident is not None:
             """指定の範囲内のみ描画"""
 
-            n = trident.src_point["x"]
-            """n番地"""
+            sx = trident.src_point["x"]
+            sy = trident.src_point["y"]
+            """n番地
+            - 複数のyがあるので、一意ではない
+            """
 
             hash_key = trident.create_hash()
+            print(f"src({sx}, {sy}) hash_key:{hash_key}")
+
             if not tp_table.contains_key(hash_key):
                 """存在しない三本毛なら登録"""
                 tp_table.add_trident(hash_key, trident)
-                src_color_table.add_stonecolor(n, src_stonecolor)
+                src_color_table.add_stonecolor(sx, sy, src_stonecolor)
+                print(
+                    f"新規　 src({sx}, {sy}) src_stonecolor:{src_stonecolor}")
 
                 make_each_tridents_from(
                     trident.a_point, tp_table, stonecolor_a, src_color_table)
@@ -183,10 +190,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                 """c点から生えている三本毛"""
             else:
                 """存在する三本毛なら"""
-                exist_src_stonecolor = src_color_table.get_stonecolor(n)
+                exist_src_stonecolor = src_color_table.get_stonecolor(sx, sy)
                 if exist_src_stonecolor < src_stonecolor:
                     """上書きできる石の色なら"""
-                    src_color_table.add_stonecolor(n, src_stonecolor)  # Update
+                    src_color_table.add_stonecolor(
+                        sx, sy, src_stonecolor)  # Update
+                    print(
+                        f"上書き src({sx}, {sy}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
+                else:
+                    print(
+                        f"無視　 src({sx}, {sy}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
 
     def draw_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
@@ -230,10 +243,11 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """三本毛を描く"""
         global stonecolor_x, stonecolor_a, stonecolor_b, stonecolor_c
 
-        n = trident.a_point["x"]
+        sx = trident.src_point["x"]
+        sy = trident.src_point["y"]
 
-        if src_color_table.contains_key(n):
-            stonecolor_begin = src_color_table.get_stonecolor(n)
+        if src_color_table.contains_key(sx, sy):
+            stonecolor_begin = src_color_table.get_stonecolor(sx, sy)
         else:
             stonecolor_begin = stonecolor_x
 
