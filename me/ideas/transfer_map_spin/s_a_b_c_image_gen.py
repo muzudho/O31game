@@ -137,7 +137,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
-        three_hairs = TridentHair.make_next_nodes_from(
+        trident = TridentHair.make(
             src_point,
             columns=columns,
             rows=rows,
@@ -148,24 +148,18 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             hb=hb,
             hc=hc)
 
-        if three_hairs is not None:
-            hash_key = (three_hairs[0]["x"], three_hairs[0]["y"],
-                        three_hairs[1]["x"], three_hairs[1]["y"],
-                        three_hairs[2]["x"], three_hairs[2]["y"],
-                        three_hairs[3]["x"], three_hairs[3]["y"])
+        if trident is not None:
+            hash_key = trident.create_hash()
             if not (hash_key in transposition_table):
-                transposition_table[hash_key] = three_hairs
+                transposition_table[hash_key] = trident
 
-                a_point = three_hairs[1]
-                make_some_next_nodes_from(a_point, transposition_table)
+                make_some_next_nodes_from(trident.a_point, transposition_table)
                 """a点から生えている三本毛"""
 
-                b_point = three_hairs[2]
-                make_some_next_nodes_from(b_point, transposition_table)
+                make_some_next_nodes_from(trident.b_point, transposition_table)
                 """b点から生えている三本毛"""
 
-                c_point = three_hairs[3]
-                make_some_next_nodes_from(c_point, transposition_table)
+                make_some_next_nodes_from(trident.c_point, transposition_table)
                 """c点から生えている三本毛"""
 
     def paint_subtraction_set(canvas, x, y):
@@ -206,62 +200,47 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def paint_3_hairs(canvas, three_hairs):
+    def paint_3_hairs(canvas, trident):
         """三本毛を描く"""
 
-        paint_a_hair(canvas, three_hairs)
+        paint_a_hair(canvas, trident)
         """a石と、x-->a線の描画"""
 
-        paint_a_hair(canvas, three_hairs)
+        paint_a_hair(canvas, trident)
         """b石と、x-->b線の描画"""
 
-        paint_a_hair(canvas, three_hairs)
+        paint_a_hair(canvas, trident)
         """c石と、x-->c線の描画"""
 
-    def paint_a_hair(canvas, three_hairs):
+    def paint_a_hair(canvas, trident):
         """a毛を描く"""
 
-        src_point = three_hairs[0]
-        """始点の石"""
-
-        a_point = three_hairs[1]
-
-        paint_a_stone(canvas, a_point)
+        paint_a_stone(canvas, trident.a_point)
         """a石の描画"""
 
         if is_visibled_a_line:
             """x-->a線の描画"""
-            draw_line(canvas, src_point, a_point, color_line_a)
+            draw_line(canvas, trident.src_point, trident.a_point, color_line_a)
 
-    def paint_b_hair(canvas, three_hairs):
+    def paint_b_hair(canvas, trident):
         """b毛を描く"""
 
-        src_point = three_hairs[0]
-        """始点の石"""
-
-        b_point = three_hairs[2]
-
-        paint_b_stone(canvas, b_point)
+        paint_b_stone(canvas, trident.b_point)
         """b石の描画"""
 
         if is_visibled_b_line:
             """x-->b線の描画"""
-            draw_line(canvas, src_point, b_point, color_line_b)
+            draw_line(canvas, trident.src_point, trident.b_point, color_line_b)
 
-    def paint_c_hair(canvas, three_hairs):
+    def paint_c_hair(canvas, trident):
         """c毛を描く"""
 
-        src_point = three_hairs[0]
-        """始点の石"""
-
-        c_point = three_hairs[3]
-
-        paint_c_stone(canvas, c_point)
+        paint_c_stone(canvas, trident.c_point)
         """c石の描画"""
 
         if is_visibled_c_line:
             """x-->c線の描画"""
-            draw_line(canvas, src_point, c_point, color_line_c)
+            draw_line(canvas, trident.src_point, trident.c_point, color_line_c)
 
     def paint_x_stone(canvas, point):
         """x石を描く"""
