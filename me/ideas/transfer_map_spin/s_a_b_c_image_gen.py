@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
+from ideas.transfer_map_spin.trident_hair import TridentHair
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
@@ -136,7 +137,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
-        three_hairs = make_next_nodes_from(src_point)
+        three_hairs = TridentHair.make_next_nodes_from(
+            src_point,
+            columns=columns,
+            rows=rows,
+            wa=wa,
+            wb=wb,
+            wc=wc,
+            ha=ha,
+            hb=hb,
+            hc=hc)
 
         if three_hairs is not None:
             hash_key = (three_hairs[0]["x"], three_hairs[0]["y"],
@@ -157,23 +167,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                 c_point = three_hairs[3]
                 make_some_next_nodes_from(c_point, transposition_table)
                 """c点から生えている三本毛"""
-
-    def make_next_nodes_from(src_point):
-        sx = src_point["x"]
-        sy = src_point["y"]
-        if sx < columns and sy < rows:
-            a_point = {"x": sx+wa, "y": sy+ha}
-            """次のa点"""
-
-            b_point = {"x": sx+wb, "y": sy+hb}
-            """次のb点"""
-
-            c_point = {"x": sx+wc, "y": sy+hc}
-            """次のc点"""
-
-            return (src_point, a_point, b_point, c_point)
-
-        return None
 
     def paint_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
