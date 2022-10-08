@@ -33,10 +33,8 @@ class StoneSequence:
 
     def get_largest_stonecolor_at(self, i):
         text = self.__sequence[i]
-        print(f"i:{i} text:{text} len(text):{len(text)}")
         if 0 < len(text):
             last_char = text[len(text)-1]
-            print(f"last_char:{last_char}")
 
             if last_char == "a":
                 return nim_constants.stonecolor_a

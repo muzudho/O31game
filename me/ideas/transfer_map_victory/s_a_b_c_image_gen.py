@@ -62,7 +62,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 150
+    margin_top = 1500
     margin_bottom = 5
 
     columns = 50
@@ -179,17 +179,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """三本毛を描く"""
 
         sx = trident.src_point[0]
-        stonecolor_begin = grundy_graph.grundy_sequence.get_grundy_at(sx)
-
-        # if stonecolor_begin != nim_constants.stonecolor_x:
-        #    """グランディ数 0 から生えているわけではない三本毛なら描きません"""
-#
-#            # 始点src
-#            draw_stone(canvas, trident.src_point,
-#                       get_color_from_stonecolor(nim_constants.stonecolor_x))
-#            """グランディ数 0石の描画"""
-#            return
-
         ax = trident.a_point[0]
         stonecolor_end_a = grundy_graph.grundy_sequence.get_grundy_at(ax)
         bx = trident.b_point[0]
@@ -213,22 +202,27 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """終点c石"""
 
         # エッジの描画
+        # グランディ数 0 の石の１つ手前から伸びている線だけ引けば必勝
+        previous_x = sx - 1
+        if 0 <= previous_x:
+            previous_stone_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(
+                previous_x)
 
-        if stonecolor_end_a != nim_constants.stonecolor_x:
-            # 始点と終点の組み合わせによって色を変える
-            draw_line(canvas, trident.src_point, trident.a_point,
-                      color_red)
-            """s-->a線"""
+            if previous_stone_grundy_number == 0:
 
-        if stonecolor_end_b != nim_constants.stonecolor_x:
-            draw_line(canvas, trident.src_point, trident.b_point,
-                      color_green)
-            """s-->b線"""
+                # if stonecolor_end_a != nim_constants.stonecolor_x:
+                # 始点と終点の組み合わせによって色を変える
+                draw_line(canvas, trident.src_point, trident.a_point,
+                          color_red)
+                """s-->a線"""
 
-        if stonecolor_end_c != nim_constants.stonecolor_x:
-            draw_line(canvas, trident.src_point, trident.c_point,
-                      color_blue)
-            """s-->c線"""
+                draw_line(canvas, trident.src_point, trident.b_point,
+                          color_green)
+                """s-->b線"""
+
+                draw_line(canvas, trident.src_point, trident.c_point,
+                          color_blue)
+                """s-->c線"""
 
     def get_color_from_stonecolor(stonecolor):
         if stonecolor == nim_constants.stonecolor_x:
