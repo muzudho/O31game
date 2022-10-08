@@ -95,16 +95,30 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             hb=hb,
             hc=hc)
 
+        # １つの x に、複数の y があるので、最小の y だけ残します
+        x_sequence_with_smallest_y = {}
+        for trident in grundy_graph.tp_table.values():
+            sx = trident.src_point[0]
+            sy = trident.src_point[1]
+
+            if sx in x_sequence_with_smallest_y:
+                element = x_sequence_with_smallest_y[sx]
+                if sy < element[0]:
+                    x_sequence_with_smallest_y[sx] = (sy, trident)  # Update
+            else:
+                x_sequence_with_smallest_y[sx] = (sy, trident)
+
         draw_subtraction_set(canvas, (0, 0))
         """サブストラクションセット描画"""
 
         draw_x_stone(canvas, grundy_graph.root_point)
         """根の点描画"""
 
-        for hash_key in grundy_graph.tp_table.keys():
-            """三本毛の描画"""
-            trident = grundy_graph.tp_table.get_trident(hash_key)
+        for key in x_sequence_with_smallest_y:
+            element = x_sequence_with_smallest_y[key]
+            trident = element[1]
             draw_trident(canvas, trident, grundy_graph)
+            """三本毛の描画"""
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"

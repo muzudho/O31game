@@ -16,3 +16,6 @@ class TranspositionTable:
 
     def keys(self):
         return self.__table.keys()
+
+    def values(self):
+        return self.__table.values()
