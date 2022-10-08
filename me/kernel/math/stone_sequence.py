@@ -1,4 +1,4 @@
-from ideas.transfer_map_spin.nim_constants import nim_constants
+from ideas.transfer_map_victory.nim_constants import nim_constants
 
 
 class StoneSequence:

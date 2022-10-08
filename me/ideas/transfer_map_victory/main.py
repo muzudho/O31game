@@ -4,9 +4,9 @@ pip install Pillow
 
 cd me
 
-python.exe -m ideas.transfer_map_spin.main
+python.exe -m ideas.transfer_map_victory.main
 """
-from ideas.transfer_map_spin.s_a_b_c_image_gen import gen_s_a_b_c_image
+from ideas.transfer_map_victory.s_a_b_c_image_gen import gen_s_a_b_c_image
 
 zoom = 0.8
 """倍率。1倍はかなりでかい"""

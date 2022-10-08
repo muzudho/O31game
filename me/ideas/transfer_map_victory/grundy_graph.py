@@ -1,8 +1,8 @@
 from kernel.math.grundy_sequence import GrundySequence
 from kernel.math.stone_sequence import StoneSequence
 
-from ideas.transfer_map_spin.transposition_table import TranspositionTable
-from ideas.transfer_map_spin.trident_hair import TridentHair
+from ideas.transfer_map_victory.transposition_table import TranspositionTable
+from ideas.transfer_map_victory.trident_hair import TridentHair
 
 
 class GrundyGraph:

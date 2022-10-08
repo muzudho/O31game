@@ -10,8 +10,8 @@ import cv2
 import numpy as np
 from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
-from ideas.transfer_map_spin.grundy_graph import GrundyGraph
-from ideas.transfer_map_spin.nim_constants import nim_constants
+from ideas.transfer_map_victory.grundy_graph import GrundyGraph
+from ideas.transfer_map_victory.nim_constants import nim_constants
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
