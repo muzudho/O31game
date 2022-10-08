@@ -6,13 +6,13 @@ class TranspositionColorTable:
         """色テーブル"""
 
     def add_color(self, n, color):
-        self.__table[hash(n)] = color
+        self.__table[n] = color
 
     def get_color(self, n):
-        return self.__table[hash(n)]
+        return self.__table[n]
 
     def contains_key(self, n):
-        return hash(n) in self.__table
+        return n in self.__table
 
     def keys(self):
         return self.__table.keys()

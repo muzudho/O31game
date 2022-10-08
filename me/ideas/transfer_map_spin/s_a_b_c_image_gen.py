@@ -163,17 +163,15 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         if trident is not None:
             """指定の範囲内のみ描画"""
+
             n = trident.src_point["x"]
+            """n番地"""
 
             hash_key = trident.create_hash()
             if not tp_table.contains_key(hash_key):
+                """存在しない三本毛なら登録"""
                 tp_table.add_trident(hash_key, trident)
-
-                if src_color_table.contains_key(n):
-                    exist_src_color = src_color_table.get_color(n)
-
-                    if exist_src_color < src_color:
-                        src_color_table.add_color(n, src_color)  # Update
+                src_color_table.add_color(n, src_color)
 
                 make_all_tridents_from(
                     trident.a_point, tp_table, stonecolor_a, src_color_table)
@@ -186,6 +184,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                 make_all_tridents_from(
                     trident.c_point, tp_table, stonecolor_c, src_color_table)
                 """c点から生えている三本毛"""
+            else:
+                """存在する三本毛なら"""
+                exist_src_color = src_color_table.get_color(n)
+                if exist_src_color < src_color:
+                    """上書きできる石の色なら"""
+                    src_color_table.add_color(n, src_color)  # Update
 
     def paint_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
@@ -239,6 +243,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         # 始点と終点の組み合わせによって色を変える
 
         # 終点a
+        draw_stone(canvas, trident.a_point, color_red)
+        """a石の描画"""
+
         if stonecolor_begin == stonecolor_x:
             color_line = color_line_x
         elif stonecolor_begin == stonecolor_a:
@@ -250,10 +257,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
-        paint_a_hair(canvas, trident, color_line)
-        """a石と、x-->a線の描画"""
+        if is_visibled_a_line:
+            """s-->a線の描画"""
+            draw_line(canvas, trident.src_point, trident.a_point, color_line)
+
+        """a石と、s-->a線の描画"""
 
         # 終点b
+        draw_stone(canvas, trident.b_point, color_green)
+        """b石の描画"""
+
         if stonecolor_begin == stonecolor_x:
             color_line = color_line_x
         elif stonecolor_begin == stonecolor_a:
@@ -265,10 +278,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
-        paint_b_hair(canvas, trident, color_line)
-        """b石と、x-->b線の描画"""
+        if is_visibled_b_line:
+            """s-->b線の描画"""
+            draw_line(canvas, trident.src_point, trident.b_point, color_line)
+
+        """b石と、s-->b線の描画"""
 
         # 終点c
+        draw_stone(canvas, trident.c_point, color_blue)
+        """c石の描画"""
+
         if stonecolor_begin == stonecolor_x:
             color_line = color_line_x
         elif stonecolor_begin == stonecolor_a:
@@ -280,38 +299,11 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
-        paint_c_hair(canvas, trident, color_line)
-        """c石と、x-->c線の描画"""
-
-    def paint_a_hair(canvas, trident, color_line):
-        """a毛を描く"""
-
-        draw_stone(canvas, trident.a_point, color_red)
-        """a石の描画"""
-
-        if is_visibled_a_line:
-            """x-->a線の描画"""
-            draw_line(canvas, trident.src_point, trident.a_point, color_line)
-
-    def paint_b_hair(canvas, trident, color_line):
-        """b毛を描く"""
-
-        draw_stone(canvas, trident.b_point, color_green)
-        """b石の描画"""
-
-        if is_visibled_b_line:
-            """x-->b線の描画"""
-            draw_line(canvas, trident.src_point, trident.b_point, color_line)
-
-    def paint_c_hair(canvas, trident, color_line):
-        """c毛を描く"""
-
-        draw_stone(canvas, trident.c_point, color_blue)
-        """c石の描画"""
-
         if is_visibled_c_line:
-            """x-->c線の描画"""
+            """s-->c線の描画"""
             draw_line(canvas, trident.src_point, trident.c_point, color_line)
+
+        """c石と、s-->c線の描画"""
 
     def draw_x_stone(canvas, point):
         """x石を描く"""
