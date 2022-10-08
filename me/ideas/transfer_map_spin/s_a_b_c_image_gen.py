@@ -62,8 +62,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     columns = 50
     rows = 50
-    drawing_columns = 10
-    drawing_rows = 10
+    drawing_columns = 50
+    drawing_rows = 50
 
     char_base_width = -10
     char_base_height = 5
@@ -233,27 +233,29 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         raise ValueError(f"unexpected stonecolor:{stonecolor}")
 
-    def get_color_from_2stones_color(stonecolor_begin, stonecolor_end):
+    def get_color_from_2stones_color(smaller_stonecolor, larger_stonecolor):
         """始点の色と、終点の色の組み合わせによって色を変えます"""
-        if stonecolor_begin == stonecolor_end:
-            return get_color_from_stonecolor(stonecolor_begin)
+        if smaller_stonecolor == larger_stonecolor:
+            return get_color_from_stonecolor(smaller_stonecolor)
 
-        if stonecolor_begin == nim_constants.stonecolor_x:
-            return get_color_from_stonecolor(stonecolor_end)
+        if smaller_stonecolor == nim_constants.stonecolor_x:
+            """小さい方の石が グランディ数 0 なら、線は大きい方の数に従う"""
+            return get_color_from_stonecolor(larger_stonecolor)
 
-        if stonecolor_end == nim_constants.stonecolor_x:
-            return get_color_from_stonecolor(stonecolor_begin)
+        if larger_stonecolor == nim_constants.stonecolor_x:
+            """大きい方の石が グランディ数 0 なら、線はグランディ数 0 の方に従う"""
+            return get_color_from_stonecolor(nim_constants.stonecolor_x)
 
-        if (stonecolor_begin == nim_constants.stonecolor_a and stonecolor_end == nim_constants.stonecolor_b) or (stonecolor_begin == nim_constants.stonecolor_b and stonecolor_end == nim_constants.stonecolor_a):
+        if (smaller_stonecolor == nim_constants.stonecolor_a and larger_stonecolor == nim_constants.stonecolor_b) or (smaller_stonecolor == nim_constants.stonecolor_b and larger_stonecolor == nim_constants.stonecolor_a):
             return color_yellow
 
-        if (stonecolor_begin == nim_constants.stonecolor_b and stonecolor_end == nim_constants.stonecolor_c) or (stonecolor_begin == nim_constants.stonecolor_c and stonecolor_end == nim_constants.stonecolor_b):
+        if (smaller_stonecolor == nim_constants.stonecolor_b and larger_stonecolor == nim_constants.stonecolor_c) or (smaller_stonecolor == nim_constants.stonecolor_c and larger_stonecolor == nim_constants.stonecolor_b):
             return color_cyan
 
-        if (stonecolor_begin == nim_constants.stonecolor_c and stonecolor_end == nim_constants.stonecolor_a) or (stonecolor_begin == nim_constants.stonecolor_a and stonecolor_end == nim_constants.stonecolor_c):
+        if (smaller_stonecolor == nim_constants.stonecolor_c and larger_stonecolor == nim_constants.stonecolor_a) or (smaller_stonecolor == nim_constants.stonecolor_a and larger_stonecolor == nim_constants.stonecolor_c):
             return color_magenta
 
-        return color_black
+        return get_color_from_stonecolor(nim_constants.stonecolor_x)
 
     def draw_x_stone(canvas, point):
         """x石を描く"""
