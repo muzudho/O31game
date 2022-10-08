@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 # from datetime import datetime
-from kernel.math.grundy_sequence import GrundySequence, DameColorSequence
+from kernel.math.grundy_sequence import GrundySequence
 
 
 def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
@@ -176,7 +176,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     def print_grundy_sequence(y):
         """グランディ数列を図形的に描画"""
 
-        dame_color_sequence = DameColorSequence.make(grundy_sequence)
+        #dame_color_sequence = DameColorSequence.make(grundy_sequence)
 
         for i in range(0, len_Nz):
             grundy_number = grundy_sequence.get_grundy_at(i)
@@ -185,19 +185,19 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
                 label = "x"  # TODO ×に色付けたい。両端の a,b,c （c優先）が同じとき、その色。それ以外は黒
                 vertical_repeat = 1
 
-                dame_color = dame_color_sequence.get_dame_color_at(i)
-                if dame_color == 0:
-                    font_color2 = font_color
-                elif dame_color == 1:
-                    font_color2 = color_red
-                elif dame_color == 2:
-                    font_color2 = color_green
-                elif dame_color == 3:
-                    font_color2 = color_blue
+                #dame_color = dame_color_sequence.get_dame_color_at(i)
+                # if dame_color == 0:
+                #    font_color2 = font_color
+                # elif dame_color == 1:
+                #    font_color2 = color_red
+                # elif dame_color == 2:
+                #    font_color2 = color_green
+                # elif dame_color == 3:
+                #    font_color2 = color_blue
             else:
                 label = "."
                 vertical_repeat = grundy_number
-                font_color2 = font_color
+                #font_color2 = font_color
 
             for j in range(0, vertical_repeat):  # 文字を上にずらしながら重ねていく
                 cv2.putText(canvas,
@@ -206,7 +206,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
                              int((y-(char_height/4)*j)*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
-                            font_color2,  # color
+                            font_color,  # color
                             0)  # line_type
 
     def print_mate_lins(src_y, dst_y):

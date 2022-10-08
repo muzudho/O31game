@@ -18,9 +18,32 @@ len_Nz = 200
 
 
 def main():
-    gen_s_a_b_c_image(a=2, b=10, c=18, len_Nz=len_Nz, zoom=zoom)
+    # 雲の動き
+    # for b in range(3, 100):
+    #    gen_s_a_b_c_image(a=2, b=b, c=100, len_Nz=len_Nz,
+    #                      zoom=zoom, is_temporary=False)
+
+    # for b in range(5, 100):
+    #    gen_s_a_b_c_image(a=4, b=b, c=100, len_Nz=len_Nz,
+    #                      zoom=zoom, is_temporary=False)
+
+    # 雲の動き
+    # for b in range(6, 100):
+    #    gen_s_a_b_c_image(a=5, b=b, c=100, len_Nz=len_Nz,
+    #                      zoom=zoom, is_temporary=False)
+
+    # 雲の動き
+    for b in range(6, 30):
+        gen_s_a_b_c_image(a=5, b=b, c=30, len_Nz=len_Nz,
+                          zoom=zoom, is_temporary=False)
+
     # gen_odds()
     # gen_3chord()
+
+    # for a in range(4, 5):
+    #    for b in range(a+1, a+6):
+    #        for c in range(b+1, b+40):
+    #            gen_s_a_b_c_image(a=a, b=b, c=c, len_Nz=len_Nz, zoom=zoom)
 
 
 def gen_odds():
