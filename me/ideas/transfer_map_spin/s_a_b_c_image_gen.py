@@ -6,6 +6,7 @@ cd me
 
 python.exe -m ideas.vector_coordinate.main
 """
+from multiprocessing.sharedctypes import Value
 import cv2
 import numpy as np
 from kernel.math.eo_code import EoCode
@@ -13,6 +14,12 @@ from kernel.math.music_chord import MusicChord
 from ideas.transfer_map_spin.trident_hair import TridentHair
 from ideas.transfer_map_spin.transposition_table import TranspositionTable
 from ideas.transfer_map_spin.transposition_color_table import TranspositionColorTable
+
+stonecolor_x = 0
+stonecolor_a = 1
+stonecolor_b = 2
+stonecolor_c = 3
+"""石の色"""
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
@@ -37,16 +44,18 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     d_a_b = b-a
     d_b_c = c-b
     d_c_apb = c-(a+b)
+    minimum_d = min([d_a_b, d_b_c, d_c_apb])
+    maximum_d = max([d_a_b, d_b_c, d_c_apb])
     """a,b,cの間隔"""
 
-    if d_a_b <= d_b_c or d_a_b <= d_c_apb:
-        is_visibled_a_line = False
+    # if d_a_b <= d_b_c or d_a_b <= d_c_apb:
+    #    is_visibled_a_line = False
 
-    if d_b_c <= d_a_b or d_b_c <= d_c_apb:
-        is_visibled_b_line = False
+    # if d_b_c <= d_a_b or d_b_c <= d_c_apb:
+    #    is_visibled_b_line = False
 
-    if d_c_apb <= d_a_b or d_c_apb <= d_b_c:
-        is_visibled_c_line = False
+    # if d_c_apb <= d_a_b or d_c_apb <= d_b_c:
+    #    is_visibled_c_line = False
     """一番間隔の狭い線を非表示"""
 
     wa = 2*a  # weight a
@@ -72,12 +81,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     char_height = 50
     """一文字の幅の目安"""
 
-    stonecolor_x = 0
-    stonecolor_a = 1
-    stonecolor_b = 1
-    stonecolor_c = 1
-    """石の色"""
-
     color_black = (55, 55, 55)
     color_red = (90, 90, 220)
     color_green = (90, 220, 90)
@@ -86,9 +89,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     color_magenta = (220, 90, 220)
     color_yellow = (220, 220, 90)
     color_line_x = color_black
-    color_line_a = color_cyan
-    color_line_b = color_magenta
-    color_line_c = color_yellow
+    color_line_a = color_red
+    color_line_b = color_blue
+    color_line_c = color_green
+    color_line_a_b = color_cyan
+    color_line_b_c = color_magenta
+    color_line_c_a = color_yellow
     """色"""
 
     line_thickness = 1
@@ -221,30 +227,58 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def paint_trident(canvas, trident, src_color_table):
         """三本毛を描く"""
+        global stonecolor_x, stonecolor_a, stonecolor_b, stonecolor_c
 
         n = trident.a_point["x"]
 
         if src_color_table.contains_key(n):
-            stonecolor_at_n = src_color_table.get_color(n)
-
-            if stonecolor_at_n == stonecolor_x:
-                color_line = color_line_x
-            elif stonecolor_at_n == stonecolor_a:
-                color_line = color_line_a
-            elif stonecolor_at_n == stonecolor_b:
-                color_line = color_line_b
-            elif stonecolor_at_n == stonecolor_c:
-                color_line = color_line_c
-            elif stonecolor_at_n == stonecolor_x:
-                color_line = color_line_x
+            stonecolor_begin = src_color_table.get_color(n)
         else:
+            stonecolor_begin = stonecolor_x
+
+        # 始点と終点の組み合わせによって色を変える
+
+        # 終点a
+        if stonecolor_begin == stonecolor_x:
             color_line = color_line_x
+        elif stonecolor_begin == stonecolor_a:
+            color_line = color_line_a
+        elif stonecolor_begin == stonecolor_b:
+            color_line = color_line_a_b
+        elif stonecolor_begin == stonecolor_c:
+            color_line = color_line_c_a
+        else:
+            raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
         paint_a_hair(canvas, trident, color_line)
         """a石と、x-->a線の描画"""
 
+        # 終点b
+        if stonecolor_begin == stonecolor_x:
+            color_line = color_line_x
+        elif stonecolor_begin == stonecolor_a:
+            color_line = color_line_a_b
+        elif stonecolor_begin == stonecolor_b:
+            color_line = color_line_b
+        elif stonecolor_begin == stonecolor_c:
+            color_line = color_line_c_a
+        else:
+            raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
+
         paint_b_hair(canvas, trident, color_line)
         """b石と、x-->b線の描画"""
+
+        # 終点c
+        if stonecolor_begin == stonecolor_x:
+            color_line = color_line_x
+        elif stonecolor_begin == stonecolor_a:
+            color_line = color_line_a_b
+        elif stonecolor_begin == stonecolor_b:
+            color_line = color_line_b_c
+        elif stonecolor_begin == stonecolor_c:
+            color_line = color_line_c
+        else:
+            raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
         paint_c_hair(canvas, trident, color_line)
         """c石と、x-->c線の描画"""
