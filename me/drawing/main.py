@@ -18,6 +18,8 @@ len_Nz = 200
 
 
 def main():
+    gen_a_plus_b()
+
     # 雲の動き
     # for b in range(3, 100):
     #    gen_s_a_b_c_image(a=2, b=b, c=100, len_Nz=len_Nz,
@@ -33,9 +35,9 @@ def main():
     #                      zoom=zoom, is_temporary=False)
 
     # 雲の動き
-    for b in range(6, 30):
-        gen_s_a_b_c_image(a=5, b=b, c=30, len_Nz=len_Nz,
-                          zoom=zoom, is_temporary=False)
+    # for b in range(6, 30):
+    #    gen_s_a_b_c_image(a=5, b=b, c=30, len_Nz=len_Nz,
+    #                      zoom=zoom, is_temporary=False)
 
     # gen_odds()
     # gen_3chord()
@@ -44,6 +46,31 @@ def main():
     #    for b in range(a+1, a+6):
     #        for c in range(b+1, b+40):
     #            gen_s_a_b_c_image(a=a, b=b, c=c, len_Nz=len_Nz, zoom=zoom)
+
+
+def gen_a_plus_b():
+    """p=a+bシリーズ"""
+    gen_s_a_b_c_image(a=1, b=2, c=4, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=2, c=8, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=2, c=10, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=4, c=16, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=4, c=24, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=4, c=36, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=6, c=36, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=1, b=6, c=90, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=3, c=12, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=3, c=18, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=4, c=8, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=4, c=16, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=5, c=9, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=2, b=9, c=31, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=5, c=45, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=5, c=60, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=3, b=7, c=63, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=4, b=5, c=40, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=4, b=9, c=10, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=5, b=10, c=100, len_Nz=len_Nz, zoom=zoom)
+    gen_s_a_b_c_image(a=7, b=8, c=112, len_Nz=len_Nz, zoom=zoom)
 
 
 def gen_odds():
