@@ -121,7 +121,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         for hash_key in grundy_graph.tp_table.keys():
             """三本毛の描画"""
             trident = grundy_graph.tp_table.get_trident(hash_key)
-            draw_trident(canvas, trident, grundy_graph.src_color_table)
+            draw_trident(canvas, trident, grundy_graph.grundy_sequence)
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
@@ -177,13 +177,10 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def draw_trident(canvas, trident, src_color_table):
+    def draw_trident(canvas, trident, grundy_sequence):
         """三本毛を描く"""
-        if src_color_table.contains_key(trident.src_point):
-            stonecolor_begin = src_color_table.get_stonecolor(
-                trident.src_point)
-        else:
-            stonecolor_begin = nim_constants.stonecolor_x
+        sx = trident.src_point[0]
+        stonecolor_begin = grundy_sequence.get_grundy_at(sx)
 
         # 始点と終点の組み合わせによって色を変える
 
