@@ -58,10 +58,6 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     #    is_visibled_c_line = False
     """一番間隔の狭い線を非表示"""
 
-    wa = 2*a  # weight a
-    wb = 2*b
-    wc = 2*c
-
     hc = a+b
     hb = 0  # bは水平
     ha = a  # aはナナメ
@@ -69,7 +65,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 100
+    margin_top = 150
     margin_bottom = 5
 
     columns = 100
@@ -90,8 +86,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     color_yellow = (220, 220, 90)
     color_line_x = color_black
     color_line_a = color_red
-    color_line_b = color_blue
-    color_line_c = color_green
+    color_line_b = color_green
+    color_line_c = color_blue
     color_line_a_b = color_cyan
     color_line_b_c = color_magenta
     color_line_c_a = color_yellow
@@ -117,7 +113,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         src_color_table = TranspositionColorTable()
         """重なる始点の優先色テーブル"""
 
-        root_point = {"x": 0, "y": 1}
+        root_point = {"x": 0, "y": 0}
         src_color_table.add_color(0, stonecolor_x)
         """根の点"""
 
@@ -154,9 +150,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             src_point,
             columns=columns,
             rows=rows,
-            wa=wa,
-            wb=wb,
-            wc=wc,
+            a=a,
+            b=b,
+            c=c,
             ha=ha,
             hb=hb,
             hc=hc)

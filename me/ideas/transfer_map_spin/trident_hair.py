@@ -4,17 +4,17 @@ class TridentHair:
     - 始点の石の色は含みません。始点の位置は含みます"""
 
     @staticmethod
-    def make(src_point, columns, rows, wa, wb, wc, ha, hb, hc):
+    def make(src_point, columns, rows, a, b, c, ha, hb, hc):
         sx = src_point["x"]
         sy = src_point["y"]
         if sx < columns and sy < rows:
-            a_point = {"x": sx+wa, "y": sy+ha}
+            a_point = {"x": sx+a, "y": sy+ha}
             """次のa点"""
 
-            b_point = {"x": sx+wb, "y": sy+hb}
+            b_point = {"x": sx+b, "y": sy+hb}
             """次のb点"""
 
-            c_point = {"x": sx+wc, "y": sy+hc}
+            c_point = {"x": sx+c, "y": sy+hc}
             """次のc点"""
 
             return TridentHair(src_point, a_point, b_point, c_point)
