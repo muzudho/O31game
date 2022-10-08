@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 # from datetime import datetime
-from kernel.math.grundy import GrundySequence, DameColorSequence
+from kernel.math.grundy_sequence import GrundySequence, DameColorSequence
 
 
 def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):

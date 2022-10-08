@@ -201,9 +201,10 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                    get_color_from_stonecolor(stonecolor_end_b))
         """b石の描画"""
 
-        # if is_visibled_b_line:
-        # """s-->b線の描画"""
-        #draw_line(canvas, trident.src_point, trident.b_point, get_color_from_2stones_color(stonecolor_begin, stonecolor_end_b))
+        if is_visibled_b_line:
+            """s-->b線の描画"""
+            draw_line(canvas, trident.src_point, trident.b_point,
+                      get_color_from_2stones_color(stonecolor_begin, stonecolor_end_b))
 
         """b石と、s-->b線の描画"""
 
@@ -212,9 +213,10 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                    get_color_from_stonecolor(stonecolor_end_c))
         """c石の描画"""
 
-        # if is_visibled_c_line:
-        # """s-->c線の描画"""
-        #draw_line(canvas, trident.src_point, trident.c_point, get_color_from_2stones_color(stonecolor_begin, stonecolor_end_c))
+        if is_visibled_c_line:
+            """s-->c線の描画"""
+            draw_line(canvas, trident.src_point, trident.c_point,
+                      get_color_from_2stones_color(stonecolor_begin, stonecolor_end_c))
 
         """c石と、s-->c線の描画"""
 

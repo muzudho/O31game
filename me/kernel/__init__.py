@@ -1,4 +1,4 @@
-from kernel.math.grundy import GrundySequence
+from kernel.math.grundy_sequence import GrundySequence
 
 
 class Kernel:

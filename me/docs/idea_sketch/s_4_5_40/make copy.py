@@ -3,7 +3,7 @@ cd me
 
 python.exe -m docs.idea_sketch.s_4_5_40.make
 """
-from kernel.math.grundy import GrundySequence
+from kernel.math.grundy_sequence import GrundySequence
 
 print("This is an idea sketch.")
 

@@ -4,7 +4,7 @@ cd me
 python.exe -m tests.test_grundy
 """
 
-from kernel.math.grundy import GrundySequence
+from kernel.math.grundy_sequence import GrundySequence
 
 print("Test grundy!")
 
