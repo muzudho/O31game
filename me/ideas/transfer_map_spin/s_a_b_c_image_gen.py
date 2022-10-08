@@ -114,10 +114,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """重なる始点の優先色テーブル"""
 
         root_point = {"x": 0, "y": 0}
-        src_color_table.add_color(0, stonecolor_x)
         """根の点"""
 
-        make_all_tridents_from(
+        make_each_tridents_from(
             root_point, tp_table, stonecolor_x, src_color_table)
 
         paint_subtraction_set(canvas, 0, 0)
@@ -145,7 +144,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             f"./output_tmp/transfer_map_spin_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
-    def make_all_tridents_from(src_point, tp_table, src_color, src_color_table):
+    def make_each_tridents_from(src_point, tp_table, src_stonecolor, src_color_table):
         trident = TridentHair.make(
             src_point,
             columns=columns,
@@ -167,25 +166,25 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             if not tp_table.contains_key(hash_key):
                 """存在しない三本毛なら登録"""
                 tp_table.add_trident(hash_key, trident)
-                src_color_table.add_color(n, src_color)
+                src_color_table.add_stonecolor(n, src_stonecolor)
 
-                make_all_tridents_from(
+                make_each_tridents_from(
                     trident.a_point, tp_table, stonecolor_a, src_color_table)
                 """a点から生えている三本毛"""
 
-                make_all_tridents_from(
+                make_each_tridents_from(
                     trident.b_point, tp_table, stonecolor_b, src_color_table)
                 """b点から生えている三本毛"""
 
-                make_all_tridents_from(
+                make_each_tridents_from(
                     trident.c_point, tp_table, stonecolor_c, src_color_table)
                 """c点から生えている三本毛"""
             else:
                 """存在する三本毛なら"""
-                exist_src_color = src_color_table.get_color(n)
-                if exist_src_color < src_color:
+                exist_src_stonecolor = src_color_table.get_stonecolor(n)
+                if exist_src_stonecolor < src_stonecolor:
                     """上書きできる石の色なら"""
-                    src_color_table.add_color(n, src_color)  # Update
+                    src_color_table.add_stonecolor(n, src_stonecolor)  # Update
 
     def paint_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
@@ -232,7 +231,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         n = trident.a_point["x"]
 
         if src_color_table.contains_key(n):
-            stonecolor_begin = src_color_table.get_color(n)
+            stonecolor_begin = src_color_table.get_stonecolor(n)
         else:
             stonecolor_begin = stonecolor_x
 

@@ -5,10 +5,10 @@ class TranspositionColorTable:
         self.__table = dict()
         """色テーブル"""
 
-    def add_color(self, n, color):
-        self.__table[n] = color
+    def add_stonecolor(self, n, stonecolor):
+        self.__table[n] = stonecolor
 
-    def get_color(self, n):
+    def get_stonecolor(self, n):
         return self.__table[n]
 
     def contains_key(self, n):
