@@ -14,11 +14,14 @@ class GrundyGraph:
 
         GrundyGraph.__make_each_tridents_from(
             ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-            ins.root_point, ins.tp_table)
+            ins.root_point)
+
+        # X軸しかないのに、各点に y が重複していっぱい並ぶ
+
         return ins
 
     @staticmethod
-    def __make_each_tridents_from(ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc, src_point, tp_table):
+    def __make_each_tridents_from(ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc, src_point):
         sx = src_point[0]
         sy = src_point[1]
         if sx < drawing_columns and sy < drawing_rows:
@@ -35,23 +38,25 @@ class GrundyGraph:
 
             hash_key = trident.create_hash()
 
-            if not tp_table.contains_key(hash_key):
-                """存在しない三本毛なら登録"""
-                tp_table.add_trident(hash_key, trident)
+            if not ins.tp_table.contains_key(hash_key):
+                """存在しない三本毛なら"""
+
+                ins.tp_table.add_trident(hash_key, trident)
+                """登録"""
 
                 GrundyGraph.__make_each_tridents_from(
                     ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-                    trident.a_point, tp_table)
+                    trident.a_point)
                 """a点から生えている三本毛"""
 
                 GrundyGraph.__make_each_tridents_from(
                     ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-                    trident.b_point, tp_table)
+                    trident.b_point)
                 """b点から生えている三本毛"""
 
                 GrundyGraph.__make_each_tridents_from(
                     ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-                    trident.c_point, tp_table)
+                    trident.c_point)
                 """c点から生えている三本毛"""
 
     def __init__(self, S: set, len_Nz: int):
