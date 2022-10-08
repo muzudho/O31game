@@ -165,28 +165,41 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         sx = trident.src_point[0]
         ax = trident.a_point[0]
+        ax_grundy_num = grundy_graph.grundy_sequence.get_grundy_at(ax)
         bx = trident.b_point[0]
+        bx_grundy_num = grundy_graph.grundy_sequence.get_grundy_at(bx)
         cx = trident.c_point[0]
+        cx_grundy_num = grundy_graph.grundy_sequence.get_grundy_at(cx)
         """点の位置x"""
 
         # 石は必ず描画
 
-        draw_stone(canvas, trident.a_point,
-                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(ax)))
+        if ax_grundy_num == 0:
+            draw_x_stone(canvas, trident.a_point)
+        else:
+            draw_stone(canvas, trident.a_point,
+                       get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(ax)))
         """終点a石"""
 
-        draw_stone(canvas, trident.b_point,
-                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(bx)))
+        if bx_grundy_num == 0:
+            draw_x_stone(canvas, trident.b_point)
+        else:
+            draw_stone(canvas, trident.b_point,
+                       get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(bx)))
         """終点b石"""
 
-        draw_stone(canvas, trident.c_point,
-                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(cx)))
+        if cx_grundy_num == 0:
+            draw_x_stone(canvas, trident.c_point)
+        else:
+            draw_stone(canvas, trident.c_point,
+                       get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(cx)))
         """終点c石"""
 
         # エッジの描画
         # 三本毛の根+1 が、グランディ数 非0 のものだけ描けば必勝ルート
-        sx_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(sx+1)
-        if 0 != sx_grundy_number:
+        sxplus1_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(
+            sx+1)
+        if 0 != sxplus1_grundy_number:
             # 始点と終点の組み合わせによって色を変える
             draw_line(canvas, trident.src_point, trident.a_point,
                       color_red)
