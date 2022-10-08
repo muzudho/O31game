@@ -22,47 +22,21 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
+    display_max_number = 40
+
+    wa = 2*a  # weight a
+    wb = 2*b
+    wc = 2*c
 
     # いろんな軸の刻み方ができる
-
-    # aをx軸、bをy軸、cをz軸と考えれば、３次元の格子になる
-    # ha = 0  # height a
-    #hb = -b*c
-    #hc = c
-
-    # ha = b*c  # height a
-    #hb = a*c
-    #hc = a*b
-
-    # ha = 0  # height a
-    #hb = -a*c
-    #hc = a*b
-
-    # ha = 0  # height a
-    #hb = a*-b
-    #hc = b*c
-
-    # ha = 0  # height a
-    # hb = a*-b
-    # hc = a*c
-
-    # ha = -a  # height a
-    #hb = b
-    #hc = 0
-
-    # a を水平軸にすると見やすい感じがする
-    # ha = 0  # height a
-    #hb = -b
-    #hc = c
-
-    # 単純な例
-    ha = -a  # height a
-    hb = 0
-    hc = c
+    ha = 0  # aは水平
+    hb = (b-a+1)
+    hc = (c-b+1)
+    """width と height"""
 
     margin_left = 20
     margin_right = 5
-    margin_top = 20 + 2000
+    margin_top = 20
     margin_bottom = 5
 
     columns = 100
@@ -131,7 +105,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             tmp_text = ""
 
         cv2.imwrite(
-            f"./output_tmp/transfer_map_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
+            f"./output_tmp/transfer_map_spin_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
     def make_some_next_nodes_from(src_point, transposition_table):
@@ -161,13 +135,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         sx = src_point["x"]
         sy = src_point["y"]
         if sx < columns and sy < rows:
-            a_point = {"x": sx+a, "y": sy+ha}
+            a_point = {"x": sx+wa, "y": sy+ha}
             """次のa点"""
 
-            b_point = {"x": sx+b, "y": sy+hb}
+            b_point = {"x": sx+wb, "y": sy+hb}
             """次のb点"""
 
-            c_point = {"x": sx+c, "y": sy+hc}
+            c_point = {"x": sx+wc, "y": sy+hc}
             """次のc点"""
 
             return (src_point, a_point, b_point, c_point)
@@ -284,7 +258,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         x = point["x"]
         y = point["y"]
 
-        if x < 21:
+        if x <= display_max_number:
             label = f"{x}"
         else:
             label = ""
@@ -303,7 +277,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         x = point["x"]
         y = point["y"]
 
-        if x < 21:
+        if x <= display_max_number:
             label = f"{x}"
         else:
             label = ""
@@ -322,7 +296,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         x = point["x"]
         y = point["y"]
 
-        if x < 21:
+        if x <= display_max_number:
             label = f"{x}"
         else:
             label = ""
