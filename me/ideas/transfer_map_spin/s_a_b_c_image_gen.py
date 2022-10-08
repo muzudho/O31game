@@ -111,16 +111,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         # モデル作成
         grundy_graph = GrundyGraph()
 
-        root_point = (0, 0)  # x, y
-        """根の点"""
-
         make_each_tridents_from(
-            root_point, grundy_graph.tp_table, stonecolor_x, grundy_graph.src_color_table)
+            grundy_graph.root_point, grundy_graph.tp_table, stonecolor_x, grundy_graph.src_color_table)
 
         draw_subtraction_set(canvas, (0, 0))
         """サブストラクションセット描画"""
 
-        draw_x_stone(canvas, root_point)
+        draw_x_stone(canvas, grundy_graph.root_point)
         """根の点描画"""
 
         for hash_key in grundy_graph.tp_table.keys():
