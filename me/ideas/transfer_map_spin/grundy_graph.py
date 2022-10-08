@@ -1,6 +1,5 @@
 from kernel.math.grundy import GrundySequence
 from ideas.transfer_map_spin.transposition_table import TranspositionTable
-from ideas.transfer_map_spin.transposition_color_table import TranspositionColorTable
 from ideas.transfer_map_spin.trident_hair import TridentHair
 from ideas.transfer_map_spin.nim_constants import nim_constants
 

@@ -179,15 +179,23 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def draw_trident(canvas, trident, grundy_sequence):
         """三本毛を描く"""
+
         sx = trident.src_point[0]
         stonecolor_begin = grundy_sequence.get_grundy_at(sx)
-
-        # 始点と終点の組み合わせによって色を変える
+        ax = trident.a_point[0]
+        stonecolor_end_a = grundy_sequence.get_grundy_at(ax)
+        bx = trident.b_point[0]
+        stonecolor_end_b = grundy_sequence.get_grundy_at(bx)
+        cx = trident.c_point[0]
+        stonecolor_end_c = grundy_sequence.get_grundy_at(cx)
+        """始点の石の色"""
 
         # 終点a
-        draw_stone(canvas, trident.a_point, color_red)
+        draw_stone(canvas, trident.a_point,
+                   get_color_from_stonecolor(stonecolor_end_a))
         """a石の描画"""
 
+        # 始点と終点の組み合わせによって色を変える
         if stonecolor_begin == nim_constants.stonecolor_x:
             color_line = color_line_x
         elif stonecolor_begin == nim_constants.stonecolor_a:
@@ -208,7 +216,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """a石と、s-->a線の描画"""
 
         # 終点b
-        draw_stone(canvas, trident.b_point, color_green)
+        draw_stone(canvas, trident.b_point,
+                   get_color_from_stonecolor(stonecolor_end_b))
         """b石の描画"""
 
         if stonecolor_begin == nim_constants.stonecolor_x:
@@ -229,7 +238,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """b石と、s-->b線の描画"""
 
         # 終点c
-        draw_stone(canvas, trident.c_point, color_blue)
+        draw_stone(canvas, trident.c_point,
+                   get_color_from_stonecolor(stonecolor_end_c))
         """c石の描画"""
 
         if stonecolor_begin == nim_constants.stonecolor_x:
@@ -248,6 +258,18 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             #draw_line(canvas, trident.src_point, trident.c_point, color_line)
 
         """c石と、s-->c線の描画"""
+
+    def get_color_from_stonecolor(stonecolor):
+        if stonecolor == nim_constants.stonecolor_x:
+            return color_black
+        elif stonecolor == nim_constants.stonecolor_a:
+            return color_red
+        elif stonecolor == nim_constants.stonecolor_b:
+            return color_green
+        elif stonecolor == nim_constants.stonecolor_c:
+            return color_blue
+        else:
+            raise ValueError(f"unexpected stonecolor:{stonecolor}")
 
     def draw_x_stone(canvas, point):
         """x石を描く"""
