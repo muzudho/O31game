@@ -3,6 +3,7 @@ from ideas.transfer_map_spin.transposition_color_table import TranspositionColor
 
 
 class GrundyGraph:
+
     def __init__(self):
         self.__tp_table = TranspositionTable()
         """三本毛のテーブル"""

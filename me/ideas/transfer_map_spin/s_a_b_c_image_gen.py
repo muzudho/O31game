@@ -6,19 +6,13 @@ cd me
 
 python.exe -m ideas.vector_coordinate.main
 """
-from multiprocessing.sharedctypes import Value
 import cv2
 import numpy as np
 from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
 from ideas.transfer_map_spin.trident_hair import TridentHair
 from ideas.transfer_map_spin.grundy_graph import GrundyGraph
-
-stonecolor_x = 0
-stonecolor_a = 1
-stonecolor_b = 2
-stonecolor_c = 3
-"""石の色"""
+from ideas.transfer_map_spin.nim_constants import nim_constants
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
@@ -112,7 +106,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         grundy_graph = GrundyGraph()
 
         make_each_tridents_from(
-            grundy_graph.root_point, grundy_graph.tp_table, stonecolor_x, grundy_graph.src_color_table)
+            grundy_graph.root_point, grundy_graph.tp_table, nim_constants.stonecolor_x, grundy_graph.src_color_table)
 
         draw_subtraction_set(canvas, (0, 0))
         """サブストラクションセット描画"""
@@ -166,15 +160,15 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     f"新規　 src({trident.src_point}) src_stonecolor:{src_stonecolor}")
 
                 make_each_tridents_from(
-                    trident.a_point, tp_table, stonecolor_a, src_color_table)
+                    trident.a_point, tp_table, nim_constants.stonecolor_a, src_color_table)
                 """a点から生えている三本毛"""
 
                 make_each_tridents_from(
-                    trident.b_point, tp_table, stonecolor_b, src_color_table)
+                    trident.b_point, tp_table, nim_constants.stonecolor_b, src_color_table)
                 """b点から生えている三本毛"""
 
                 make_each_tridents_from(
-                    trident.c_point, tp_table, stonecolor_c, src_color_table)
+                    trident.c_point, tp_table, nim_constants.stonecolor_c, src_color_table)
                 """c点から生えている三本毛"""
             else:
                 """存在する三本毛なら"""
@@ -232,13 +226,11 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def draw_trident(canvas, trident, src_color_table):
         """三本毛を描く"""
-        global stonecolor_x, stonecolor_a, stonecolor_b, stonecolor_c
-
         if src_color_table.contains_key(trident.src_point):
             stonecolor_begin = src_color_table.get_stonecolor(
                 trident.src_point)
         else:
-            stonecolor_begin = stonecolor_x
+            stonecolor_begin = nim_constants.stonecolor_x
 
         # 始点と終点の組み合わせによって色を変える
 
@@ -246,13 +238,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         draw_stone(canvas, trident.a_point, color_red)
         """a石の描画"""
 
-        if stonecolor_begin == stonecolor_x:
+        if stonecolor_begin == nim_constants.stonecolor_x:
             color_line = color_line_x
-        elif stonecolor_begin == stonecolor_a:
+        elif stonecolor_begin == nim_constants.stonecolor_a:
             color_line = color_line_a
-        elif stonecolor_begin == stonecolor_b:
+        elif stonecolor_begin == nim_constants.stonecolor_b:
             color_line = color_line_a_b
-        elif stonecolor_begin == stonecolor_c:
+        elif stonecolor_begin == nim_constants.stonecolor_c:
             color_line = color_line_c_a
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
@@ -269,13 +261,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         draw_stone(canvas, trident.b_point, color_green)
         """b石の描画"""
 
-        if stonecolor_begin == stonecolor_x:
+        if stonecolor_begin == nim_constants.stonecolor_x:
             color_line = color_line_x
-        elif stonecolor_begin == stonecolor_a:
+        elif stonecolor_begin == nim_constants.stonecolor_a:
             color_line = color_line_a_b
-        elif stonecolor_begin == stonecolor_b:
+        elif stonecolor_begin == nim_constants.stonecolor_b:
             color_line = color_line_b
-        elif stonecolor_begin == stonecolor_c:
+        elif stonecolor_begin == nim_constants.stonecolor_c:
             color_line = color_line_c_a
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
@@ -290,13 +282,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         draw_stone(canvas, trident.c_point, color_blue)
         """c石の描画"""
 
-        if stonecolor_begin == stonecolor_x:
+        if stonecolor_begin == nim_constants.stonecolor_x:
             color_line = color_line_x
-        elif stonecolor_begin == stonecolor_a:
+        elif stonecolor_begin == nim_constants.stonecolor_a:
             color_line = color_line_a_b
-        elif stonecolor_begin == stonecolor_b:
+        elif stonecolor_begin == nim_constants.stonecolor_b:
             color_line = color_line_b_c
-        elif stonecolor_begin == stonecolor_c:
+        elif stonecolor_begin == nim_constants.stonecolor_c:
             color_line = color_line_c
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
