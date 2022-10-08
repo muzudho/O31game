@@ -12,8 +12,7 @@ import numpy as np
 from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
 from ideas.transfer_map_spin.trident_hair import TridentHair
-from ideas.transfer_map_spin.transposition_table import TranspositionTable
-from ideas.transfer_map_spin.transposition_color_table import TranspositionColorTable
+from ideas.transfer_map_spin.grundy_graph import GrundyGraph
 
 stonecolor_x = 0
 stonecolor_a = 1
@@ -110,16 +109,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                          monochrome_color, dtype=np.uint8)
 
         # モデル作成
-        tp_table = TranspositionTable()
-        """三本毛のテーブル"""
-        src_color_table = TranspositionColorTable()
-        """重なる始点の優先色テーブル"""
+        grundy_graph = GrundyGraph()
 
         root_point = (0, 0)  # x, y
         """根の点"""
 
         make_each_tridents_from(
-            root_point, tp_table, stonecolor_x, src_color_table)
+            root_point, grundy_graph.tp_table, stonecolor_x, grundy_graph.src_color_table)
 
         draw_subtraction_set(canvas, (0, 0))
         """サブストラクションセット描画"""
@@ -127,10 +123,10 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         draw_x_stone(canvas, root_point)
         """根の点描画"""
 
-        for hash_key in tp_table.keys():
+        for hash_key in grundy_graph.tp_table.keys():
             """三本毛の描画"""
-            trident = tp_table.get_trident(hash_key)
-            draw_trident(canvas, trident, src_color_table)
+            trident = grundy_graph.tp_table.get_trident(hash_key)
+            draw_trident(canvas, trident, grundy_graph.src_color_table)
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
