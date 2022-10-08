@@ -8,16 +8,16 @@ python.exe -m ideas.transfer_map_victory_reduce.main
 """
 from ideas.transfer_map_victory_reduce.s_a_b_c_image_gen import gen_s_a_b_c_image
 
-zoom = 0.5
+zoom = 0.3
 """倍率。1倍はかなりでかい"""
 
 
 def main():
-    gen_s_a_b_c_image(a=1, b=4, c=7, zoom=zoom)
+    # gen_s_a_b_c_image(a=1, b=4, c=7, zoom=zoom)
     # gen_s_a_b_c_image(a=3, b=5, c=12, zoom=zoom)
     # gen_s_a_b_c_image(a=2, b=4, c=6, zoom=zoom)
 
-    # gen_3chord()
+    gen_3chord()
 
 
 def gen_3chord():

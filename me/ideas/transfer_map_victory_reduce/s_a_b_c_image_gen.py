@@ -26,7 +26,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     eo_code = EoCode.stringify(a, b, c)
     music_chord = MusicChord.stringify(a, b, c)
-    display_max_number = 50
+    display_max_number = 100
 
     d_a_b = b-a
     d_b_c = c-b
@@ -47,18 +47,18 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 2500
+    margin_top = 2000
     margin_bottom = 5
 
-    columns = 80
-    rows = 80
+    columns = 100
+    rows = 100
     drawing_columns = columns
     drawing_rows = rows
 
     char_base_width = -10
     char_base_height = 5
-    char_width = 50
-    char_height = 50
+    char_width = 40
+    char_height = 40
     """一文字の幅の目安"""
 
     color_black = (55, 55, 55)  # (B,G,R)
@@ -75,9 +75,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     def make_image():
         image_width = int(
-            (columns * char_width + margin_left + margin_right) * zoom)
+            (columns * char_width + margin_left + margin_right)*3/4 * zoom)
         image_height = int(
-            (rows * char_height+margin_top + margin_bottom)*2/3*zoom)
+            (rows * char_height+margin_top + margin_bottom)/2*zoom)
 
         # 画像データは数値の配列
         monochrome_color = 240  # 0黒→255白
