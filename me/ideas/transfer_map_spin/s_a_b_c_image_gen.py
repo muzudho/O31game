@@ -68,8 +68,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     margin_top = 150
     margin_bottom = 5
 
-    columns = 100
-    rows = 100
+    columns = 50
+    rows = 50
 
     char_base_width = -10
     char_base_height = 5
