@@ -114,7 +114,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         for hash_key in grundy_graph.tp_table.keys():
             """三本毛の描画"""
             trident = grundy_graph.tp_table.get_trident(hash_key)
-            draw_trident(canvas, trident, grundy_graph.grundy_sequence)
+            draw_trident(canvas, trident, grundy_graph)
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
@@ -170,22 +170,22 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def draw_trident(canvas, trident, grundy_sequence):
+    def draw_trident(canvas, trident, grundy_graph):
         """三本毛を描く"""
 
         sx = trident.src_point[0]
-        stonecolor_begin = grundy_sequence.get_grundy_at(sx)
+        stonecolor_begin = grundy_graph.grundy_sequence.get_grundy_at(sx)
         ax = trident.a_point[0]
-        stonecolor_end_a = grundy_sequence.get_grundy_at(ax)
+        stonecolor_end_a = grundy_graph.grundy_sequence.get_grundy_at(ax)
         bx = trident.b_point[0]
-        stonecolor_end_b = grundy_sequence.get_grundy_at(bx)
+        stonecolor_end_b = grundy_graph.grundy_sequence.get_grundy_at(bx)
         cx = trident.c_point[0]
-        stonecolor_end_c = grundy_sequence.get_grundy_at(cx)
+        stonecolor_end_c = grundy_graph.grundy_sequence.get_grundy_at(cx)
         """始点の石の色"""
 
         # 終点a
         draw_stone(canvas, trident.a_point,
-                   get_color_from_stonecolor(stonecolor_end_a))
+                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(ax)))
         """a石の描画"""
 
         if is_visibled_a_line:
@@ -198,7 +198,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         # 終点b
         draw_stone(canvas, trident.b_point,
-                   get_color_from_stonecolor(stonecolor_end_b))
+                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(bx)))
         """b石の描画"""
 
         if is_visibled_b_line:
@@ -210,7 +210,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         # 終点c
         draw_stone(canvas, trident.c_point,
-                   get_color_from_stonecolor(stonecolor_end_c))
+                   get_color_from_stonecolor(grundy_graph.stone_sequence.get_largest_stonecolor_at(cx)))
         """c石の描画"""
 
         if is_visibled_c_line:

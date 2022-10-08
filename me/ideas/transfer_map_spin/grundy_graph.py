@@ -1,7 +1,8 @@
-from kernel.math.grundy import GrundySequence
+from kernel.math.grundy_sequence import GrundySequence
+from kernel.math.stone_sequence import StoneSequence
+
 from ideas.transfer_map_spin.transposition_table import TranspositionTable
 from ideas.transfer_map_spin.trident_hair import TridentHair
-from ideas.transfer_map_spin.nim_constants import nim_constants
 
 
 class GrundyGraph:
@@ -13,11 +14,11 @@ class GrundyGraph:
 
         GrundyGraph.__make_each_tridents_from(
             ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-            ins.root_point, ins.tp_table, nim_constants.stonecolor_x)
+            ins.root_point, ins.tp_table)
         return ins
 
     @staticmethod
-    def __make_each_tridents_from(ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc, src_point, tp_table, src_stonecolor):
+    def __make_each_tridents_from(ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc, src_point, tp_table):
         sx = src_point[0]
         sy = src_point[1]
         if sx < drawing_columns and sy < drawing_rows:
@@ -40,22 +41,23 @@ class GrundyGraph:
 
                 GrundyGraph.__make_each_tridents_from(
                     ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-                    trident.a_point, tp_table, nim_constants.stonecolor_a)
+                    trident.a_point, tp_table)
                 """a点から生えている三本毛"""
 
                 GrundyGraph.__make_each_tridents_from(
                     ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-                    trident.b_point, tp_table, nim_constants.stonecolor_b)
+                    trident.b_point, tp_table)
                 """b点から生えている三本毛"""
 
                 GrundyGraph.__make_each_tridents_from(
                     ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
-                    trident.c_point, tp_table, nim_constants.stonecolor_c)
+                    trident.c_point, tp_table)
                 """c点から生えている三本毛"""
 
     def __init__(self, S: set, len_Nz: int):
         self.__len_Nz = len_Nz
         self.__grundy_sequence = GrundySequence.make(S=S, len_N=len_Nz-1)
+        self.__stone_sequence = StoneSequence.make(S=S, len_N=len_Nz-1)
 
         self.__tp_table = TranspositionTable()
         """三本毛のテーブル"""
@@ -69,6 +71,10 @@ class GrundyGraph:
     @property
     def grundy_sequence(self):
         return self.__grundy_sequence
+
+    @property
+    def stone_sequence(self):
+        return self.__stone_sequence
 
     @property
     def tp_table(self):

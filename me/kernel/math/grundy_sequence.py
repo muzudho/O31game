@@ -25,7 +25,7 @@ class GrundySequence:
 
         # グランディ数の配列のサイズ確定。 0 を含めるので 1 足す
         len_Nz = len_N + 1
-        grundy_list = [0] * len_Nz
+        sequence = [0] * len_Nz
 
         # 昇順ソート a < b < c
         S_list = list(S)
@@ -47,7 +47,7 @@ class GrundySequence:
                     # 石の数が負数の局面は無いのでスキップ
                     continue
 
-                t = grundy_list[ti]
+                t = sequence[ti]
                 """t は 遷移先の局面のグランディ数"""
 
                 T.append(t)
@@ -55,13 +55,13 @@ class GrundySequence:
             grundy = mex(T)
             """grundy は、この局面のグランディ数"""
 
-            grundy_list[i] = grundy
+            sequence[i] = grundy
 
-        return GrundySequence(grundy_list, S_list)
+        return GrundySequence(sequence, S_list)
 
-    def __init__(self, grundy_list: list, S_list: list):
+    def __init__(self, sequence: list, S_list: list):
 
-        self.__grundy_list = grundy_list
+        self.__sequence = sequence
         """添え字は、盤上の石の数 n （ 0 ～ len(N) ）"""
 
         self.__S_list = S_list
@@ -69,7 +69,7 @@ class GrundySequence:
 
     @property
     def len(self):
-        return len(self.__grundy_list)
+        return len(self.__sequence)
 
     @property
     def S_list(self):
@@ -83,7 +83,7 @@ class GrundySequence:
         i : int
             局面の石の数
         """
-        return self.__grundy_list[i]
+        return self.__sequence[i]
 
     def get_bit_grundy_at(self, i: int):
         """ビット グランディ数
@@ -93,7 +93,7 @@ class GrundySequence:
         i : int
             局面の石の数
         """
-        if self.__grundy_list[i] == 0:
+        if self.__sequence[i] == 0:
             return 0
 
         return 1
