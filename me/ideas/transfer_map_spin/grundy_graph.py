@@ -1,3 +1,4 @@
+from kernel.math.grundy import GrundySequence
 from ideas.transfer_map_spin.transposition_table import TranspositionTable
 from ideas.transfer_map_spin.transposition_color_table import TranspositionColorTable
 from ideas.transfer_map_spin.trident_hair import TridentHair
@@ -9,7 +10,7 @@ class GrundyGraph:
     @staticmethod
     def make(drawing_columns, drawing_rows, a, b, c, ha, hb, hc):
 
-        ins = GrundyGraph()
+        ins = GrundyGraph(S={a, b, c}, len_Nz=drawing_columns+c)
 
         GrundyGraph.__make_each_tridents_from(
             ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc,
@@ -18,19 +19,19 @@ class GrundyGraph:
 
     @staticmethod
     def __make_each_tridents_from(ins, drawing_columns, drawing_rows, a, b, c, ha, hb, hc, src_point, tp_table, src_stonecolor, src_color_table):
-        trident = TridentHair.make(
-            src_point,
-            columns=drawing_columns,
-            rows=drawing_rows,
-            a=a,
-            b=b,
-            c=c,
-            ha=ha,
-            hb=hb,
-            hc=hc)
+        sx = src_point[0]
+        sy = src_point[1]
+        if sx < drawing_columns and sy < drawing_rows:
+            """指定の範囲内のみモデル作成"""
 
-        if trident is not None:
-            """指定の範囲内のみ描画"""
+            trident = TridentHair.make(
+                src_point,
+                a=a,
+                b=b,
+                c=c,
+                ha=ha,
+                hb=hb,
+                hc=hc)
 
             hash_key = trident.create_hash()
             print(f"src({trident.src_point}) hash_key:{hash_key}")
@@ -71,13 +72,24 @@ class GrundyGraph:
                     print(
                         f"無視　 src({trident.src_point}) exist_src_stonecolor:{exist_src_stonecolor} src_stonecolor:{src_stonecolor}")
 
-    def __init__(self):
+    def __init__(self, S: set, len_Nz: int):
+        self.__len_Nz = len_Nz
+        self.__grundy_sequence = GrundySequence.make(S=S, len_N=len_Nz-1)
+
         self.__tp_table = TranspositionTable()
         """三本毛のテーブル"""
         self.__src_color_table = TranspositionColorTable()
         """重なる始点の優先色テーブル"""
         self.__root_point = (0, 0)  # x, y
         """根の点"""
+
+    @property
+    def len_Nz(self):
+        return self.__len_Nz
+
+    @property
+    def grundy_sequence(self):
+        return self.__grundy_sequence
 
     @property
     def tp_table(self):
