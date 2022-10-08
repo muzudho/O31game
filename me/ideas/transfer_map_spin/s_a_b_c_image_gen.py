@@ -11,6 +11,7 @@ import numpy as np
 from kernel.math.eo_code import EoCode
 from kernel.math.music_chord import MusicChord
 from ideas.transfer_map_spin.trident_hair import TridentHair
+from ideas.transfer_map_spin.transposition_table import TranspositionTable
 
 
 def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
@@ -97,12 +98,15 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                          monochrome_color, dtype=np.uint8)
 
         # モデル作成
-        transposition_table = dict()
+        tp_table = TranspositionTable()
+        """三本毛のテーブル"""
+        src_stone_table = dict()
+        """重なる始点の優先色テーブル"""
 
         root_point = {"x": 0, "y": 1}
         """根の点"""
 
-        make_some_next_nodes_from(root_point, transposition_table)
+        make_some_next_nodes_from(root_point, tp_table)
 
         paint_subtraction_set(canvas, 0, 0)
         """サブストラクションセット描画"""
@@ -110,17 +114,17 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         paint_x_stone(canvas, root_point)
         """根の点描画"""
 
-        for hash_key in transposition_table.keys():
+        for hash_key in tp_table.table.keys():
             """a毛の描画"""
-            paint_a_hair(canvas, transposition_table[hash_key])
+            paint_a_hair(canvas, tp_table.table[hash_key])
 
-        for hash_key in transposition_table.keys():
+        for hash_key in tp_table.table.keys():
             """b毛の描画"""
-            paint_b_hair(canvas, transposition_table[hash_key])
+            paint_b_hair(canvas, tp_table.table[hash_key])
 
-        for hash_key in transposition_table.keys():
+        for hash_key in tp_table.table.keys():
             """c毛の描画"""
-            paint_c_hair(canvas, transposition_table[hash_key])
+            paint_c_hair(canvas, tp_table.table[hash_key])
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
@@ -136,7 +140,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             f"./output_tmp/transfer_map_spin_s_{a:02}_{b:02}_{c:02}_{eo_code}{music_chord_text}{tmp_text}.png", canvas)
         """画像出力"""
 
-    def make_some_next_nodes_from(src_point, transposition_table):
+    def make_some_next_nodes_from(src_point, tp_table):
         trident = TridentHair.make(
             src_point,
             columns=columns,
@@ -150,16 +154,16 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         if trident is not None:
             hash_key = trident.create_hash()
-            if not (hash_key in transposition_table):
-                transposition_table[hash_key] = trident
+            if not (hash_key in tp_table.table):
+                tp_table.add_trident(hash_key, trident)
 
-                make_some_next_nodes_from(trident.a_point, transposition_table)
+                make_some_next_nodes_from(trident.a_point, tp_table)
                 """a点から生えている三本毛"""
 
-                make_some_next_nodes_from(trident.b_point, transposition_table)
+                make_some_next_nodes_from(trident.b_point, tp_table)
                 """b点から生えている三本毛"""
 
-                make_some_next_nodes_from(trident.c_point, transposition_table)
+                make_some_next_nodes_from(trident.c_point, tp_table)
                 """c点から生えている三本毛"""
 
     def paint_subtraction_set(canvas, x, y):
