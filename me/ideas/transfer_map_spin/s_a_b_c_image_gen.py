@@ -70,6 +70,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     columns = 50
     rows = 50
+    drawing_columns = 10
+    drawing_rows = 10
 
     char_base_width = -10
     char_base_height = 5
@@ -77,20 +79,20 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     char_height = 50
     """一文字の幅の目安"""
 
-    color_black = (55, 55, 55)
+    color_black = (55, 55, 55)  # (B,G,R)
     color_red = (90, 90, 220)
     color_green = (90, 220, 90)
     color_blue = (220, 90, 90)
-    color_cyan = (90, 220, 220)
+    color_cyan = (220, 220, 90)
     color_magenta = (220, 90, 220)
-    color_yellow = (220, 220, 90)
+    color_yellow = (90, 220, 220)
     color_line_x = color_black
     color_line_a = color_red
     color_line_b = color_green
     color_line_c = color_blue
-    color_line_a_b = color_cyan
-    color_line_b_c = color_magenta
-    color_line_c_a = color_yellow
+    color_line_a_b = color_yellow  # color of light
+    color_line_b_c = color_cyan
+    color_line_c_a = color_magenta
     """色"""
 
     line_thickness = 1
@@ -119,7 +121,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         make_each_tridents_from(
             root_point, tp_table, stonecolor_x, src_color_table)
 
-        paint_subtraction_set(canvas, 0, 0)
+        draw_subtraction_set(canvas, 0, 0)
         """サブストラクションセット描画"""
 
         draw_x_stone(canvas, root_point)
@@ -128,7 +130,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         for hash_key in tp_table.keys():
             """三本毛の描画"""
             trident = tp_table.get_trident(hash_key)
-            paint_trident(canvas, trident, src_color_table)
+            draw_trident(canvas, trident, src_color_table)
 
         if music_chord != "":
             music_chord_text = f"_{music_chord}"
@@ -147,8 +149,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     def make_each_tridents_from(src_point, tp_table, src_stonecolor, src_color_table):
         trident = TridentHair.make(
             src_point,
-            columns=columns,
-            rows=rows,
+            columns=drawing_columns,
+            rows=drawing_rows,
             a=a,
             b=b,
             c=c,
@@ -186,7 +188,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     """上書きできる石の色なら"""
                     src_color_table.add_stonecolor(n, src_stonecolor)  # Update
 
-    def paint_subtraction_set(canvas, x, y):
+    def draw_subtraction_set(canvas, x, y):
         """サブトラクションセットを表示"""
         location = (int((x+char_base_width+margin_left)*zoom),
                     int((y+char_base_height+margin_left)*4*zoom))
@@ -224,7 +226,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def paint_trident(canvas, trident, src_color_table):
+    def draw_trident(canvas, trident, src_color_table):
         """三本毛を描く"""
         global stonecolor_x, stonecolor_a, stonecolor_b, stonecolor_c
 
@@ -251,6 +253,8 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
             color_line = color_line_c_a
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
+        print(
+            f"s-->a線描画 stonecolor_begin:{stonecolor_begin} color_line:{color_line}")
 
         if is_visibled_a_line:
             """s-->a線の描画"""
@@ -273,9 +277,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
-        if is_visibled_b_line:
+        # if is_visibled_b_line:
             """s-->b線の描画"""
-            draw_line(canvas, trident.src_point, trident.b_point, color_line)
+            #draw_line(canvas, trident.src_point, trident.b_point, color_line)
 
         """b石と、s-->b線の描画"""
 
@@ -294,9 +298,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         else:
             raise ValueError(f"unexpected stonecolor_begin:{stonecolor_begin}")
 
-        if is_visibled_c_line:
+        # if is_visibled_c_line:
             """s-->c線の描画"""
-            draw_line(canvas, trident.src_point, trident.c_point, color_line)
+            #draw_line(canvas, trident.src_point, trident.c_point, color_line)
 
         """c石と、s-->c線の描画"""
 
