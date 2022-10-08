@@ -36,9 +36,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     """a,b,cの間隔"""
 
     # x軸、y軸、z軸と考えれば、３次元の格子になる
-    ha = -a*b
+    ha = (-a*b)/2
     hb = 0
-    hc = c
+    hc = c/2
 
     #hc = a+b
     # hb = 0  # bは水平
@@ -47,13 +47,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 1500
+    margin_top = 2500
     margin_bottom = 5
 
-    columns = 50
-    rows = 50
-    drawing_columns = 50
-    drawing_rows = 50
+    columns = 80
+    rows = 80
+    drawing_columns = columns
+    drawing_rows = rows
 
     char_base_width = -10
     char_base_height = 5
@@ -196,10 +196,9 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
         """終点c石"""
 
         # エッジの描画
-        # 三本毛の根+1 が、グランディ数 非0 のものだけ描けば必勝ルート
-        sxplus1_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(
-            sx+1)
-        if 0 != sxplus1_grundy_number:
+        # 三本毛の根 が、グランディ数 0 のものだけ描けば必勝ルート
+        sx_grundy_number = grundy_graph.grundy_sequence.get_grundy_at(sx)
+        if 0 == sx_grundy_number:
             # 始点と終点の組み合わせによって色を変える
             draw_line(canvas, trident.src_point, trident.a_point,
                       color_red)
