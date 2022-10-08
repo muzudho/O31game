@@ -36,17 +36,15 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     d_c_apb = c-(a+b)
     """a,b,cの間隔"""
 
-    if d_a_b <= d_c_apb and d_b_c <= d_c_apb:
+    if d_a_b <= d_b_c or d_a_b <= d_c_apb:
         is_visibled_a_line = False
+
+    if d_b_c <= d_a_b or d_b_c <= d_c_apb:
         is_visibled_b_line = False
-        pass
-    elif d_a_b <= d_b_c and d_c_apb <= d_b_c:
-        is_visibled_a_line = False
+
+    if d_c_apb <= d_a_b or d_c_apb <= d_b_c:
         is_visibled_c_line = False
-    elif d_b_c <= d_a_b and d_c_apb <= d_a_b:
-        is_visibled_b_line = False
-        is_visibled_c_line = False
-    """一番間隔の広い線だけ描画"""
+    """一番間隔の狭い線を非表示"""
 
     wa = 2*a  # weight a
     wb = 2*b
@@ -59,7 +57,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
     margin_left = 20
     margin_right = 5
-    margin_top = 20
+    margin_top = 100
     margin_bottom = 5
 
     columns = 100
@@ -75,6 +73,12 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
     color_red = (90, 90, 220)
     color_green = (90, 220, 90)
     color_blue = (220, 90, 90)
+    color_cyan = (90, 220, 220)
+    color_magenta = (220, 90, 220)
+    color_yellow = (220, 220, 90)
+    color_line_a = color_cyan
+    color_line_b = color_magenta
+    color_line_c = color_yellow
     """色"""
 
     line_thickness = 1
@@ -234,7 +238,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         if is_visibled_a_line:
             """x-->a線の描画"""
-            paint_a_line(canvas, src_point, a_point)
+            draw_line(canvas, src_point, a_point, color_line_a)
 
     def paint_b_hair(canvas, three_hairs):
         """b毛を描く"""
@@ -249,7 +253,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         if is_visibled_b_line:
             """x-->b線の描画"""
-            paint_b_line(canvas, src_point, b_point)
+            draw_line(canvas, src_point, b_point, color_line_b)
 
     def paint_c_hair(canvas, three_hairs):
         """c毛を描く"""
@@ -264,7 +268,7 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
 
         if is_visibled_c_line:
             """x-->c線の描画"""
-            paint_c_line(canvas, src_point, c_point)
+            draw_line(canvas, src_point, c_point, color_line_c)
 
     def paint_x_stone(canvas, point):
         """x石を描く"""
@@ -336,19 +340,13 @@ def gen_s_a_b_c_image(a, b, c, zoom=1.0, is_temporary=True):
                     color_blue,  # color
                     0)  # line_type
 
-    def paint_a_line(canvas, src_point, dst_point):
-        """-->a線の描画"""
-        cv2.line(canvas, (int((src_point["x"]*char_width+margin_left)*zoom), int((src_point["y"]*char_height+margin_top)*zoom)),
-                 (int((dst_point["x"]*char_width+margin_left)*zoom), int((dst_point["y"]*char_height+margin_top)*zoom)), color_red, thickness=line_thickness)
-
-    def paint_b_line(canvas, src_point, dst_point):
-        """-->b線の描画"""
-        cv2.line(canvas, (int((src_point["x"]*char_width+margin_left)*zoom), int((src_point["y"]*char_height+margin_top)*zoom)),
-                 (int((dst_point["x"]*char_width+margin_left)*zoom), int((dst_point["y"]*char_height+margin_top)*zoom)), color_green, thickness=line_thickness)
-
-    def paint_c_line(canvas, src_point, dst_point):
-        """-->c線の描画"""
-        cv2.line(canvas, (int((src_point["x"]*char_width+margin_left)*zoom), int((src_point["y"]*char_height+margin_top)*zoom)),
-                 (int((dst_point["x"]*char_width+margin_left)*zoom), int((dst_point["y"]*char_height+margin_top)*zoom)), color_blue, thickness=line_thickness)
+    def draw_line(canvas, src_point, dst_point, color_line):
+        """線の描画"""
+        sx = src_point["x"]
+        sy = src_point["y"]
+        dx = dst_point["x"]
+        dy = dst_point["y"]
+        cv2.line(canvas, (int((sx*char_width+margin_left)*zoom), int((sy*char_height+margin_top)*zoom)),
+                 (int((dx*char_width+margin_left)*zoom), int((dy*char_height+margin_top)*zoom)), color_line, thickness=line_thickness)
 
     make_image()
