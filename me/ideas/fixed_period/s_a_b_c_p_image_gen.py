@@ -15,9 +15,15 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     # 昇順ソート a < b < c
     S_list = list(S)
     S_list.sort()
-    a = S_list[0]
-    b = S_list[1]
-    c = S_list[2]
+
+    if 0 <= len(S_list):
+        a = S_list[0]
+
+    if 1 <= len(S_list):
+        b = S_list[1]
+
+    if 2 <= len(S_list):
+        c = S_list[2]
 
     stone_symbolds = ["a", "b", "c"]
     """石の表示"""
@@ -31,7 +37,7 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     char_height = 40
     """一文字の幅の目安"""
 
-    grundy_sequence = GrundySequence.make(S={a, b, c}, len_N=len_Nz-1)
+    grundy_sequence = GrundySequence.make(S=S, len_N=len_Nz-1)
     """グランディ数列"""
 
     image_width = int(
@@ -52,23 +58,31 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     line_thickness = 1
     """線の太さ"""
 
-    if a % 2 == 0:
-        eo_a = "E"
-    else:
-        eo_a = "o"
+    def create_eo_code(S_list):
+        """偶奇も付けたい。文字が潰れると見分けにくいので e の方を大文字にした"""
+        eo_code = ""
 
-    if b % 2 == 0:
-        eo_b = "E"
-    else:
-        eo_b = "o"
+        if a is not None:
+            if a % 2 == 0:
+                eo_code += "E"
+            else:
+                eo_code += "o"
 
-    if c % 2 == 0:
-        eo_c = "E"
-    else:
-        eo_c = "o"
+        if b is not None:
+            if b % 2 == 0:
+                eo_code += "E"
+            else:
+                eo_code += "o"
 
-    eo_code = f"{eo_a}{eo_b}{eo_c}"
-    """偶奇も付けたい。文字が潰れると見分けにくいので e の方を大文字にした"""
+        if c is not None:
+            if c % 2 == 0:
+                eo_code += "E"
+            else:
+                eo_code += "o"
+
+        return eo_code
+
+    eo_code = create_eo_code(S_list)
 
     board = [""] * len_Nz
     """盤"""
@@ -83,13 +97,17 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
                 stone_symbol = stone_symbolds[s_index]
                 board[i] += stone_symbol
                 slope_lines.append((stone_symbol, i, dst_s))
-        pass
 
     # 駒の配置 と mate線 の算出
     for i in range(0, len_Nz):
-        add_slope_line(i, a, 0)
-        add_slope_line(i, b, 1)
-        add_slope_line(i, c, 2)
+        if a is not None:
+            add_slope_line(i, a, 0)
+
+        if b is not None:
+            add_slope_line(i, b, 1)
+
+        if c is not None:
+            add_slope_line(i, c, 2)
 
     for i in range(0, len_Nz):
         if board[i] == "":
@@ -97,8 +115,21 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
 
     def print_subtraction_set(y):
         """サブトラクションセットを表示"""
+        label = "S = {"
+
+        if a is not None:
+            label += f" {a}"
+
+        if b is not None:
+            label += f", {b}"
+
+        if c is not None:
+            label += f", {c}"
+
+        label += f" }} {eo_code} {suffix}"
+
         cv2.putText(canvas,
-                    f"S = {{ {a}, {b}, {c} }} {eo_code} {suffix}",
+                    label,
                     (int((5+margin_left)*zoom), int(y*zoom)),  # x,y
                     None,  # font
                     1.0 * zoom,  # font_scale
