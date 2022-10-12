@@ -171,10 +171,17 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
                             0)  # line_type
 
     def print_x_axis(y):
-        """x軸を描画"""
+        """x軸を描画。
+        最後の数は、ループを表すため 0 に変更"""
         for i in range(0, len_Nz):
+
+            if i == len_Nz-1:
+                label = "0"
+            else:
+                label = f"{i}"
+
             cv2.putText(canvas,
-                        f"{i}",
+                        label,
                         (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
                         None,  # font
                         1.0 * zoom,  # font_scale
