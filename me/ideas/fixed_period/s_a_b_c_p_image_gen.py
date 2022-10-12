@@ -28,7 +28,7 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     len_Nz = p + 1
 
     margin_left = 50
-    margin_right = 200
+    margin_right = 50
 
     char_width = 50
     char_height = 40
@@ -39,6 +39,9 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
 
     image_width = int(
         (len_Nz * char_width + margin_left + margin_right) * zoom)
+    if image_width < int(500*zoom):
+        image_width = int(500*zoom)
+
     image_height = int(char_height*13*zoom)
 
     # 画像データは数値の配列
@@ -129,7 +132,7 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
         if c is not None:
             label += f", {c}"
 
-        label += f" }} {eo_code} {suffix}"
+        label += f" }} p={p} {eo_code} {suffix}"
 
         cv2.putText(canvas,
                     label,
@@ -166,22 +169,6 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
                             1.0 * zoom,  # font_scale
                             stone_color,  # color
                             0)  # line_type
-
-    def print_occupied_pieces(y):
-        """駒の有無を描画"""
-        for i in range(0, len_Nz):
-            if board[i] == ".":
-                piece = "x"
-            else:
-                piece = "."
-
-            cv2.putText(canvas,
-                        f"{piece}",
-                        (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
-                        None,  # font
-                        1.0 * zoom,  # font_scale
-                        font_color,  # color
-                        0)  # line_type
 
     def print_x_axis(y):
         """x軸を描画"""
