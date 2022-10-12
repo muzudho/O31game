@@ -4,13 +4,20 @@ import numpy as np
 from kernel.math.grundy_sequence import GrundySequence
 
 
-def gen_s_a_b_c_p_image(a, b, c, p, zoom=1.0, suffix="", is_temporary=True):
+def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     """
     Parameters
     ----------
     zoom : float
         描画倍率
     """
+
+    # 昇順ソート a < b < c
+    S_list = list(S)
+    S_list.sort()
+    a = S_list[0]
+    b = S_list[1]
+    c = S_list[2]
 
     stone_symbolds = ["a", "b", "c"]
     """石の表示"""
