@@ -286,5 +286,17 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
         tmp_text = ""
 
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"./output_tmp/s"
+
+    if a is not None:
+        file_name += f"_{a:02}"
+
+    if b is not None:
+        file_name += f"_{b:02}"
+
+    if c is not None:
+        file_name += f"_{c:02}"
+
+    file_name += f"_p{p}_{eo_code}{suffix_text}{tmp_text}.png"
     cv2.imwrite(
-        f"./output_tmp/s_{a:02}_{b:02}_{c:02}_{eo_code}{suffix_text}{tmp_text}.png", canvas)
+        file_name, canvas)
