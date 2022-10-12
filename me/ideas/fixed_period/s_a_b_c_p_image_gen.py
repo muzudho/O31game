@@ -12,6 +12,9 @@ def gen_s_a_b_c_p_image(a, b, c, p, zoom=1.0, suffix="", is_temporary=True):
         描画倍率
     """
 
+    stone_symbolds = ["a", "b", "c"]
+    """石の表示"""
+
     len_Nz = p + 1
 
     margin_left = 50
@@ -63,28 +66,23 @@ def gen_s_a_b_c_p_image(a, b, c, p, zoom=1.0, suffix="", is_temporary=True):
     board = [""] * len_Nz
     """盤"""
 
-    mate_lines = []
-    """mate線"""
+    slope_lines = []
+    """坂道の線"""
+
+    def add_slope_line(i, s, s_index):
+        dst_s = i-s
+        if 0 <= dst_s:
+            if board[dst_s] == "":
+                stone_symbol = stone_symbolds[s_index]
+                board[i] += stone_symbol
+                slope_lines.append((stone_symbol, i, dst_s))
+        pass
 
     # 駒の配置 と mate線 の算出
     for i in range(0, len_Nz):
-        dst_a = i-a
-        dst_b = i-b
-        dst_c = i-c
-        if 0 <= dst_a:
-            if board[dst_a] == "":
-                board[i] += "a"
-                mate_lines.append(("a", i, dst_a))
-
-        if 0 <= dst_b:
-            if board[dst_b] == "":
-                board[i] += "b"
-                mate_lines.append(("b", i, dst_b))
-
-        if 0 <= dst_c:
-            if board[dst_c] == "":
-                board[i] += "c"
-                mate_lines.append(("c", i, dst_c))
+        add_slope_line(i, a, 0)
+        add_slope_line(i, b, 1)
+        add_slope_line(i, c, 2)
 
     for i in range(0, len_Nz):
         if board[i] == "":
@@ -204,7 +202,7 @@ def gen_s_a_b_c_p_image(a, b, c, p, zoom=1.0, suffix="", is_temporary=True):
 
     def print_mate_lins(src_y, dst_y):
         """mate線を描画"""
-        for mate_line in mate_lines:
+        for mate_line in slope_lines:
             # 線、描画する画像を指定、座標1点目、2点目、色、線の太さ
             s_element = mate_line[0]
             if s_element == "a":
