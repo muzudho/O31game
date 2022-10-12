@@ -220,12 +220,13 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     """サブトラクションセットを表示"""
 
     y += 50  # 80
+    y += 2*char_height
+    yy = y
 
     for s_index in range(0, len(S_list)):
-        s_index_rev = len(S_list) - s_index - 1
-        print_stone(s_index=s_index_rev, y=y)
-        y += char_height  # 160
-        """石を描画（上側に後ろ側の石を描く）"""
+        print_stone(s_index=s_index, y=yy)
+        yy -= char_height
+        """石を下から上へ描画"""
 
     print_empty_pieces(y=y)
     """重ねてエンプティ駒を描画"""
