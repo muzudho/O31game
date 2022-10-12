@@ -25,9 +25,6 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     if 2 <= len(S_list):
         c = S_list[2]
 
-    stone_symbolds = ["a", "b", "c"]
-    """石の表示"""
-
     len_Nz = p + 1
 
     margin_left = 50
@@ -57,6 +54,12 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
 
     line_thickness = 1
     """線の太さ"""
+
+    stone_symbolds = ["a", "b", "c"]
+    """石の表示"""
+
+    stone_colors = [color_red, color_green, color_blue]
+    """石の色"""
 
     def create_eo_code(S_list):
         """偶奇も付けたい。文字が潰れると見分けにくいので e の方を大文字にした"""
@@ -148,41 +151,20 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
                             font_color,  # color
                             0)  # line_type
 
-    def print_a_pieces(y):
-        """駒を描画"""
+    def print_stone(s_index, y):
+        """石を描画"""
+        stone_symbol = stone_symbolds[s_index]
+        stone_color = stone_colors[s_index]
+
         for i in range(0, len_Nz):
-            if "a" in board[i]:
+            if stone_symbol in board[i]:
                 cv2.putText(canvas,
-                            f"a",
+                            stone_symbol,
                             (int((i*char_width+margin_left)*zoom),
                              int(y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
-                            color_red,  # color
-                            0)  # line_type
-
-    def print_b_pieces(y):
-        """駒を描画"""
-        for i in range(0, len_Nz):
-            if "b" in board[i]:
-                cv2.putText(canvas,
-                            f"b",
-                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
-                            None,  # font
-                            1.0 * zoom,  # font_scale
-                            color_green,  # color
-                            0)  # line_type
-
-    def print_c_pieces(y):
-        """駒を描画"""
-        for i in range(0, len_Nz):
-            if "c" in board[i]:
-                cv2.putText(canvas,
-                            f"c",
-                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
-                            None,  # font
-                            1.0 * zoom,  # font_scale
-                            color_blue,  # color
+                            stone_color,  # color
                             0)  # line_type
 
     def print_occupied_pieces(y):
@@ -265,16 +247,19 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     """サブトラクションセットを表示"""
 
     y += 50  # 80
-    print_c_pieces(y=y)
-    """駒を描画"""
+    if c is not None:
+        print_stone(s_index=2, y=y)
+        """石cを描画"""
 
     y += char_height  # 120
-    print_b_pieces(y=y)
-    """駒を描画"""
+    if b is not None:
+        print_stone(s_index=1, y=y)
+        """石bを描画"""
 
     y += char_height  # 160
-    print_a_pieces(y=y)
-    """駒を描画"""
+    if a is not None:
+        print_stone(s_index=0, y=y)
+        """石aを描画"""
 
     print_empty_pieces(y=y)
     """重ねてエンプティ駒を描画"""
