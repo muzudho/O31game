@@ -14,7 +14,12 @@ zoom = 0.25
 
 
 def main():
-    # Clouds passer
+    gen_s_a_b_c_p_image(S={1}, p=2,
+                        zoom=1.0, is_temporary=False)
+
+    gen_s_a_b_c_p_image(S={1, 2}, p=3,
+                        zoom=1.0, is_temporary=False)
+
     gen_s_a_b_c_p_image(S={1, 2, 3}, p=4,
                         zoom=1.0, is_temporary=False)
 

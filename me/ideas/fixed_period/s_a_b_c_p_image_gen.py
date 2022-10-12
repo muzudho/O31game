@@ -16,13 +16,13 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     S_list = list(S)
     S_list.sort()
 
-    if 0 <= len(S_list):
+    if 0 < len(S_list):
         a = S_list[0]
 
-    if 1 <= len(S_list):
+    if 1 < len(S_list):
         b = S_list[1]
 
-    if 2 <= len(S_list):
+    if 2 < len(S_list):
         c = S_list[2]
 
     len_Nz = p + 1
@@ -96,14 +96,9 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
 
     # 駒の配置 と mate線 の算出
     for i in range(0, len_Nz):
-        if a is not None:
-            add_slope_line(i, a, 0)
-
-        if b is not None:
-            add_slope_line(i, b, 1)
-
-        if c is not None:
-            add_slope_line(i, c, 2)
+        for s_index in range(0, len(S_list)):
+            s = S_list[s_index]
+            add_slope_line(i, s, s_index)
 
     for i in range(0, len_Nz):
         if board[i] == "":
@@ -113,14 +108,8 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
         """サブトラクションセットを表示"""
         label = "S = {"
 
-        if a is not None:
-            label += f" {a}"
-
-        if b is not None:
-            label += f", {b}"
-
-        if c is not None:
-            label += f", {c}"
+        for s in S_list:
+            label += f" {s}"
 
         label += f" }} p={p} {eo_code} {suffix}"
 
@@ -231,19 +220,12 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     """サブトラクションセットを表示"""
 
     y += 50  # 80
-    if c is not None:
-        print_stone(s_index=2, y=y)
-        """石cを描画"""
 
-    y += char_height  # 120
-    if b is not None:
-        print_stone(s_index=1, y=y)
-        """石bを描画"""
-
-    y += char_height  # 160
-    if a is not None:
-        print_stone(s_index=0, y=y)
-        """石aを描画"""
+    for s_index in range(0, len(S_list)):
+        s_index_rev = len(S_list) - s_index - 1
+        print_stone(s_index=s_index_rev, y=y)
+        y += char_height  # 160
+        """石を描画（上側に後ろ側の石を描く）"""
 
     print_empty_pieces(y=y)
     """重ねてエンプティ駒を描画"""
@@ -272,14 +254,8 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
     # date = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_name = f"./output_tmp/s"
 
-    if a is not None:
-        file_name += f"_{a:02}"
-
-    if b is not None:
-        file_name += f"_{b:02}"
-
-    if c is not None:
-        file_name += f"_{c:02}"
+    for s in S_list:
+        file_name += f"_{s:02}"
 
     file_name += f"_p{p}_{eo_code}{suffix_text}{tmp_text}.png"
     cv2.imwrite(
