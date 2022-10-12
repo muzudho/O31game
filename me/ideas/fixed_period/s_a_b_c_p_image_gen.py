@@ -68,22 +68,12 @@ def gen_s_a_b_c_p_image(S: set, p, zoom=1.0, suffix="", is_temporary=True):
         """偶奇も付けたい。文字が潰れると見分けにくいので e の方を大文字にした"""
         eo_code = ""
 
-        if a is not None:
-            if a % 2 == 0:
+        for s in S_list:
+            if s % 2 == 0:
+                # even
                 eo_code += "E"
             else:
-                eo_code += "o"
-
-        if b is not None:
-            if b % 2 == 0:
-                eo_code += "E"
-            else:
-                eo_code += "o"
-
-        if c is not None:
-            if c % 2 == 0:
-                eo_code += "E"
-            else:
+                # odd
                 eo_code += "o"
 
         return eo_code
