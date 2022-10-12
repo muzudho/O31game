@@ -4,10 +4,10 @@ pip install Pillow
 
 cd me
 
-python.exe -m drawing.main
+python.exe -m ideas.drawing.main
 """
 import random
-from drawing.s_a_b_c_image_gen import gen_s_a_b_c_image
+from ideas.drawing.s_a_b_c_image_gen import gen_s_a_b_c_image
 
 zoom = 0.25
 """倍率。1倍はかなりでかい"""
