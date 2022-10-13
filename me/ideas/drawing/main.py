@@ -18,12 +18,15 @@ len_Nz = 200
 
 
 def main():
-    # Clouds passer
-    gen_s_a_b_c_image(a=5, b=6, c=30, len_Nz=len_Nz,
+    gen_s_a_b_c_image(a=3, b=5, c=8, len_Nz=len_Nz,
                       zoom=zoom, is_temporary=False)
+
+    # Clouds passer
+    # gen_s_a_b_c_image(a=5, b=6, c=30, len_Nz=len_Nz,
+    #                  zoom=zoom, is_temporary=False)
     # 5 と 6 で [5:15]
 
-    gen_a3_b5_c11to13()
+    # gen_a3_b5_c11to13()
     # gen_a_plus_b()
 
     # 雲の動き
