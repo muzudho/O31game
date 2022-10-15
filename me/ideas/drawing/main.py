@@ -18,7 +18,7 @@ len_Nz = 200
 
 
 def main():
-    gen_s_a_b_c_image(a=3, b=5, c=8, len_Nz=len_Nz,
+    gen_s_a_b_c_image(a=3, b=7, c=8, len_Nz=len_Nz,
                       zoom=zoom, is_temporary=False)
 
     # Clouds passer
