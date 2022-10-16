@@ -17,8 +17,10 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     margin_top = 5
     margin_bottom = 5
 
-    grid_width = 50
-    grid_height = 32
+    grid_width = 48
+    grid_height = 48
+    """グリッドサイズ。半角２文字入るぐらいを１セルにしたい"""
+
     grid_columns = 21
     grid_rows = 15
     char_base_y = int(grid_height*0.9)
