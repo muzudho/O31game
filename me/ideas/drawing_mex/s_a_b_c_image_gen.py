@@ -35,6 +35,9 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     color_green = (90, 220, 90)
     color_blue = (220, 90, 90)
     color_yellow_green = (153, 220, 192)
+    color_cyan = (220, 220, 192)
+    color_magenta = (220, 192, 220)
+    color_yellow = (192, 220, 220)
     """色"""
 
     line_thickness = 1
@@ -147,22 +150,6 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
                             color_blue,  # color
                             0)  # line_type
 
-    def print_occupied_pieces(y):
-        """駒の有無を描画"""
-        for i in range(0, len_Nz):
-            if board[i] == ".":
-                piece = "x"
-            else:
-                piece = "."
-
-            cv2.putText(canvas,
-                        f"{piece}",
-                        (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
-                        None,  # font
-                        1.0 * zoom,  # font_scale
-                        font_color,  # color
-                        0)  # line_type
-
     def print_x_axis(y):
         """x軸を描画"""
         for i in range(0, len_Nz):
@@ -177,19 +164,31 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     def print_grundy_sequence(y):
         """グランディ数列を図形的に描画"""
 
-        # TODO 練習消す
-        sx = int((char_width+margin_left)*zoom)
-        sy = int((y-char_height)*zoom)
-        dx = sx + char_width
-        dy = sy + int((char_height)*zoom)
-        cv2.rectangle(img=canvas,
-                      pt1=(sx, sy),  # left, top
-                      pt2=(dx, dy),  # right, bottom
-                      color=color_yellow_green,  # color
-                      thickness=-1)  # fill: -1
-
         for i in range(0, len_Nz):
+            sx = int((i*char_width+margin_left)*zoom)
+
             grundy_number = grundy_sequence.get_grundy_at(i)
+
+            if grundy_number == 0:
+                color_rectangle = color_yellow_green
+            elif grundy_number == 1:
+                color_rectangle = color_cyan
+            elif grundy_number == 2:
+                color_rectangle = color_magenta
+            elif grundy_number == 3:
+                color_rectangle = color_yellow
+            else:
+                raise ValueError(f"unexpected grundy number:{grundy_number}")
+
+            sy = int((y-char_height)*zoom)
+            dx = sx + int(char_width*zoom)
+            dy = sy + int(char_height*zoom)
+            cv2.rectangle(img=canvas,
+                          pt1=(sx, sy),  # left, top
+                          pt2=(dx, dy),  # right, bottom
+                          color=color_rectangle,  # color
+                          thickness=-1)  # fill: -1
+            """グランディ色"""
 
             if grundy_number == 0:
                 label = "x"  # TODO ×に色付けたい。両端の a,b,c （c優先）が同じとき、その色。それ以外は黒
@@ -202,7 +201,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
             for j in range(0, vertical_repeat):  # 文字を上にずらしながら重ねていく
                 cv2.putText(canvas,
                             label,
-                            (int((i*char_width+margin_left)*zoom),
+                            (sx,
                              int((y-(char_height/4)*j)*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
