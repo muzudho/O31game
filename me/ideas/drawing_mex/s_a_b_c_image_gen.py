@@ -62,35 +62,30 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     eo_code = f"{eo_a}{eo_b}{eo_c}"
     """偶奇も付けたい。文字が潰れると見分けにくいので e の方を大文字にした"""
 
-    board = [""] * len_Nz
-    """盤"""
+    top_a_board = [-1] * len_Nz
+    top_b_board = [-1] * len_Nz
+    top_c_board = [-1] * len_Nz
+    """番地の上側に置いてある数"""
 
     mate_lines = []
     """mate線"""
 
     # 駒の配置 と mate線 の算出
-    for i in range(0, len_Nz):
-        dst_a = i-a
-        dst_b = i-b
-        dst_c = i-c
-        if 0 <= dst_a:
-            if board[dst_a] == "":
-                board[i] += "a"
-                mate_lines.append(("a", i, dst_a))
+    for top_n in range(0, len_Nz):
+        bottom_a = top_n-a
+        bottom_b = top_n-b
+        bottom_c = top_n-c
+        if 0 <= bottom_a:
+            top_a_board[top_n] = grundy_sequence.get_grundy_at(bottom_a)
+            mate_lines.append(("a", top_n, bottom_a))
 
-        if 0 <= dst_b:
-            if board[dst_b] == "":
-                board[i] += "b"
-                mate_lines.append(("b", i, dst_b))
+        if 0 <= bottom_b:
+            top_b_board[top_n] = grundy_sequence.get_grundy_at(bottom_b)
+            mate_lines.append(("b", top_n, bottom_b))
 
-        if 0 <= dst_c:
-            if board[dst_c] == "":
-                board[i] += "c"
-                mate_lines.append(("c", i, dst_c))
-
-    for i in range(0, len_Nz):
-        if board[i] == "":
-            board[i] = "."
+        if 0 <= bottom_c:
+            top_c_board[top_n] = grundy_sequence.get_grundy_at(bottom_c)
+            mate_lines.append(("c", top_n, bottom_c))
 
     def print_subtraction_set(y):
         """サブトラクションセットを表示"""
@@ -129,7 +124,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
         """0 の行を描画"""
 
         for i in range(0, len_Nz):
-            if board[i] == ".":
+            if top_a_board[i] == -1 and top_b_board[i] == -1 and top_c_board[i] == -1:
                 grundy_number = 0
                 sx = int((i*char_width+margin_left)*zoom)
                 sy = int(y*zoom)
@@ -141,45 +136,50 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
                 """グランディ数に対応づく色の四角"""
 
                 cv2.putText(canvas,
-                            f"{grundy_number}",
+                            f"0",
                             (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             font_color,  # color
                             0)  # line_type
 
-    def print_a_pieces(y):
+    def print_row_of_a_number(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            if "a" in board[i]:
+            if top_a_board[i] != -1:
+                sx = int((i*char_width+margin_left)*zoom)
+                sy = int(y*zoom)
                 cv2.putText(canvas,
-                            f"a",
-                            (int((i*char_width+margin_left)*zoom),
-                             int(y*zoom)),  # x,y
+                            f"{top_a_board[i]}",
+                            (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             color_red,  # color
                             0)  # line_type
 
-    def print_b_pieces(y):
+    def print_row_of_b_number(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            if "b" in board[i]:
+            if top_b_board[i] != -1:
+                sx = int((i*char_width+margin_left)*zoom)
+                sy = int(y*zoom)
                 cv2.putText(canvas,
-                            f"b",
-                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
+                            f"{top_b_board[i]}",
+                            (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             color_green,  # color
                             0)  # line_type
 
-    def print_c_pieces(y):
+    def print_row_of_c_number(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            if "c" in board[i]:
+            if top_c_board[i] != -1:
+                sx = int((i*char_width+margin_left)*zoom)
+                sy = int(y*zoom)
                 cv2.putText(canvas,
-                            f"c",
-                            (int((i*char_width+margin_left)*zoom), int(y*zoom)),  # x,y
+                            f"{top_c_board[i]}",
+                            (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
                             color_blue,  # color
@@ -254,19 +254,19 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     print_subtraction_set(y=y)
     """サブトラクションセットを表示"""
 
-    y += 50  # 80
-    print_c_pieces(y=y)
+    print_row_of_c_number(y=y)
+    y += char_height
     """駒を描画"""
 
-    y += char_height  # 120
-    print_b_pieces(y=y)
+    print_row_of_b_number(y=y)
+    y += char_height
     """駒を描画"""
 
-    y += char_height  # 160
-    print_a_pieces(y=y)
+    print_row_of_a_number(y=y)
     """駒を描画"""
 
-    paint_row_of_zero_number(y=y-char_height)
+    paint_row_of_zero_number(y=y)
+    y += char_height
     """重ねて 0 の行を描画"""
 
     y += 20  # 180, 450
