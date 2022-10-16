@@ -15,8 +15,8 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     margin_left = 5
 
     char_width = 50
-    char_height = 40
-    char_base_y = char_height
+    char_height = 32
+    char_base_y = int(char_height*0.9)
     """一文字の幅の目安"""
 
     grundy_sequence = GrundySequence.make(S={a, b, c}, len_N=len_Nz-1)
@@ -24,7 +24,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
 
     image_width = int((len_Nz * char_width + margin_left) * zoom)
     image_width = int(image_width/2)  # 全体を入れるのではなく、左半分ぐらいを画像にする
-    image_height = int(char_height*13.5*zoom)
+    image_height = int(char_height*16*zoom)
 
     # 画像データは数値の配列
     monochrome_color = 240  # 0黒→255白
@@ -91,7 +91,7 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
         """サブトラクションセットを表示"""
         cv2.putText(canvas,
                     f"S = {{ {a}, {b}, {c} }} {eo_code} {suffix}",
-                    (int(5*zoom), int(y*zoom)),  # x,y
+                    (int(5*zoom), int(y*zoom) + int(char_base_y*zoom)),  # x,y
                     None,  # font
                     1.0 * zoom,  # font_scale
                     font_color,  # color
@@ -146,11 +146,19 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     def print_row_of_a_number(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            if top_a_board[i] != -1:
+            grundy_number = top_a_board[i]  # -1: None
+            if grundy_number != -1:
                 sx = int((i*char_width+margin_left)*zoom)
                 sy = int(y*zoom)
+
+                print_grundy_color_rectangle(
+                    x=sx,
+                    y=sy,
+                    grundy_number=grundy_number)
+                """グランディ数に対応づく色の四角"""
+
                 cv2.putText(canvas,
-                            f"{top_a_board[i]}",
+                            f"{grundy_number}",
                             (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
@@ -160,11 +168,19 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     def print_row_of_b_number(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            if top_b_board[i] != -1:
+            grundy_number = top_b_board[i]  # -1: None
+            if grundy_number != -1:
                 sx = int((i*char_width+margin_left)*zoom)
                 sy = int(y*zoom)
+
+                print_grundy_color_rectangle(
+                    x=sx,
+                    y=sy,
+                    grundy_number=grundy_number)
+                """グランディ数に対応づく色の四角"""
+
                 cv2.putText(canvas,
-                            f"{top_b_board[i]}",
+                            f"{grundy_number}",
                             (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
@@ -174,11 +190,19 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
     def print_row_of_c_number(y):
         """駒を描画"""
         for i in range(0, len_Nz):
-            if top_c_board[i] != -1:
+            grundy_number = top_c_board[i]  # -1: None
+            if grundy_number != -1:
                 sx = int((i*char_width+margin_left)*zoom)
                 sy = int(y*zoom)
+
+                print_grundy_color_rectangle(
+                    x=sx,
+                    y=sy,
+                    grundy_number=grundy_number)
+                """グランディ数に対応づく色の四角"""
+
                 cv2.putText(canvas,
-                            f"{top_c_board[i]}",
+                            f"{grundy_number}",
                             (sx, sy + int(char_base_y*zoom)),  # x,y
                             None,  # font
                             1.0 * zoom,  # font_scale
@@ -250,8 +274,8 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
                      (dst_x, int(dst_y*zoom)), line_color, thickness=line_thickness)
 
     y = 0
-    y += 30
     print_subtraction_set(y=y)
+    y += char_height
     """サブトラクションセットを表示"""
 
     print_row_of_c_number(y=y)
