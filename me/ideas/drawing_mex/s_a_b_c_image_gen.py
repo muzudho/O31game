@@ -161,6 +161,29 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
                         font_color,  # color
                         0)  # line_type
 
+    def print_grundy_color_rectangle(x, y, grundy_number):
+        """グランディ数を色付きの四角で描画"""
+
+        if grundy_number == 0:
+            color_rectangle = color_yellow_green
+        elif grundy_number == 1:
+            color_rectangle = color_cyan
+        elif grundy_number == 2:
+            color_rectangle = color_magenta
+        elif grundy_number == 3:
+            color_rectangle = color_yellow
+        else:
+            raise ValueError(f"unexpected grundy number:{grundy_number}")
+        """グランディ色"""
+
+        dx = x + int(char_width*zoom)
+        dy = y + int(char_height*zoom)
+        cv2.rectangle(img=canvas,
+                      pt1=(x, y),  # left, top
+                      pt2=(dx, dy),  # right, bottom
+                      color=color_rectangle,  # color
+                      thickness=-1)  # fill: -1
+
     def print_grundy_sequence(y):
         """グランディ数列を図形的に描画"""
 
@@ -169,26 +192,10 @@ def gen_s_a_b_c_image(a, b, c, len_Nz, zoom=1.0, suffix="", is_temporary=True):
 
             grundy_number = grundy_sequence.get_grundy_at(i)
 
-            if grundy_number == 0:
-                color_rectangle = color_yellow_green
-            elif grundy_number == 1:
-                color_rectangle = color_cyan
-            elif grundy_number == 2:
-                color_rectangle = color_magenta
-            elif grundy_number == 3:
-                color_rectangle = color_yellow
-            else:
-                raise ValueError(f"unexpected grundy number:{grundy_number}")
-
-            sy = int((y-char_height)*zoom)
-            dx = sx + int(char_width*zoom)
-            dy = sy + int(char_height*zoom)
-            cv2.rectangle(img=canvas,
-                          pt1=(sx, sy),  # left, top
-                          pt2=(dx, dy),  # right, bottom
-                          color=color_rectangle,  # color
-                          thickness=-1)  # fill: -1
-            """グランディ色"""
+            print_grundy_color_rectangle(
+                x=sx,
+                y=int((y-char_height)*zoom),
+                grundy_number=grundy_number)
 
             if grundy_number == 0:
                 label = "x"  # TODO ×に色付けたい。両端の a,b,c （c優先）が同じとき、その色。それ以外は黒
