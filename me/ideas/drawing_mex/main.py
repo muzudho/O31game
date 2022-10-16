@@ -6,7 +6,6 @@ cd me
 
 python.exe -m ideas.drawing_mex.main
 """
-import random
 from ideas.drawing_mex.s_a_b_c_image_gen import gen_s_a_b_c_image
 
 zoom = 0.25
